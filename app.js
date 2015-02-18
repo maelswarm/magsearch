@@ -9,8 +9,12 @@ if(argv._[0] && (argv.s||argv.F)) {
 	if(argv.F) {
 		mgSrch.feelingLucky(argv._[0], function(resultArr) {
 			for(var i=0; i<resultArr.length(); i++) {
+				console.log("\n");
+				console.log("----------------------------------------------");
 				console.log(resultArr[0]);
 				console.log(resultArr[1]);
+				console.log("----------------------------------------------");
+				console.log("\n");
 			}
 		});
 	}
