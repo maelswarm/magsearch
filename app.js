@@ -6,6 +6,7 @@ var mgSrch = require('./');
 if(!argv.p) {
 	argv.p=0;
 }
+
 if(argv._[0] && (argv.s||argv.F)) {
 	if(argv.F) {
 		mgSrch.feelingLucky(argv._[0], function(resultArr) {
