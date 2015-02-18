@@ -1,0 +1,22 @@
+{
+  "name": "magsearch",
+  "version": "0.1.0",
+  "author": "Brandon Barber (@roecrew)",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified! Configure in package.json\" && exit 1"
+ 	},
+  "repository": {
+	"type": "git",
+	"url": "git://github.com/roecrew/magsearch.git"
+	},
+	"bin": {
+	"magsearch": "./app.js"
+	},
+	"dependencies": {
+		"minimist": "^1.1.0",
+		"cheerio": "^0.18.0",
+		"request": "^2.53.0"
+	}
+}
