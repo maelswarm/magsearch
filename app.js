@@ -20,6 +20,7 @@ if(argv._[0] && (argv.s||argv.F)) {
 			}
 		});
 	}
+	
 	else if(argv.s === "btd") {
 		mgSrch.btdigg(argv._[0], argv.p, function(resultArr) {
 			for(var i=0; i<resultArr[0].length; i++) {
@@ -32,6 +33,7 @@ if(argv._[0] && (argv.s||argv.F)) {
 			}
 		});
 	}
+	
 	else if(argv.s === "tpb") {
 		mgSrch.pbay(argv._[0], argv.p, function(resultArr) {
 			for(var i=resultArr[0].length; i>=0; i--) {
