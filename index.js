@@ -3,7 +3,7 @@ var cheerio = require('cheerio');
 
 exports.feelingLucky = function(s, callback) {
 	var ss="";
-	var arr = [];
+	var retArr = [];
 	for(var tmp=0; tmp<s.length; tmp++) {
 		if(s.charAt(tmp) === ' ') {
 			ss+='%20';
@@ -17,15 +17,16 @@ exports.feelingLucky = function(s, callback) {
 		if(!error){
 			var i=0;
 			var $ = cheerio.load(html);
-			arr.push($('.torrent_name_tbl').first().text());
-			arr.push($('.ttth').first().find('a').filter("[href]").attr('href'));
-			return callback(arr);
+			retArr.push($('.torrent_name_tbl').first().text());
+			retArr.push($('.ttth').first().find('a').filter("[href]").attr('href'));
+			return callback(retArr);
 		}
 	});
 };
 
 exports.pbay = function(q, p, callback) {
 	var qq="";
+	var retArr = [];
 	for(var tmp=0; tmp<q.length; tmp++) {
 		if(q.charAt(tmp) === ' ') {
 			qq+='%20';
@@ -35,7 +36,6 @@ exports.pbay = function(q, p, callback) {
 		}
 	}
 	var url = 'https://thepiratebay.se/search/'+qq+'/'+p+'/7/0';
-	console.log('\n');
 	
 	request(url, function(error, response, html){
 		var title = [];
@@ -67,21 +67,17 @@ exports.pbay = function(q, p, callback) {
 				});
 			});
 		}
-		console.log('\n');
-		console.log('---------------------------------------------------------------');
-		for(var a=29; a>=0; a--) {
-			console.log(title[a]);
-			console.log(seeders[a]);
-			console.log(leakers[a]);
-			console.log(mag[a]);
-			console.log('\n');
-			console.log('---------------------------------------------------------------');
-		}
+		retArr[0]=title;
+		retArr[1]=mag;
+		retArr[2]=seeders;
+		retArr[3]=leakers;
+		return callback(retArr);
 	});
 };
 
 exports.btdigg = function(q, p, callback) {
 	var qq="";
+	var retArr = [];
 	for(var tmp=0; tmp<q.length; tmp++) {
 		if(q.charAt(tmp) === ' ') {
 			qq+='%20';
@@ -95,7 +91,6 @@ exports.btdigg = function(q, p, callback) {
 	request(url, function(error, response, html){
 		var title = [];
 		var dsc = [];
-		var specs = [];
 		var mag = [];
 		if(!error){
 			var $ = cheerio.load(html);
@@ -125,14 +120,9 @@ exports.btdigg = function(q, p, callback) {
 				i++;
 			});
 		}
-		console.log('\n');
-		for(var a=0; a<10; a++) {
-			console.log('---------------------------------------------------------------');
-			console.log(title[a]);
-			console.log(dsc[a]);
-			console.log(mag[a]);
-			console.log('---------------------------------------------------------------');
-			console.log('\n');
-		}
+		retArr[0]=title;
+		retArr[1]=mag;
+		retArr[2]=dsc;
+		return callback(retArr);
 	});
 };
