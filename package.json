@@ -1,6 +1,6 @@
 {
   "name": "magsearch",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Brandon Barber (@roecrew)",
   "license": "MIT",
   "main": "index.js",

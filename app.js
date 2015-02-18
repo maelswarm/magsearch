@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var argv = require('minimist')(process.argv.slice(2), {});
-var mgSrch = require('./')
+var mgSrch = require('./');
 
 if(!argv.p) {
 	argv.p=0;
@@ -12,12 +12,12 @@ if(argv._[0] && (argv.s||argv.F)) {
 			for(var i=0; i<resultArr.length(); i++) {
 				console.log("\n");
 				console.log("----------------------------------------------");
-				console.log(resultArr[0];
-				console.log(resultArr[1])
+				console.log(resultArr[0]);
+				console.log(resultArr[1]);
 				console.log("----------------------------------------------");
-				console.log("\n")
+				console.log("\n");
 			}
-		})
+		});
 	}
 	else if(argv.s === "btd") {
 		mgSrch.btdigg(argv._[0], argv.p, function(resultArr) {
