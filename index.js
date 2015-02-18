@@ -24,7 +24,7 @@ exports.feelingLucky = function(s, callback) {
 	});
 };
 
-exports.pbay = function(q, p) {
+exports.pbay = function(q, p, callback) {
 	var qq="";
 	for(var tmp=0; tmp<q.length; tmp++) {
 		if(q.charAt(tmp) === ' ') {
@@ -34,12 +34,9 @@ exports.pbay = function(q, p) {
 			qq+=q.charAt(tmp);
 		}
 	}
-	console.log('\n');
 	var url = 'https://thepiratebay.se/search/'+qq+'/'+p+'/7/0';
-
-	console.log(url);
 	console.log('\n');
-
+	
 	request(url, function(error, response, html){
 		var title = [];
 		var seeders = [];
@@ -83,7 +80,7 @@ exports.pbay = function(q, p) {
 	});
 };
 
-exports.btdigg = function(q, p) {
+exports.btdigg = function(q, p, callback) {
 	var qq="";
 	for(var tmp=0; tmp<q.length; tmp++) {
 		if(q.charAt(tmp) === ' ') {
@@ -93,13 +90,7 @@ exports.btdigg = function(q, p) {
 			qq+=q.charAt(tmp);
 		}
 	}
-	
-	console.log('\n');
-	console.log(q);
-	console.log(p);
-	console.log('\n');
 	var url = 'http://btdigg.org/search?q='+qq+'&p='+p+'&order=0';
-	console.log(url);
 	console.log('\n');
 	request(url, function(error, response, html){
 		var title = [];
