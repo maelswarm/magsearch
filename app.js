@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-var argv = require('minimist')(process.argv.slice(2), {});
-var mgSrch = require('./index')
 
+var argv = require('minimist')(process.argv.slice(2), {});
+var mgSrch = require('./')
 
 if(!argv.p) {
 	argv.p=0;
