@@ -10,7 +10,7 @@ npm install -g magsearch
 
 ##Flags
 
-  Search on btd (btdigg) or tpb with '-s'
+  Search on btd (btdigg) or tpb
   ```
 magsearch "schubert" -s btd
   ```
