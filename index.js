@@ -67,14 +67,6 @@ exports.pbay = function(q, p, callback) {
 			});
 		}
 		retArr[0]=title;
-//		for(var str in retArr) {
-//			for(var c in str) {
-//				if(str.charAt(c) == "\n") {
-//					c.setCharAt("");
-//					break;
-//				}
-//			}
-//		}
 		retArr[1]=mag;
 		retArr[2]=seeders;
 		retArr[3]=leakers;
