@@ -49,11 +49,10 @@ exports.pbay = function(q, p, callback) {
 				$('td', tr).each(function(a, b) {
 					//title
 					if(a%4===1) {
-						title.push($(b).text());
+						title.push($(b).children().eq(0).text().substr(1) +"\r"+ $(b).children().eq(4).text());
 					}
 					//mag
 					if(a%4===1) {
-						//console.log(a + ": " + $(b));
 						mag.push($('a', this).eq(1).filter("[href]").attr('href'));
 					}
 					//seeders
@@ -68,6 +67,14 @@ exports.pbay = function(q, p, callback) {
 			});
 		}
 		retArr[0]=title;
+//		for(var str in retArr) {
+//			for(var c in str) {
+//				if(str.charAt(c) == "\n") {
+//					c.setCharAt("");
+//					break;
+//				}
+//			}
+//		}
 		retArr[1]=mag;
 		retArr[2]=seeders;
 		retArr[3]=leakers;
