@@ -61,7 +61,7 @@ exports.pbay = function(q, p, callback) {
 					}
 					//leekers
 					if(a%4===3) {
-						leakers.push("Leakers: " + $(b).text());
+						leakers.push("Leechers: " + $(b).text());
 					}
 				});
 			});
