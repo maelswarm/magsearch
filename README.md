@@ -1,14 +1,14 @@
-# magsearch
+# magsearch #
 
 Search for magnet files in terminal.
 
 
-##Install
+## Install ##
 ```
 npm install -g magsearch
 ```
 
-##Flags
+## Flags ##
 
   Search on btd (btdigg) or tpb
   ```
