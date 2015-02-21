@@ -8,7 +8,7 @@ keypress(process.stdin);
 process.stdin.setEncoding('utf8');
 
 if(!argv.p) {
-	argv.p=0;
+	argv.p=1;
 }
 
 if(argv._[0] && (argv.s || argv.F)) {
@@ -22,7 +22,7 @@ if(argv._[0] && (argv.s || argv.F)) {
 	}
 
 	else if(argv.s === "btd") {
-		mgSrch.btdigg(argv._[0], argv.p, function(resultArr) {
+		mgSrch.btdigg(argv._[0], argv.p-1, function(resultArr) {
 			clivas.line("\n");
 			for(var i=resultArr[0].length-1; i>=0; i--) {
 				clivas.line("{bold:"+resultArr[0][i]+"}");
@@ -34,7 +34,7 @@ if(argv._[0] && (argv.s || argv.F)) {
 	}
 
 	else if(argv.s === "tpb") {
-		mgSrch.pbay(argv._[0], argv.p, function(resultArr) {
+		mgSrch.pbay(argv._[0], argv.p-1, function(resultArr) {
 			clivas.line("\n");
 			for(var i=resultArr[0].length-1; i>=0; i--) {
 				clivas.line("{bold:"+resultArr[0][i]+"}");
