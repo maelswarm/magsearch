@@ -1,6 +1,5 @@
 var request = require('request');
 var cheerio = require('cheerio');
-var readTorrent = require('read-torrent');
 
 exports.feelingLucky = function(s, callback) {
 	var ss="";
