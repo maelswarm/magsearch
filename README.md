@@ -10,12 +10,15 @@ npm install -g magsearch
 
 ## Flags ##
 
-  Search on btd (btdigg) or tpb
+  Use "-s" to choose the site to scrap.
+  Options are "btd" or "tpb".
+  
+  Use "-p" to choose page. (default is 1)
   ```
 magsearch "schubert" -s btd
   ```
   
-  If your feeling lucky
+  In case your feeling lucky use "-F"
   ```
 magsearch "schubert" -F
   ```
