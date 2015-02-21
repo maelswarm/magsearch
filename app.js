@@ -14,37 +14,34 @@ if(!argv.p) {
 if(argv._[0] && (argv.s || argv.F)) {
 	if(argv.F) {
 		mgSrch.feelingLucky(argv._[0], function(resultArr) {
-			clivas.line("----------------------------------------------");
+			clivas.line("\n");
 			clivas.line("{bold:"+resultArr[0]+"}");
 			clivas.line("{cyan:"+resultArr[1]+"}");
-			clivas.line("----------------------------------------------");
 			clivas.line("\n");
 		});
 	}
 
 	else if(argv.s === "btd") {
 		mgSrch.btdigg(argv._[0], argv.p, function(resultArr) {
+			clivas.line("\n");
 			for(var i=resultArr[0].length-1; i>=0; i--) {
-				console.log("----------------------------------------------");
 				clivas.line("{bold:"+resultArr[0][i]+"}");
 				clivas.line("{white:"+resultArr[2][i]+"}");
 				clivas.line("{cyan:"+resultArr[1][i]+"}");
-				clivas.line("----------------------------------------------");
-				console.log("\n");
+				clivas.line("\n");
 			}
 		});
 	}
 
 	else if(argv.s === "tpb") {
 		mgSrch.pbay(argv._[0], argv.p, function(resultArr) {
+			clivas.line("\n");
 			for(var i=resultArr[0].length-1; i>=0; i--) {
-				console.log("----------------------------------------------");
 				clivas.line("{bold:"+resultArr[0][i]+"}");
 				clivas.line("{cyan:"+resultArr[1][i]+"}");
 				clivas.line("{green:"+resultArr[2][i]+"}");
 				clivas.line("{red:"+resultArr[3][i]+"}");
-				console.log("----------------------------------------------");
-				console.log("\n");
+				clivas.line("\n");
 			}
 		});
 	}
