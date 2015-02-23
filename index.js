@@ -24,8 +24,9 @@ exports.feelingLucky = function(s, callback) {
 	});
 };
 
-exports.pbay = function(q, p, callback) {
+exports.oldpbay = function(q, p, k, callback) {
 	var qq="";
+	var kk="";
 	var retArr = [];
 	for(var tmp=0; tmp<q.length; tmp++) {
 		if(q.charAt(tmp) === ' ') {
@@ -35,12 +36,87 @@ exports.pbay = function(q, p, callback) {
 			qq+=q.charAt(tmp);
 		}
 	}
-	var url = 'https://thepiratebay.se/search/'+qq+'/'+p+'/7/0';
+	switch(k) {
+	case "all":
+		kk=0;
+		break;
+	case "video":
+		kk=5;
+		break;
+	case "audio":
+		kk=6;
+		break;
+	case "adult":
+		kk=4;
+		break;
+	case "applications":
+		kk=2;
+		break;
+	}
+	var url = 'https://oldpiratebay.org/search?q='+qq+'&sort=-seeders&page='+p+'&per-page=15&iht='+kk;
 	
 	request(url, function(error, response, html){
 		var title = [];
 		var seeders = [];
-		var leakers = [];
+		var leechers = [];
+		var mag = [];
+		if(!error){
+			var $ = cheerio.load(html);
+			$('.table-responsive').filter(function(){
+				var first = $(this).children().first();
+				$('tr', first).each(function(a, b) {
+					title.push($(this).children().eq(1).text().trim() + "\nSize: " + $(this).children().eq(3).text());
+					mag.push($(this).children().eq(1).find('a').filter("[href]").eq(2).attr('href'));
+					seeders.push("Seeders: " + $(this).children().eq(4).text());
+					leechers.push("Leechers: " + $(this).children().eq(5).text());
+				});
+			});
+		}
+		retArr[0]=title;
+		retArr[1]=mag;
+		retArr[2]=seeders;
+		retArr[3]=leechers;
+		return callback(retArr);
+	});
+};
+
+exports.pbay = function(q, p, k, callback) {
+	var qq="";
+	var kk="";
+	var retArr = [];
+	for(var tmp=0; tmp<q.length; tmp++) {
+		if(q.charAt(tmp) === ' ') {
+			qq+='%20';
+		}
+		else {
+			qq+=q.charAt(tmp);
+		}
+	}
+	
+	switch(k) {
+	case "all":
+		kk=0;
+		break;
+	case "video":
+		kk=200;
+		break;
+	case "audio":
+		kk=100;
+		break;
+	case "adult":
+		kk=500;
+		break;
+	case "applications":
+		kk=300;
+		break;
+	}
+	
+	var url = 'https://thepiratebay.se/search/'+qq+'/'+p+'/7/'+kk;
+	
+	request(url, function(error, response, html){
+		var title = [];
+		var seeders = [];
+		var leechers = [];
 		var mag = [];
 		if(!error){
 			var $ = cheerio.load(html);
@@ -61,7 +137,7 @@ exports.pbay = function(q, p, callback) {
 					}
 					//leekers
 					if(a%4===3) {
-						leakers.push("Leechers: " + $(b).text());
+						leechers.push("Leechers: " + $(b).text());
 					}
 				});
 			});
@@ -69,7 +145,7 @@ exports.pbay = function(q, p, callback) {
 		retArr[0]=title;
 		retArr[1]=mag;
 		retArr[2]=seeders;
-		retArr[3]=leakers;
+		retArr[3]=leechers;
 		return callback(retArr);
 	});
 };
@@ -86,7 +162,6 @@ exports.btdigg = function(q, p, callback) {
 		}
 	}
 	var url = 'http://btdigg.org/search?q='+qq+'&p='+p+'&order=0';
-	console.log('\n');
 	request(url, function(error, response, html){
 		var title = [];
 		var dsc = [];
