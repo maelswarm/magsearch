@@ -1,6 +1,6 @@
 # magsearch #
 
-Search for magnet files in terminal.
+Search for magnet links in terminal.
 
 
 ## Install ##
