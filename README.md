@@ -27,4 +27,4 @@ magsearch "schubert" -F
   ```
 
 ## License ##
-#### MIT ####
+MIT
