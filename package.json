@@ -15,6 +15,11 @@
 	"bin": {
 	"magsearch": "./app.js"
 	},
+	"keywords": [
+	"magnet",
+	"torrent",
+	"search"
+	],
 	"dependencies": {
 		"minimist": "^1.1.0",
 		"cheerio": "^0.18.0",
