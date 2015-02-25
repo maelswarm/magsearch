@@ -56,6 +56,7 @@ You can import magsearch to retrieve magnet link metadata.
 	resultArr[3][x] //leechers
 	...
   });
+  
   mgSrch.oldpbay(sts, pageNum, function(resultArr) {
     ...    
 	resultArr[0][x] //title + description
