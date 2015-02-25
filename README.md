@@ -29,7 +29,7 @@ magsearch "schubert" -F
 ## Usage ##
 
 You can import magsearch to retrieve magnet link metadata.
-  ```
+  ```js
   var mgSrch = require('magsearch');
   
   var sts = "String to search";
