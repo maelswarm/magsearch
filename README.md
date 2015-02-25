@@ -26,5 +26,45 @@ magsearch "schubert" -s tpb -k audio
 magsearch "schubert" -F
   ```
 
+## Usage ##
+
+You can import magsearch to retrieve magnet link metadata.
+  ```
+  var mgSrch = require('magsearch');
+  
+  var sts = "String to search";
+  var pageNum = 1;
+  
+  mgSrch.feelingLucky(sts, function(resultArr) {
+	console.log(resultArr[0]); //print title
+	console.log(resultArr[1]); // print magnet
+  });
+  
+  mgSrch.btdigg(sts, pageNum, function(resultArr) {
+    ...    
+	resultArr[0][x] //title
+	resultArr[1][x] //magnet
+	resultArr[2][x] //description
+	...
+  });
+  
+  mgSrch.pbay(sts, pageNum, function(resultArr) {
+    ...    
+	resultArr[0][x] //title + description
+	resultArr[1][x] //magnet
+	resultArr[2][x] //seeders
+	resultArr[3][x] //leechers
+	...
+  });
+  mgSrch.oldpbay(sts, pageNum, function(resultArr) {
+    ...    
+	resultArr[0][x] //title + description
+	resultArr[1][x] //magnet
+	resultArr[2][x] //seeders
+	resultArr[3][x] //leechers
+	...
+  });
+  ```
+
 ## License ##
 MIT
