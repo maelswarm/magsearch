@@ -34,6 +34,7 @@ You can import magsearch to retrieve magnet link metadata.
   
   var sts = "String to search";
   var pageNum = 1;
+  var keyword = "video";
   
   mgSrch.feelingLucky(sts, function(resultArr) {
 	console.log(resultArr[0]); //print title
@@ -48,7 +49,7 @@ You can import magsearch to retrieve magnet link metadata.
 	...
   });
   
-  mgSrch.pbay(sts, pageNum, function(resultArr) {
+  mgSrch.pbay(sts, pageNum, keyword, function(resultArr) {
     ...    
 	resultArr[0][x] //title + description
 	resultArr[1][x] //magnet
@@ -57,7 +58,7 @@ You can import magsearch to retrieve magnet link metadata.
 	...
   });
   
-  mgSrch.oldpbay(sts, pageNum, function(resultArr) {
+  mgSrch.oldpbay(sts, pageNum, keyword, function(resultArr) {
     ...    
 	resultArr[0][x] //title + description
 	resultArr[1][x] //magnet
