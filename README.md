@@ -25,6 +25,7 @@ magsearch "schubert" -s tpb -k audio
   ```
 magsearch "schubert" -F
   ```
+  Use -h to show list of commands.
 
 ## Usage ##
 
