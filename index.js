@@ -54,7 +54,7 @@ exports.oldpbay = function(q, p, k, callback) {
 		break;
 	}
 	var url = 'https://oldpiratebay.org/search?q='+qq+'&sort=-seeders&page='+p+'&per-page=15&iht='+kk;
-	
+
 	request(url, function(error, response, html){
 		var title = [];
 		var seeders = [];
@@ -92,7 +92,7 @@ exports.pbay = function(q, p, k, callback) {
 			qq+=q.charAt(tmp);
 		}
 	}
-	
+
 	switch(k) {
 	case "all":
 		kk=0;
@@ -110,9 +110,9 @@ exports.pbay = function(q, p, k, callback) {
 		kk=300;
 		break;
 	}
-	
+
 	var url = 'https://thepiratebay.se/search/'+qq+'/'+p+'/7/'+kk;
-	
+
 	request(url, function(error, response, html){
 		var title = [];
 		var seeders = [];
@@ -197,6 +197,48 @@ exports.btdigg = function(q, p, callback) {
 		retArr[0]=title;
 		retArr[1]=mag;
 		retArr[2]=dsc;
+		return callback(retArr);
+	});
+};
+
+exports.torhound = function(q, p, callback) {
+	var qq="";
+	var retArr = [];
+	for(var tmp=0; tmp<q.length; tmp++) {
+		if(q.charAt(tmp) === ' ') {
+			qq+='%20';
+		}
+		else {
+			qq+=q.charAt(tmp);
+		}
+	}
+	var url = 'http://www.torrenthound.com/search/'+p+'/'+qq+'/seeds:desc';
+
+	request(url, function(error, response, html){
+		var title = [];
+		var seeders = [];
+		var leechers = [];
+		var mag = [];
+		if(!error){
+			var $ = cheerio.load(html);
+			$('.searchtable').filter(function(n){
+				if(n === 1) {
+					$('tr', $(this)).each(function(a, b) {
+						//console.log(a);
+						if (a!==0) {
+							title.push($(this).find('a').filter("[href]").text().substr(2)+"\nUploaded "+$(this).children().eq(1).children().find('span').text()+", Size "+$(this).children().eq(2).text());
+							mag.push($(this).find('a').filter("[href]").eq(0).attr('href'));
+							seeders.push("Seeders: " +  $(this).find('td').eq(3).text());
+							leechers.push("Leechers:" +  $(this).find('td').eq(4).text());
+						}
+					});
+				}
+			});
+		}
+		retArr[0]=title;
+		retArr[1]=mag;
+		retArr[2]=seeders;
+		retArr[3]=leechers;
 		return callback(retArr);
 	});
 };

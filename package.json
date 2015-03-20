@@ -1,6 +1,6 @@
 {
   "name": "magsearch",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "author": "Brandon Barber (@roecrew)",
   "license": "MIT",
   "description": "Search for magnet links in terminal",
@@ -18,11 +18,10 @@
 	"search"
 	],
 	"dependencies": {
-		"minimist": "^1.1.0",
+		"minimist": "^1.1.1",
 		"cheerio": "^0.18.0",
 		"request": "^2.53.0",
 		"clivas": "^0.1.4",
-		"keypress": "^0.2.1",
 		"tap": "^0.7.1"
 	},
 	"scripts": {

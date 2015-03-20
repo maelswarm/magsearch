@@ -38,3 +38,10 @@ tap.test('Test FEELINGLUCKY', function(t) {
 		t.end();
 	});
 });
+tap.test('Test TORHOUND', function(t) {
+	var app = require('./index.js')
+	app.torhound("blade runner", 1, function(resultArr) {
+		t.type((resultArr[0][3]), 'string', 'PASS');
+		t.end();
+	});
+});

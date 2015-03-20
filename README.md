@@ -12,7 +12,7 @@ npm install -g magsearch
 ## Flags ##
 
 Use "-s" to choose the site to scrap.
-Options are "btd", "tpb", and "opb".
+Options are "tpb", "opb", "btd", and "thd".
   
 Use "-p" to choose page. (default is 1)
 

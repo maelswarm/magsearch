@@ -6,9 +6,9 @@ var clivas = require('clivas');
 
 if(argv.h) {
 	clivas.line("{green:\n  Usage:\r}");
-	clivas.line("{green:  -s <option> : Site options are ThePirateBay, OldPirateBay, and Btdigg.\r}");
+	clivas.line("{green:  -s <option> : Site options are tpb (ThePirateBay), opb (OldPirateBay), btd (Btdigg), and thd (TorrentHound).\r}");
 	clivas.line("{green:  -p <option> : Choose page (default is 1).\r}");
-	clivas.line("{green:  -k <option> : Keyword options are video, audio, adult, or applications.\r}");
+	clivas.line("{green:  -k <option> : Keyword options are video, audio, adult, or applications. This is only available on tpb and opb.\r}");
 	clivas.line("{green:  -L <option> : In case your feeling lucky.\r}");
 	clivas.line("\n");
 }
@@ -21,8 +21,8 @@ if(!argv.k) {
 	argv.k="all";
 }
 
-if(argv._[0] && (argv.s || argv.F)) {
-	if(argv.F) {
+if(argv._[0] && (argv.s || argv.L)) {
+	if(argv.L) {
 		mgSrch.feelingLucky(argv._[0], function(resultArr) {
 			clivas.line("\n");
 			clivas.line("{bold:"+resultArr[0]+"}");
@@ -67,13 +67,25 @@ if(argv._[0] && (argv.s || argv.F)) {
 			}
 		});
 	}
+	else if(argv.s === "thd") {
+		mgSrch.torhound(argv._[0], argv.p, function(resultArr) {
+			clivas.line("\n");
+			for(var i=resultArr[0].length-1; i>=1; i--) {
+				clivas.line("{bold:"+resultArr[0][i]+"}");
+				clivas.line("{cyan:"+resultArr[1][i]+"}");
+				clivas.line("{green:"+resultArr[2][i]+"}");
+				clivas.line("{red:"+resultArr[3][i]+"}");
+				clivas.line("\n");
+			}
+		});
+	}
 }
 
 else if(!argv.h) {
 	clivas.line("{green:\n  Usage:\r}");
-	clivas.line("{green:  -s <option> : Site options are ThePirateBay, OldPirateBay, and Btdigg.\r}");
+	clivas.line("{green:  -s <option> : Site options are tpb (ThePirateBay), opb (OldPirateBay), btd (Btdigg), and thd (TorrentHound).\r}");
 	clivas.line("{green:  -p <option> : Choose page (default is 1).\r}");
-	clivas.line("{green:  -k <option> : Keyword options are video, audio, adult, or applications.\r}");
+	clivas.line("{green:  -k <option> : Keyword options are video, audio, adult, or applications. This is only available on tpb and opb.\r}");
 	clivas.line("{green:  -L <option> : In case your feeling lucky.\r}");
 	clivas.line("\n");
 }
