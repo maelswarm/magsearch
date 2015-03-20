@@ -1,4 +1,4 @@
-# magsearch                                  ![alt tag](https://travis-ci.org/roecrew/magsearch.svg?branch=master) #
+# magsearch                             <img align="right" src="https://travis-ci.org/roecrew/magsearch.svg?branch=master" alt="tag">#
 
 Search for magnet links in terminal.
 
