@@ -5,9 +5,6 @@
   "license": "MIT",
   "description": "Search for magnet links in terminal",
   "main": "index.js",
-  "scripts": {
-    "test": "node tap ./default"
- 	},
   "repository": {
 	"type": "git",
 	"url": "git://github.com/roecrew/magsearch.git"
@@ -27,5 +24,8 @@
 		"clivas": "^0.1.4",
 		"keypress": "^0.2.1",
 		"tap": "^0.7.1"
-	}
+	},
+	"scripts": {
+    "test": "node tap ./default"
+ 	}
 }
