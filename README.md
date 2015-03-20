@@ -1,5 +1,7 @@
 # magsearch #
 
+[alt tag](https://travis-ci.org/roecrew/magsearch.svg?branch=master)
+
 Search for magnet links in terminal.
 
 
