@@ -6,7 +6,7 @@
   "description": "Search for magnet links in terminal",
   "main": "index.js",
   "scripts": {
-    "test": "default"
+    "test": "node tap ./test"
  	},
   "repository": {
 	"type": "git",
