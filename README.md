@@ -1,9 +1,10 @@
-# magsearch                             <img align="right" src="https://travis-ci.org/roecrew/magsearch.svg?branch=master" alt="tag">#
+# magsearch #
 
 Search for magnet links in terminal.
 
 
 ## Install ##
+![tag alt](https://travis-ci.org/roecrew/magsearch.svg?branch=master)
 ```
 npm install -g magsearch
 ```
