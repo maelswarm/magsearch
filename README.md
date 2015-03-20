@@ -22,9 +22,9 @@ Options are "video", "audio", "applications", and "adult". (default is "all")
 magsearch "schubert" -s tpb -k audio
   ```
   
-  In case your feeling lucky use "-F"
+  In case your feeling lucky use "-L"
   ```
-magsearch "schubert" -F
+magsearch "schubert" -L
   ```
   Use -h to show list of commands.
 
