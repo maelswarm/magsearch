@@ -69,3 +69,11 @@ if(argv._[0] && (argv.s || argv.F)) {
 	}
 }
 
+else if(!argv.h) {
+	clivas.line("{green:\n  Usage:\r}");
+	clivas.line("{green:  -s <option> : Site options are ThePirateBay, OldPirateBay, and Btdigg.\r}");
+	clivas.line("{green:  -p <option> : Choose page (default is 1).\r}");
+	clivas.line("{green:  -k <option> : Keyword options are video, audio, adult, or applications.\r}");
+	clivas.line("{green:  -L <option> : In case your feeling lucky.\r}");
+	clivas.line("\n");
+}
