@@ -26,6 +26,6 @@
 		"tap": "^0.7.1"
 	},
 	"scripts": {
-    "test": "node tap ./default"
+    "test": "node ./default.js"
  	}
 }
