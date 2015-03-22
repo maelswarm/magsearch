@@ -9,13 +9,13 @@ tap.test('App loads', function(t) {
 	}
 });
 
-tap.test('Test TPB', function(t) {
-	var app = require('./index.js')
-	app.pbay("blade runner", 0, "video", function(resultArr) {
-		t.type((resultArr[0][3]), 'string', 'PASS');
-		t.end();
-	});
-});
+//tap.test('Test TPB', function(t) {
+//	var app = require('./index.js')
+//	app.pbay("blade runner", 0, "video", function(resultArr) {
+//		t.type((resultArr[0][3]), 'string', 'PASS');
+//		t.end();
+//	});
+//});
 tap.test('Test BTDIGG', function(t) {
 	var app = require('./index.js')
 	app.btdigg("blade runner", 0, function(resultArr) {
