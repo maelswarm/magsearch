@@ -22,7 +22,8 @@
 		"cheerio": "^0.18.0",
 		"request": "^2.53.0",
 		"clivas": "^0.1.4",
-		"tap": "^0.7.1"
+		"tap": "^0.7.1",
+		"torrent-health": "^0.0.6"
 	},
 	"scripts": {
     "test": "node ./default.js"
