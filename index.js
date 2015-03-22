@@ -1,5 +1,6 @@
 var request = require('request');
 var cheerio = require('cheerio');
+var health = require('torrent-health');
 
 exports.feelingLucky = function(s, callback) {
 	var ss="";
@@ -13,6 +14,7 @@ exports.feelingLucky = function(s, callback) {
 		}
 	}
 	var url = 'http://btdigg.org/search?q='+ss+'&p=0&order=0';
+	
 	request(url, function(error, response, html){
 		if(!error){
 			var i=0;
@@ -118,22 +120,38 @@ exports.pbay = function(q, p, k, callback) {
 		var seeders = [];
 		var leechers = [];
 		var mag = [];
+		var i = 0;
 		if(!error){
 			var $ = cheerio.load(html);
 			$('#searchResult').filter(function(){
 				var tr = $(this).children('tr');
+				var magLink = "";
 				$('td', tr).each(function(a, b) {
 					//title
 					if(a%4===1) {
 						title.push($(b).children().eq(0).text().substr(1) +"\r"+ $(b).children().eq(4).text());
 					}
-					//mag
 					if(a%4===1) {
-						mag.push($('a', this).eq(1).filter("[href]").attr('href'));
+						magLink = $('a', this).eq(1).filter("[href]").attr('href');
+						mag.push(magLink);
 					}
 					//seeders
 					if(a%4===2) {
-						seeders.push("Seeders: " + $(b).text());
+						health(magLink)
+						.then(function(health) {
+							i++;
+							seeders.push("Seeders: " + health.seeds);
+							if(i === ($('td', tr).length)/4) {
+								retArr[0]=title;
+								retArr[1]=mag;
+								retArr[2]=seeders;
+								retArr[3]=leechers;
+								return callback(retArr);
+							}
+						})
+						.catch(function (err) {
+							console.error(err)
+						});
 					}
 					//leekers
 					if(a%4===3) {
@@ -142,11 +160,11 @@ exports.pbay = function(q, p, k, callback) {
 				});
 			});
 		}
-		retArr[0]=title;
-		retArr[1]=mag;
-		retArr[2]=seeders;
-		retArr[3]=leechers;
-		return callback(retArr);
+//		retArr[0]=title;
+//		retArr[1]=mag;
+//		retArr[2]=seeders;
+//		retArr[3]=leechers;
+//		return callback(retArr);
 	});
 };
 

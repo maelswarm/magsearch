@@ -29,9 +29,11 @@ if(argv._[0] && (argv.s || argv.L)) {
 			clivas.line("{cyan:"+resultArr[1]+"}");
 			clivas.line("\n");
 		});
+		process.exit(0);
 	}
 
 	else if(argv.s === "btd") {
+		clivas.line("{bold:"+"\nSearching with BTDigg."+"}");
 		mgSrch.btdigg(argv._[0], argv.p-1, function(resultArr) {
 			clivas.line("\n");
 			for(var i=resultArr[0].length-1; i>=0; i--) {
@@ -40,10 +42,12 @@ if(argv._[0] && (argv.s || argv.L)) {
 				clivas.line("{cyan:"+resultArr[1][i]+"}");
 				clivas.line("\n");
 			}
+			process.exit(0);
 		});
 	}
 
 	else if(argv.s === "tpb") {
+		clivas.line("{bold:"+"\nSailing on Pirate Bay."+"}");
 		mgSrch.pbay(argv._[0], argv.p-1, argv.k, function(resultArr) {
 			clivas.line("\n");
 			for(var i=resultArr[0].length-1; i>=0; i--) {
@@ -53,9 +57,11 @@ if(argv._[0] && (argv.s || argv.L)) {
 				clivas.line("{red:"+resultArr[3][i]+"}");
 				clivas.line("\n");
 			}
+			process.exit(0);
 		});
 	}
 	else if(argv.s === "opb") {
+		clivas.line("{bold:"+"\nSearching with OldPirateBay."+"}");
 		mgSrch.oldpbay(argv._[0], argv.p, argv.k, function(resultArr) {
 			clivas.line("\n");
 			for(var i=resultArr[0].length-1; i>=1; i--) {
@@ -65,9 +71,11 @@ if(argv._[0] && (argv.s || argv.L)) {
 				clivas.line("{red:"+resultArr[3][i]+"}");
 				clivas.line("\n");
 			}
+			process.exit(0);
 		});
 	}
 	else if(argv.s === "thd") {
+		clivas.line("{bold:"+"\nSearching with TorrentHound. Notice: some trackers in their given magnet links are dead."+"}");
 		mgSrch.torhound(argv._[0], argv.p, function(resultArr) {
 			clivas.line("\n");
 			for(var i=resultArr[0].length-1; i>=1; i--) {
@@ -77,6 +85,7 @@ if(argv._[0] && (argv.s || argv.L)) {
 				clivas.line("{red:"+resultArr[3][i]+"}");
 				clivas.line("\n");
 			}
+			process.exit(0);
 		});
 	}
 }

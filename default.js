@@ -14,7 +14,6 @@ tap.test('Test TPB', function(t) {
 	app.pbay("blade runner", 0, "video", function(resultArr) {
 		t.type((resultArr[0][3]), 'string', 'PASS');
 		t.end();
-		
 	});
 });
 tap.test('Test BTDIGG', function(t) {
