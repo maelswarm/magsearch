@@ -23,7 +23,8 @@
 		"request": "^2.53.0",
 		"clivas": "^0.1.4",
 		"tap": "^0.7.1",
-		"torrent-health": "^0.0.6"
+		"torrent-health": "^0.0.6",
+		"socks5-http-client": "^1.0.1"
 	},
 	"scripts": {
     "test": "node ./default.js"

@@ -1,10 +1,13 @@
 var request = require('request');
 var cheerio = require('cheerio');
 var health = require('torrent-health');
+var agent = require('socks5-http-client/lib/Agent');
 
-exports.feelingLucky = function(s, callback) {
+exports.feelingLucky = function(s, tor, socks, callback) {
 	var ss="";
 	var retArr = [];
+	var sHost = "127.0.0.1";
+	var sPort = 9050;
 	for(var tmp=0; tmp<s.length; tmp++) {
 		if(s.charAt(tmp) === ' ') {
 			ss+='%20';
@@ -13,9 +16,33 @@ exports.feelingLucky = function(s, callback) {
 			ss+=s.charAt(tmp);
 		}
 	}
-	var url = 'http://btdigg.org/search?q='+ss+'&p=0&order=0';
+	if(socks[0] !== undefined) {
+		sPort = socks[0];
+	}
+	if(socks[1] !== undefined) {
+		sHost = socks[1];
+	}
 	
-	request(url, function(error, response, html){
+	var options = {};
+	if(tor) {
+		options = {
+				url: 'http://btdigg63cdjmmmqj.onion/search?q='+ss+'&p=0&order=0',
+			    agentClass: agent,
+			    agentOptions: {
+			        socksHost: sHost, // Defaults to 'localhost'.
+			        socksPort: sPort, // Defaults to 1080.
+			        rejectUnauthorized: false
+			    }
+		};
+	}
+	else {
+		options = {url: 'http://btdigg.org/search?q='+ss+'&p=0&order=0'};
+	}
+	
+	request(options, function(error, response, html) {
+		if(html === undefined) {
+			console.log("\nResponse is empty!\nIf you are using a Socks, make sure it is properly configured.");
+		}
 		if(!error){
 			var i=0;
 			var $ = cheerio.load(html);
@@ -82,9 +109,11 @@ exports.oldpbay = function(q, p, k, callback) {
 	});
 };
 
-exports.pbay = function(q, p, k, callback) {
+exports.pbay = function(q, p, k, tor, socks, callback) {
 	var qq="";
 	var kk="";
+	var sHost = "127.0.0.1";
+	var sPort = 9050;
 	var retArr = [];
 	for(var tmp=0; tmp<q.length; tmp++) {
 		if(q.charAt(tmp) === ' ') {
@@ -113,14 +142,38 @@ exports.pbay = function(q, p, k, callback) {
 		break;
 	}
 
-	var url = 'https://thepiratebay.se/search/'+qq+'/'+p+'/7/'+kk;
-
-	request(url, function(error, response, html){
+	if(socks[0]) {
+		sPort = socks[0];
+	}
+	if(socks[1]) {
+		sHost = socks[1];
+	}
+	
+	var options = {};
+	if(tor) {
+		options = {
+				url: 'http://uj3wazyk5u4hnvtk.onion/search/'+qq+'/'+p+'/7/'+kk,
+			    agentClass: agent,
+			    agentOptions: {
+			        socksHost: sHost, // Defaults to 'localhost'.
+			        socksPort: sPort, // Defaults to 1080.
+			        rejectUnauthorized: false
+			    }
+		};
+	}
+	else {
+		options = {url: 'http://thepiratebay.se/search/'+qq+'/'+p+'/7/'+kk};
+	}
+	
+	request(options, function(error, response, html){
 		var title = [];
 		var seeders = [];
 		var leechers = [];
 		var mag = [];
 		var i = 0;
+		if(html === undefined) {
+			console.log("\nResponse is empty!\nIf you are using a socks make sure it is configured properly.");
+		}
 		if(!error){
 			var $ = cheerio.load(html);
 			$('#searchResult').filter(function(){
@@ -129,7 +182,7 @@ exports.pbay = function(q, p, k, callback) {
 				$('td', tr).each(function(a, b) {
 					//title
 					if(a%4===1) {
-						title.push($(b).children().eq(0).text().substr(1) +"\r"+ $(b).children().eq(4).text());
+						title.push($(b).children().eq(0).text().trim() +"\n"+ $(b).children().eq(4).text());
 					}
 					if(a%4===1) {
 						magLink = $('a', this).eq(1).filter("[href]").attr('href');
@@ -168,8 +221,10 @@ exports.pbay = function(q, p, k, callback) {
 	});
 };
 
-exports.btdigg = function(q, p, callback) {
+exports.btdigg = function(q, p, tor, socks, callback) {
 	var qq="";
+	var sHost = "127.0.0.1";
+	var sPort = 9050;
 	var retArr = [];
 	for(var tmp=0; tmp<q.length; tmp++) {
 		if(q.charAt(tmp) === ' ') {
@@ -179,11 +234,37 @@ exports.btdigg = function(q, p, callback) {
 			qq+=q.charAt(tmp);
 		}
 	}
-	var url = 'http://btdigg.org/search?q='+qq+'&p='+p+'&order=0';
-	request(url, function(error, response, html){
+	
+	if(socks[0] !== undefined) {
+		sPort = socks[0];
+	}
+	if(socks[1] !== undefined) {
+		sHost = socks[1];
+	}
+	
+	var options = {};
+	if(tor) {
+		options = {
+				url: 'http://btdigg63cdjmmmqj.onion/search?q='+qq+'&p='+p+'&order=0',
+			    agentClass: agent,
+			    agentOptions: {
+			        socksHost: sHost, // Defaults to 'localhost'.
+			        socksPort: sPort, // Defaults to 1080.
+			        rejectUnauthorized: false
+			    }
+		};
+	}
+	else {
+		options = {url: 'http://btdigg.org/search?q='+qq+'&p='+p+'&order=0'};
+	}
+	
+	request(options, function(error, response, html){
 		var title = [];
 		var dsc = [];
 		var mag = [];
+		if(html === undefined) {
+			console.log("\nResponse is empty!\nIf you are using a socks make sure it is configured properly.");
+		}
 		if(!error){
 			var $ = cheerio.load(html);
 			var i=0;

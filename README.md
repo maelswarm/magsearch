@@ -18,8 +18,12 @@ Use "-p" to choose page. (default is 1)
 
 Use "-k" to narrow search. This is only available with "tpb" and "opb".
 Options are "video", "audio", "applications", and "adult". (default is "all")
+
+Use "-t" to use SOCKS. Default port is 9050 and default hostname is 127.0.0.1. (TOR)
+This is only available with "tpb" and "btd".
+
   ```
-magsearch "schubert" -s tpb -k audio
+magsearch "schubert" -s tpb -k audio -t
   ```
   
   In case your feeling lucky use "-L"
