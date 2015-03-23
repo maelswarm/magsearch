@@ -14,12 +14,12 @@ npm install -g magsearch
 Use "-s" to choose the site to scrap.
 Options are "tpb", "opb", "btd", and "thd".
   
-Use "-p" to choose page. (default is 1)
+Use "-p" to choose page (default is 1).
 
 Use "-k" to narrow search. This is only available with "tpb" and "opb".
-Options are "video", "audio", "applications", and "adult". (default is "all")
+Options are "video", "audio", "applications", and "adult" (default is "all").
 
-Use "-t" to use SOCKS. Default port is 9050 and default hostname is 127.0.0.1. (TOR)
+Use "-t" to use SOCKS. Default port is "9050" and default hostname is "127.0.0.1" (TOR).
 This is only available with "tpb" and "btd".
 
   ```
