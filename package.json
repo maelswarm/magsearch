@@ -1,21 +1,21 @@
 {
-  "name": "magsearch",
-  "version": "0.2.3",
-  "author": "Brandon Barber (@roecrew)",
-  "license": "MIT",
-  "description": "Search for magnet links in terminal",
-  "main": "index.js",
-  "repository": {
+	"name": "magsearch",
+	"version": "0.2.4",
+	"author": "Brandon Barber (@roecrew)",
+	"license": "MIT",
+	"description": "Search for magnet links in terminal",
+	"main": "index.js",
+	"repository": {
 	"type": "git",
 	"url": "git://github.com/roecrew/magsearch.git"
 	},
 	"bin": {
-	"magsearch": "./app.js"
+	    "magsearch": "./app.js"
 	},
 	"keywords": [
-	"magnet",
-	"torrent",
-	"search"
+	    "magnet",
+	    "torrent",
+	    "search"
 	],
 	"dependencies": {
 		"minimist": "^1.1.1",
