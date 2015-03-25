@@ -11,13 +11,13 @@ npm install -g magsearch
 
 ## Flags ##
 
--s <site> : "tpb", "opb", "btd", and "thd" (default is "tpb")
+-s \<site> : "tpb", "opb", "btd", and "thd" (default is "tpb")
 
--p <page#> : 1,2,3...
+-p \<page#> : 1,2,3...
 
--k <keyword> : "video", "audio", "applications", and "adult" (default is "all")
+-k \<keyword> : "video", "audio", "applications", and "adult" (default is "all")
 
--t <port> <host> : Default SOCKS port is "9050" with hostname "127.0.0.1" (TOR)
+-t \<port> \<host> : Default SOCKS port is "9050" with hostname "127.0.0.1" (TOR)
 
 -L : In case your feeling lucky
 
