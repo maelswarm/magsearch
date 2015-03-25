@@ -1,6 +1,6 @@
 {
 	"name": "magsearch",
-	"version": "0.2.4",
+	"version": "0.3.0",
 	"author": "Brandon Barber (@roecrew)",
 	"license": "MIT",
 	"description": "Search for magnet links in terminal",
@@ -18,13 +18,13 @@
 	    "search"
 	],
 	"dependencies": {
-		"minimist": "^1.1.1",
-		"cheerio": "^0.18.0",
-		"request": "^2.53.0",
-		"clivas": "^0.1.4",
-		"tap": "^0.7.1",
-		"torrent-health": "^0.0.6",
-		"socks5-http-client": "^1.0.1"
+		"minimist": "*",
+		"cheerio": "*",
+		"request": "*",
+		"clivas": "*",
+		"tap": "*",
+		"torrent-health": "*",
+		"socks5-http-client": "*"
 	},
 	"scripts": {
     "test": "node ./default.js"

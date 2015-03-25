@@ -3,35 +3,59 @@ var cheerio = require('cheerio')
 var health = require('torrent-health')
 var agent = require('socks5-http-client/lib/Agent')
 
-exports.feelingLucky = function(s, tor, socks, callback) {
-	var ss=""
-	var retArr = []
-	var options = {}
-	var sHost = "127.0.0.1"
-	var sPort = 9050
-	for(var tmp=0; tmp<s.length; tmp++) {
-		if(s.charAt(tmp) === ' ') {
-			ss+='%20'
+var retArr = []
+var options = {}
+var sHost = "127.0.0.1"
+var sPort = 9050
+
+function parsequery(str) {
+	var ret = ""
+	for(var tmp=0; tmp<str.length; tmp++) {
+		if(str.charAt(tmp) === ' ') {
+			ret+='%20'
+		}
+		else if(tmp === str.length-1) {
+			ret+=str.charAt(tmp)
+			return ret
 		}
 		else {
-			ss+=s.charAt(tmp)
+			ret+=str.charAt(tmp)
 		}
 	}
+}
+
+exports.feelingLucky = function(s, t, socks, callback) {
+	var ss=parsequery(s)
+
 	if(socks[0] !== undefined) {
 		sPort = socks[0]
+		console.log("BLAH");
 	}
 	if(socks[1] !== undefined) {
 		sHost = socks[1]
 	}
-	if(tor) {
-		options = {
-				url: 'http://btdigg63cdjmmmqj.onion/search?q='+ss+'&p=0&order=0',
-				agentClass: agent,
-				agentOptions: {
-					socksHost: sHost, // Defaults to 'localhost'.
-					socksPort: sPort, // Defaults to 1080.
-					rejectUnauthorized: false
-				}
+	if(t) {
+		if(sPort === 9150 || sPort === 9050) {
+			options = {
+					url: 'http://btdigg63cdjmmmqj.onion/search?q='+ss+'&p=0&order=0',
+					agentClass: agent,
+					agentOptions: {
+						socksHost: sHost, // Defaults to 'localhost'.
+						socksPort: sPort, // Defaults to 1080.
+						rejectUnauthorized: false
+					}
+			}
+		}
+		else {
+			options = {
+					url: 'http://btdigg.org/search?q='+ss+'&p=0&order=0',
+					agentClass: agent,
+					agentOptions: {
+						socksHost: sHost, // Defaults to 'localhost'.
+						socksPort: sPort, // Defaults to 1080.
+						rejectUnauthorized: false
+					}
+			}
 		}
 	}
 	else {
@@ -54,17 +78,9 @@ exports.feelingLucky = function(s, tor, socks, callback) {
 
 exports.oldpbay = function(q, p, k, callback) {
 	
-	var qq=""
+	var qq=parsequery(q)
 	var kk=""
-	var retArr = []
-	for(var tmp=0; tmp<q.length; tmp++) {
-		if(q.charAt(tmp) === ' ') {
-			qq+='%20'
-		}
-		else {
-			qq+=q.charAt(tmp)
-		}
-	}
+
 	switch(k) {
 	case "all":
 		kk=0
@@ -109,21 +125,9 @@ exports.oldpbay = function(q, p, k, callback) {
 	});
 };
 
-exports.pbay = function(q, p, k, tor, socks, callback) {
-	var qq=""
+exports.pbay = function(q, p, k, t, socks, callback) {
+	var qq=parsequery(q)
 	var kk=""
-	var options = {}
-	var sHost = "127.0.0.1"
-	var sPort = 9050
-	var retArr = []
-	for(var tmp=0; tmp<q.length; tmp++) {
-		if(q.charAt(tmp) === ' ') {
-			qq+='%20'
-		}
-		else {
-			qq+=q.charAt(tmp)
-		}
-	}
 
 	switch(k) {
 	case "all":
@@ -150,16 +154,29 @@ exports.pbay = function(q, p, k, tor, socks, callback) {
 		sHost = socks[1]
 	}
 
-	if(tor) {
-		options = {
-				url: 'http://uj3wazyk5u4hnvtk.onion/search/'+qq+'/'+p+'/7/'+kk,
-				agentClass: agent,
-				agentOptions: {
-					socksHost: sHost, // Defaults to 'localhost'.
-					socksPort: sPort, // Defaults to 1080.
-					rejectUnauthorized: false
-				}
-		};
+	if(t) {
+		if(sPort === 9150 || sPort === 9050) {
+			options = {
+					url: 'http://uj3wazyk5u4hnvtk.onion/search/'+qq+'/'+p+'/7/'+kk,
+					agentClass: agent,
+					agentOptions: {
+						socksHost: sHost, // Defaults to 'localhost'.
+						socksPort: sPort, // Defaults to 1080.
+						rejectUnauthorized: false
+					}
+			}
+		}
+		else {
+			options = {
+					url: 'http://thepiratebay.se/search/'+qq+'/'+p+'/7/'+kk,
+					agentClass: agent,
+					agentOptions: {
+						socksHost: sHost, // Defaults to 'localhost'.
+						socksPort: sPort, // Defaults to 1080.
+						rejectUnauthorized: false
+					}
+			}
+		}
 	}
 	else {
 		options = {url: 'http://thepiratebay.se/search/'+qq+'/'+p+'/7/'+kk}
@@ -216,21 +233,9 @@ exports.pbay = function(q, p, k, tor, socks, callback) {
 	})
 }
 
-exports.btdigg = function(q, p, tor, socks, callback) {
+exports.btdigg = function(q, p, t, socks, callback) {
 	
-	var qq=""
-	var options = {}
-	var sHost = "127.0.0.1"
-	var sPort = 9050
-	var retArr = []
-	for(var tmp=0; tmp<q.length; tmp++) {
-		if(q.charAt(tmp) === ' ') {
-			qq+='%20'
-		}
-		else {
-			qq+=q.charAt(tmp)
-		}
-	}
+	var qq=parsequery(q)
 
 	if(socks[0] !== undefined) {
 		sPort = socks[0]
@@ -239,16 +244,29 @@ exports.btdigg = function(q, p, tor, socks, callback) {
 		sHost = socks[1]
 	}
 
-	if(tor) {
-		options = {
-				url: 'http://btdigg63cdjmmmqj.onion/search?q='+qq+'&p='+p+'&order=0',
-				agentClass: agent,
-				agentOptions: {
-					socksHost: sHost, // Defaults to 'localhost'.
-					socksPort: sPort, // Defaults to 1080.
-					rejectUnauthorized: false
-				}
-		};
+	if(t) {
+		if(sPort === 9150 || sPort === 9050) {
+			options = {
+					url: 'http://btdigg63cdjmmmqj.onion/search?q='+qq+'&p='+p+'&order=0',
+					agentClass: agent,
+					agentOptions: {
+						socksHost: sHost, // Defaults to 'localhost'.
+						socksPort: sPort, // Defaults to 1080.
+						rejectUnauthorized: false
+					}
+			}
+		}
+		else {
+			options = {
+					url: 'http://btdigg.org/search?q='+qq+'&p='+p+'&order=0',
+					agentClass: agent,
+					agentOptions: {
+						socksHost: sHost, // Defaults to 'localhost'.
+						socksPort: sPort, // Defaults to 1080.
+						rejectUnauthorized: false
+					}
+			}
+		}
 	}
 	else {
 		options = {url: 'http://btdigg.org/search?q='+qq+'&p='+p+'&order=0'}
@@ -298,16 +316,8 @@ exports.btdigg = function(q, p, tor, socks, callback) {
 
 exports.torhound = function(q, p, callback) {
 	
-	var qq=""
-	var retArr = []
-	for(var tmp=0; tmp<q.length; tmp++) {
-		if(q.charAt(tmp) === ' ') {
-			qq+='%20'
-		}
-		else {
-			qq+=q.charAt(tmp)
-		}
-	}
+	var qq=parsequery(q)
+
 	var url = 'http://www.torrenthound.com/search/'+p+'/'+qq+'/seeds:desc'
 
 	request(url, function(error, response, html) {
