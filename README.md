@@ -11,20 +11,18 @@ npm install -g magsearch
 
 ## Flags ##
 
-Use "-s" to choose the site to scrap.
-Options are "tpb", "opb", "btd", and "thd" (default is "tpb").
-  
-Use "-p" to choose page (default is 1).
+-s <site> : "tpb", "opb", "btd", and "thd" (default is "tpb")
 
-Use "-k" to narrow search. Only available with "tpb" and "opb".
-Options are "video", "audio", "applications", and "adult" (default is "all").
+-p <page#> : 1,2,3...
 
-Use "-t" to use SOCKS. Default port is "9050" and default hostname is "127.0.0.1" (TOR).
-Only available with "tpb" and "btd".
+-k <keyword> : "video", "audio", "applications", and "adult" (default is "all")
 
-In case your feeling lucky use "-L".
+-t <port> <host> : Default SOCKS port is "9050" with hostname "127.0.0.1" (TOR)
 
-Use -h to show list of commands.
+-L : In case your feeling lucky
+
+-h : Show list of commands
+
 
   ```
 magsearch "blade runner"
