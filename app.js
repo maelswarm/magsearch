@@ -5,7 +5,7 @@ var mgSrch = require('./')
 var clivas = require('clivas')
 var socksArr = []
 
-if(argv.h) {
+if(argv.h || argv.H) {
 	clivas.line("{green:\n  Usage:\r}");
 	clivas.line("{green:  -s <option> : tpb (ThePirateBay), opb (OldPirateBay), btd (Btdigg), and thd (TorrentHound).\r}")
 	clivas.line("{green:  -p <option> : Choose page (default is 1).\r}")
@@ -101,7 +101,7 @@ if(argv._[0] && (argv.s || argv.L)) {
 	}
 }
 
-else if(!argv.h) {
+else if(!argv.h && !argv.H) {
 	clivas.line("{green:\n  Usage:\r}")
 	clivas.line("{green:  -s <option> : tpb (ThePirateBay), opb (OldPirateBay), btd (Btdigg), and thd (TorrentHound).\r}")
 	clivas.line("{green:  -p <option> : Choose page (default is 1).\r}")

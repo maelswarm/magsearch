@@ -1,6 +1,6 @@
 {
 	"name": "magsearch",
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"author": "Brandon Barber (@roecrew)",
 	"license": "MIT",
 	"description": "Search for magnet links in terminal",

@@ -98,9 +98,10 @@ exports.oldpbay = function(q, p, k, callback) {
 		kk=2
 		break
 	}
-	var url = 'https://oldpiratebay.org/search?q='+qq+'&sort=-seeders&page='+p+'&per-page=15&iht='+kk
 
-	request(url, function(error, response, html) {
+	options = {url: 'https://oldpiratebay.org/search?q='+qq+'&sort=-seeders&page='+p+'&per-page=15&iht='+kk }
+	
+	request(options, function(error, response, html) {
 		var title = []
 		var seeders = []
 		var leechers = []
@@ -318,9 +319,9 @@ exports.torhound = function(q, p, callback) {
 	
 	var qq=parsequery(q)
 
-	var url = 'http://www.torrenthound.com/search/'+p+'/'+qq+'/seeds:desc'
+	options = {url: 'http://www.torrenthound.com/search/'+p+'/'+qq+'/seeds:desc' }
 
-	request(url, function(error, response, html) {
+	request(options, function(error, response, html) {
 		var title = []
 		var seeders = []
 		var leechers = []
