@@ -1,5 +1,6 @@
 var request = require('request')
 var cheerio = require('cheerio')
+var zlib = require('zlib');
 var health = require('torrent-health')
 var agent = require('socks5-http-client/lib/Agent')
 
@@ -188,6 +189,7 @@ exports.pbay = function(q, p, k, t, socks, callback) {
 		var seeders = []
 		var leechers = []
 		var mag = []
+		var peers = []
 		var i = 0
 		if(html === undefined) {
 			console.log("\nResponse is empty!\nIf you are using a socks make sure it is configured properly.")
@@ -212,11 +214,13 @@ exports.pbay = function(q, p, k, t, socks, callback) {
 							.then(function(health) {
 								i++
 								seeders.push("Seeders: " + health.seeds)
+								peers.push("Peers: " + health.peers)
 								if(i === ($('td', tr).length)/4) {
 									retArr[0]=title
 									retArr[1]=mag
 									retArr[2]=seeders
 									retArr[3]=leechers
+									retArr[4]=peers
 									return callback(retArr)
 								}
 							})
@@ -314,6 +318,46 @@ exports.btdigg = function(q, p, t, socks, callback) {
 		return callback(retArr)
 	});
 };
+
+//exports.kickass = function(q, p, callback) {
+//	var qq=parsequery(q)
+//
+//	options = {url: 'http://kickass.to/json.php?q='+qq+'&field=seeders&order=desc&page='+p }
+//	
+//	request(options, function(error, response, html) {
+//		var title = []
+//		var seeders = []
+//		var leechers = []
+//		var mag = []
+//		if(!error){
+//			var jSon = JSON.parse(html);
+//			console.log(jSon.list[30]);
+//			for(var i=0; jSon.list[i]!==undefined; i++) {
+//				title.push(jSon.list.title+"\nUploaded "+$(this).children().eq(1).children().find('span').text()+", Size "+$(this).children().eq(2).text())
+////				mag.push($(this).find('a').filter("[href]").eq(0).attr('href'))
+////				seeders.push("Seeders: " +  $(this).find('td').eq(3).text())
+////				leechers.push("Leechers:" +  $(this).find('td').eq(4).text())
+//			}
+////			$('.searchtable').filter(function(n){
+////				if(n === 1) {
+////					$('tr', $(this)).each(function(a, b) {
+////						if (a!==0) {
+////							title.push($(this).find('a').filter("[href]").text().substr(2)+"\nUploaded "+$(this).children().eq(1).children().find('span').text()+", Size "+$(this).children().eq(2).text())
+////							mag.push($(this).find('a').filter("[href]").eq(0).attr('href'))
+////							seeders.push("Seeders: " +  $(this).find('td').eq(3).text())
+////							leechers.push("Leechers:" +  $(this).find('td').eq(4).text())
+////						}
+////					})
+////				}
+////			})
+//		}
+//		retArr[0]=title
+//		retArr[1]=mag
+//		retArr[2]=seeders
+//		retArr[3]=leechers
+//		return callback(retArr)
+//	})
+//}
 
 exports.torhound = function(q, p, callback) {
 	

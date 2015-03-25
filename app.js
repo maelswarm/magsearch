@@ -65,6 +65,7 @@ if(argv._[0] && (argv.s || argv.L)) {
 				clivas.line("{bold:"+resultArr[0][i]+"}")
 				clivas.line("{cyan:"+resultArr[1][i]+"}")
 				clivas.line("{green:"+resultArr[2][i]+"}")
+				clivas.line("{magenta:"+resultArr[4][i]+"}")
 				clivas.line("{red:"+resultArr[3][i]+"}")
 				clivas.line("\n");
 			}
@@ -99,6 +100,20 @@ if(argv._[0] && (argv.s || argv.L)) {
 			process.exit(0)
 		})
 	}
+//	else if(argv.s === "kass") {
+//		clivas.line("{bold:"+"\nSearching with kickass."+"}");
+//		mgSrch.kickass(argv._[0], argv.p, function(resultArr) {
+//			clivas.line("\n")
+////			for(var i=resultArr[0].length-1; i>=1; i--) {
+////				clivas.line("{bold:"+resultArr[0][i]+"}")
+////				clivas.line("{cyan:"+resultArr[1][i]+"}")
+////				clivas.line("{green:"+resultArr[2][i]+"}")
+////				clivas.line("{red:"+resultArr[3][i]+"}")
+////				clivas.line("\n")
+////			}
+//			process.exit(0)
+//		})
+//	}
 }
 
 else if(!argv.h && !argv.H) {
