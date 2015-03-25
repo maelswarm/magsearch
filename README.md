@@ -84,6 +84,7 @@ You can import magsearch to retrieve magnet link metadata.
 
 ## Notes ##
 Searching with ThePirateBay retrieves realtime torrent health.
+
 Some of torrenthounds trackers are invalid.
 
 ## License ##
