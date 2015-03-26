@@ -76,7 +76,7 @@ exports.feelingLucky = function(params, callback) {
 	setTimeout(outoftime, 18000)
 	
 	request(options, function(error, response, html) {
-		
+		clearTimeout(outoftime)
 		if(html === undefined) {
 			console.log("\nResponse is empty!\nIf you are using a Socks, make sure it is properly configured.\n")
 			process.exit(0)
@@ -197,7 +197,7 @@ exports.pbay = function(params, callback) {
 	setTimeout(outoftime, 18000)
 	
 	request(options, function(error, response, html) {
-		
+		clearTimeout(outoftime)
 		var i = 0
 		
 		if(html === undefined) {
@@ -286,7 +286,7 @@ exports.btdigg = function(params, callback) {
 	setTimeout(outoftime, 18000)
 	
 	request(options, function(error, response, html) {
-		
+		clearTimeout(outoftime)
 		if(html === undefined) {
 			console.log("\nResponse is empty!\nIf you are using a socks make sure it is configured properly.\n")
 			process.exit(0)
