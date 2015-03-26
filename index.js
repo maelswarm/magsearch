@@ -3,7 +3,6 @@ var cheerio = require('cheerio')
 var health = require('torrent-health')
 var agent = require('socks5-http-client/lib/Agent')
 
-var retArr = []
 var options = {}
 var sHost = "127.0.0.1"
 var sPort = 9050
