@@ -27,6 +27,6 @@
 		"socks5-http-client": "*"
 	},
 	"scripts": {
-    "test": "node ./default.js"
+    	"test": "node ./default.js"
  	}
 }
