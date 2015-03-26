@@ -25,12 +25,12 @@ tap.test('App loads', function(t) {
 				t.end();
 			});
 		});
-		tap.test('Test BTDIGG', function(t) {
-			app.btdigg(options, function(result) {
-				t.type((result.title[3]), 'string', 'PASS');
-				t.end();
-			});
-		});
+//		tap.test('Test BTDIGG', function(t) {
+//			app.btdigg(options, function(result) {
+//				t.type((result.title[3]), 'string', 'PASS');
+//				t.end();
+//			});
+//		});
 		tap.test('Test OLDPB', function(t) {
 			tArr = app.oldpbay(options, function(result) {
 				t.type((result.title[3]), 'string', 'PASS');
