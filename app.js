@@ -86,7 +86,6 @@ if(argv._[0] && (argv.s || argv.L)) {
 	}
 
 	else if(argv.s === "tpb") {
-		clivas.line("{bold:"+"\nSailing on Pirate Bay. Fetching actual peer and seed count."+"}")
 		var drawInterval = setInterval(drawPBShip, 800)
 		mgSrch.pbay(options, function(result) {
 			clearInterval(drawInterval)

@@ -167,7 +167,6 @@ exports.pbay = function(params, callback) {
 
 	if(params.socks.port) {
 		if(sPort === 9150 || sPort === 9050) {
-			console.log(sHost)
 			options = {
 					url: 'http://uj3wazyk5u4hnvtk.onion/search/'+qq+'/'+(params.page/2)+'/7/'+kk,
 					agentClass: agent,
