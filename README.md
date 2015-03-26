@@ -41,44 +41,53 @@ magsearch "schubert" -L
 
 ## Usage ##
 
-You can import magsearch to retrieve magnet link metadata.
   ```js
   var mgSrch = require('magsearch')
   
-  var sts = "String to search"
-  var pageNum = 1
-  var keyword = "video"
-  var socks = 1
-  var sArr = [9150, 127.0.0.1]
+  var options = {
+		query: "blade runner",
+		page: 1,
+		keyword: "video",
+		socks: {port: undefined, host: undefined}
+	}
   
-  mgSrch.feelingLucky(sts, function(resultArr) {
-	console.log(resultArr[0]) //print title
-	console.log(resultArr[1]) // print magnet
+  mgSrch.feelingLucky(options, function(result) {
+	console.log(result.title[0]) //print title
+	console.log(result.mag[0]) // print magnet
   })
   
-  mgSrch.btdigg(sts, pageNum, socks, sArr, function(resultArr) {
+  mgSrch.btdigg(options, function(result) {
     ...    
-	resultArr[0][x] //title
-	resultArr[1][x] //magnet
-	resultArr[2][x] //description
+	result.title[x] //title + description
+	result.mag[x] //magnet
 	...
   })
   
-  mgSrch.pbay(sts, pageNum, keyword, socks, sArr, function(resultArr) {
+  mgSrch.pbay(options, function(result) {
     ...    
-	resultArr[0][x] //title + description
-	resultArr[1][x] //magnet
-	resultArr[2][x] //seeders
-	resultArr[3][x] //leechers
+	result.title[x] //title + description
+	result.mag[x] //magnet
+	result.seeders[x] //seeders
+	result.leechers[x] //leechers
+	result.peers[x] //peers
 	...
   })
   
-  mgSrch.oldpbay(sts, pageNum, keyword, function(resultArr) {
+  mgSrch.oldpbay(options, function(resultArr) {
     ...    
-	resultArr[0][x] //title + description
-	resultArr[1][x] //magnet
-	resultArr[2][x] //seeders
-	resultArr[3][x] //leechers
+	result.title[x] //title + description
+	result.mag[x] //magnet
+	result.seeders[x] //seeders
+	result.leechers[x] //leechers
+	...
+  })
+  
+  mgSrch.torrenthound(options, function(resultArr) {
+    ...    
+	result.title[x] //title + description
+	result.mag[x] //magnet
+	result.seeders[x] //seeders
+	result.leechers[x] //leechers
 	...
   })
   ```
