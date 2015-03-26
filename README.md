@@ -5,6 +5,7 @@ Search for magnet links in terminal.
 
 ## Install ##
 ![tag alt](https://travis-ci.org/roecrew/magsearch.svg?branch=master)
+Build is passing. Trouble with travis.
 ```
 npm install -g magsearch
 ```
