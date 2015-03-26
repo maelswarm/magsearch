@@ -1,4 +1,5 @@
 var tap = require('tap');
+var app = require('./index.js');
 
 var options = {
 		query: "blade runner",
@@ -17,7 +18,7 @@ tap.test('App loads', function(t) {
 	setTimeout(f, 15000)
 
 	function load_app() {
-		var app = require('./index.js');
+		
 		tap.test('Test TPB', function(t) {
 			app.pbay(options, function(result) {
 				t.type((result.title[3]), 'string', 'PASS');
@@ -25,7 +26,6 @@ tap.test('App loads', function(t) {
 			});
 		});
 		tap.test('Test BTDIGG', function(t) {
-			app = require('./index.js');
 			app.btdigg(options, function(result) {
 				t.type((result.title[3]), 'string', 'PASS');
 				t.end();
