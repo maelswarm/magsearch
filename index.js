@@ -181,7 +181,7 @@ exports.pbay = function(q, p, k, t, socks, callback) {
 		}
 	}
 	else {
-		options = {url: 'http://thepiratebay.se/search/'+qq+'/'+p+'/7/'+kk}
+		options = {url: 'http://thepiratebay.se/search/'+qq+'/'+(p/2)+'/7/'+kk}
 	}
 
 	request(options, function(error, response, html) {
@@ -199,40 +199,41 @@ exports.pbay = function(q, p, k, t, socks, callback) {
 			$('#searchResult').filter(function() {
 				var tr = $(this).children('tr')
 				var magLink = ""
-					$('td', tr).each(function(a, b) {
-						//title
-						if(a%4===1) {
-							title.push($(b).children().eq(0).text().trim() +"\n"+ $(b).children().eq(4).text())
-						}
-						if(a%4===1) {
-							magLink = $('a', this).eq(1).filter("[href]").attr('href')
-							mag.push(magLink)
-						}
-						//seeders
-						if(a%4===2) {
-							health(magLink)
-							.then(function(health) {
-								i++
-								seeders.push("Seeders: " + health.seeds)
-								peers.push("Peers: " + health.peers)
-								if(i === ($('td', tr).length)/4) {
-									retArr[0]=title
-									retArr[1]=mag
-									retArr[2]=seeders
-									retArr[3]=leechers
-									retArr[4]=peers
-									return callback(retArr)
-								}
-							})
-							.catch(function (err) {
-								console.error(err)
-							});
-						}
-						//leekers
-						if(a%4===3) {
-							leechers.push("Leechers: " + $(b).text())
-						}
-					})
+				var lowlim = (((p%2))*60)
+				var uplim = (((p%2)+1)*60)+1 //reduce output from 30 to 15.
+				$('td', tr).each(function(a, b) {
+
+					//title & mag
+					if(a%4===1 && a<uplim && a>lowlim) {
+						title.push($(b).children().eq(0).text().trim() +"\n"+ $(b).children().eq(4).text())
+						magLink = $('a', this).eq(1).filter("[href]").attr('href')
+						mag.push(magLink)
+					}
+					//seeders
+					if(a%4===2 && a<uplim && a>lowlim) {
+						health(magLink)
+						.then(function(health) {
+							i++
+							seeders.push("Seeders: " + health.seeds)
+							peers.push("Peers: " + health.peers)
+							if(i === ($('td', tr).length)/8) {
+								retArr[0]=title
+								retArr[1]=mag
+								retArr[2]=seeders
+								retArr[3]=leechers
+								retArr[4]=peers
+								return callback(retArr)
+							}
+						})
+						.catch(function (err) {
+							console.error(err)
+						});
+					}
+					//leekers
+					if(a%4===3 && a<uplim && a>lowlim) {
+						leechers.push("Leechers: " + $(b).text())
+					}
+				})
 			})
 		}
 	})

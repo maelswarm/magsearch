@@ -58,7 +58,7 @@ if(argv._[0] && (argv.s || argv.L)) {
 	}
 
 	else if(argv.s === "tpb") {
-		clivas.line("{bold:"+"\nSailing on Pirate Bay."+"}")
+		clivas.line("{bold:"+"\nSailing on Pirate Bay. Fetching actual peer and seed count."+"}")
 		mgSrch.pbay(argv._[0], argv.p-1, argv.k, argv.t, socksArr, function(resultArr) {
 			clivas.line("\n")
 			for(var i=resultArr[0].length-1; i>=0; i--) {
