@@ -5,6 +5,28 @@ var mgSrch = require('./')
 var clivas = require('clivas')
 var socksArr = []
 
+var width = 0
+var drawPBShip = function() {
+	if(width < 20) {
+		clivas.clear()
+		for(var i=0;i<width;i++) {clivas.write("{blue: }")}
+		clivas.line("{bold:       __"+Array(20-width).join(" ")+"}")
+		for(var i=0;i<width;i++) {clivas.write("{blue: }")}
+		clivas.line("{bold:    __ )_)__"+Array(20-width).join(" ")+"}")
+		for(var i=0;i<width;i++) {clivas.write("{blue: }")}
+		clivas.line("{bold:    )_))_))_)"+Array(20-width).join(" ")+"}")
+		for(var i=0;i<width;i++) {clivas.write("{blue: }")}
+		clivas.line("{bold:    _|__|__|__"+Array(20-width).join(" ")+"}")
+		for(var i=0;i<width;i++) {clivas.write("{cyan:~}")}
+		clivas.line("{cyan:~~~~}"+"{bold:\\_______/}"+"{cyan:~~~~"+Array(20-width).join("~")+"}")
+		for(var i=0;i<width;i++) {clivas.write("{blue: }")}
+		clivas.line("{bold:                 "+Array(20-width).join(" ")+"}")
+		for(var i=0;i<width;i++) {clivas.write("{blue: }")}
+		clivas.line("{bold:                 "+Array(20-width).join(" ")+"}")
+		width++
+	}
+}
+
 if(argv.h || argv.H) {
 	clivas.line("{green:\n  Usage:\r}");
 	clivas.line("{green:  -s <option> : tpb (ThePirateBay), opb (OldPirateBay), btd (Btdigg), and thd (TorrentHound).\r}")
@@ -59,7 +81,9 @@ if(argv._[0] && (argv.s || argv.L)) {
 
 	else if(argv.s === "tpb") {
 		clivas.line("{bold:"+"\nSailing on Pirate Bay. Fetching actual peer and seed count."+"}")
+		var drawInterval = setInterval(drawPBShip, 800)
 		mgSrch.pbay(argv._[0], argv.p-1, argv.k, argv.t, socksArr, function(resultArr) {
+			clearInterval(drawInterval)
 			clivas.line("\n")
 			for(var i=resultArr[0].length-1; i>=0; i--) {
 				clivas.line("{bold:"+resultArr[0][i]+"}")
@@ -100,20 +124,6 @@ if(argv._[0] && (argv.s || argv.L)) {
 			process.exit(0)
 		})
 	}
-//	else if(argv.s === "kass") {
-//		clivas.line("{bold:"+"\nSearching with kickass."+"}");
-//		mgSrch.kickass(argv._[0], argv.p, function(resultArr) {
-//			clivas.line("\n")
-////			for(var i=resultArr[0].length-1; i>=1; i--) {
-////				clivas.line("{bold:"+resultArr[0][i]+"}")
-////				clivas.line("{cyan:"+resultArr[1][i]+"}")
-////				clivas.line("{green:"+resultArr[2][i]+"}")
-////				clivas.line("{red:"+resultArr[3][i]+"}")
-////				clivas.line("\n")
-////			}
-//			process.exit(0)
-//		})
-//	}
 }
 
 else if(!argv.h && !argv.H) {

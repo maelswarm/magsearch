@@ -1,6 +1,5 @@
 var request = require('request')
 var cheerio = require('cheerio')
-var zlib = require('zlib');
 var health = require('torrent-health')
 var agent = require('socks5-http-client/lib/Agent')
 
@@ -66,6 +65,7 @@ exports.feelingLucky = function(s, t, socks, callback) {
 	request(options, function(error, response, html) {
 		if(html === undefined) {
 			console.log("\nResponse is empty!\nIf you are using a Socks, make sure it is properly configured.")
+			process.exit(0)
 		}
 		if(!error) {
 			var i=0
@@ -159,7 +159,7 @@ exports.pbay = function(q, p, k, t, socks, callback) {
 	if(t) {
 		if(sPort === 9150 || sPort === 9050) {
 			options = {
-					url: 'http://uj3wazyk5u4hnvtk.onion/search/'+qq+'/'+p+'/7/'+kk,
+					url: 'http://uj3wazyk5u4hnvtk.onion/search/'+qq+'/'+(p/2)+'/7/'+kk,
 					agentClass: agent,
 					agentOptions: {
 						socksHost: sHost, // Defaults to 'localhost'.
@@ -170,7 +170,7 @@ exports.pbay = function(q, p, k, t, socks, callback) {
 		}
 		else {
 			options = {
-					url: 'http://thepiratebay.se/search/'+qq+'/'+p+'/7/'+kk,
+					url: 'http://thepiratebay.se/search/'+qq+'/'+(p/2)+'/7/'+kk,
 					agentClass: agent,
 					agentOptions: {
 						socksHost: sHost, // Defaults to 'localhost'.
@@ -193,6 +193,7 @@ exports.pbay = function(q, p, k, t, socks, callback) {
 		var i = 0
 		if(html === undefined) {
 			console.log("\nResponse is empty!\nIf you are using a socks make sure it is configured properly.")
+			process.exit(0)
 		}
 		if(!error){
 			var $ = cheerio.load(html)
@@ -216,7 +217,7 @@ exports.pbay = function(q, p, k, t, socks, callback) {
 							i++
 							seeders.push("Seeders: " + health.seeds)
 							peers.push("Peers: " + health.peers)
-							if(i === ($('td', tr).length)/8) {
+							if(i === ($('td', tr).length)/8) { //if 15 prepare to dip
 								retArr[0]=title
 								retArr[1]=mag
 								retArr[2]=seeders
@@ -284,6 +285,7 @@ exports.btdigg = function(q, p, t, socks, callback) {
 		var mag = []
 		if(html === undefined) {
 			console.log("\nResponse is empty!\nIf you are using a socks make sure it is configured properly.")
+			process.exit(0)
 		}
 		if(!error) {
 			var $ = cheerio.load(html)
@@ -319,46 +321,6 @@ exports.btdigg = function(q, p, t, socks, callback) {
 		return callback(retArr)
 	});
 };
-
-//exports.kickass = function(q, p, callback) {
-//	var qq=parsequery(q)
-//
-//	options = {url: 'http://kickass.to/json.php?q='+qq+'&field=seeders&order=desc&page='+p }
-//	
-//	request(options, function(error, response, html) {
-//		var title = []
-//		var seeders = []
-//		var leechers = []
-//		var mag = []
-//		if(!error){
-//			var jSon = JSON.parse(html);
-//			console.log(jSon.list[30]);
-//			for(var i=0; jSon.list[i]!==undefined; i++) {
-//				title.push(jSon.list.title+"\nUploaded "+$(this).children().eq(1).children().find('span').text()+", Size "+$(this).children().eq(2).text())
-////				mag.push($(this).find('a').filter("[href]").eq(0).attr('href'))
-////				seeders.push("Seeders: " +  $(this).find('td').eq(3).text())
-////				leechers.push("Leechers:" +  $(this).find('td').eq(4).text())
-//			}
-////			$('.searchtable').filter(function(n){
-////				if(n === 1) {
-////					$('tr', $(this)).each(function(a, b) {
-////						if (a!==0) {
-////							title.push($(this).find('a').filter("[href]").text().substr(2)+"\nUploaded "+$(this).children().eq(1).children().find('span').text()+", Size "+$(this).children().eq(2).text())
-////							mag.push($(this).find('a').filter("[href]").eq(0).attr('href'))
-////							seeders.push("Seeders: " +  $(this).find('td').eq(3).text())
-////							leechers.push("Leechers:" +  $(this).find('td').eq(4).text())
-////						}
-////					})
-////				}
-////			})
-//		}
-//		retArr[0]=title
-//		retArr[1]=mag
-//		retArr[2]=seeders
-//		retArr[3]=leechers
-//		return callback(retArr)
-//	})
-//}
 
 exports.torhound = function(q, p, callback) {
 	
