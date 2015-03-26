@@ -9,20 +9,20 @@ var width = 0
 var drawPBShip = function() {
 	if(width < 20) {
 		clivas.clear()
-		for(var i=0;i<width;i++) {clivas.write("{blue: }")}
+		clivas.write("{blue:"+Array(width+1).join(" ")+"}")
 		clivas.line("{bold:       __"+Array(20-width).join(" ")+"}")
-		for(var i=0;i<width;i++) {clivas.write("{blue: }")}
+		clivas.write("{blue:"+Array(width+1).join(" ")+"}")
 		clivas.line("{bold:    __ )_)__"+Array(20-width).join(" ")+"}")
-		for(var i=0;i<width;i++) {clivas.write("{blue: }")}
+		clivas.write("{blue:"+Array(width+1).join(" ")+"}")
 		clivas.line("{bold:    )_))_))_)"+Array(20-width).join(" ")+"}")
-		for(var i=0;i<width;i++) {clivas.write("{blue: }")}
+		clivas.write("{blue:"+Array(width+1).join(" ")+"}")
 		clivas.line("{bold:    _|__|__|__"+Array(20-width).join(" ")+"}")
-		for(var i=0;i<width;i++) {clivas.write("{cyan:~}")}
+		clivas.write("{cyan:"+Array(width+1).join("~")+"}")
 		clivas.line("{cyan:~~~~}"+"{bold:\\_______/}"+"{cyan:~~~~"+Array(20-width).join("~")+"}")
-		for(var i=0;i<width;i++) {clivas.write("{blue: }")}
-		clivas.line("{bold:                 "+Array(20-width).join(" ")+"}")
-		for(var i=0;i<width;i++) {clivas.write("{blue: }")}
-		clivas.line("{bold:                 "+Array(20-width).join(" ")+"}")
+		clivas.write("{cyan:"+Array(width+1).join("~")+"}")
+		clivas.line("{cyan:~~~~~~~~~~~~~~~~~"+Array(20-width).join("~")+"}")
+		clivas.write("{cyan:"+Array(width+1).join("~")+"}")
+		clivas.line("{cyan:~~~~~~~~~~~~~~~~~"+Array(20-width).join("~")+"}")
 		width++
 	}
 }
