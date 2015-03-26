@@ -194,7 +194,7 @@ exports.pbay = function(params, callback) {
 		options = {url: 'http://thepiratebay.se/search/'+qq+'/'+(params.page/2)+'/7/'+kk}
 	}
 
-	setTimeout(outoftime, 18000)
+	//setTimeout(outoftime, 18000)
 	
 	request(options, function(error, response, html) {
 		clearTimeout(outoftime)
@@ -281,9 +281,10 @@ exports.btdigg = function(params, callback) {
 	}
 	else {
 		options = {url: 'http://btdigg.org/search?q='+qq+'&p='+params.page+'&order=0'}
+		console.log(options.url)
 	}
 
-	setTimeout(outoftime, 18000)
+	//setTimeout(outoftime, 18000)
 	
 	request(options, function(error, response, html) {
 		clearTimeout(outoftime)
