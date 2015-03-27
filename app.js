@@ -1,9 +1,22 @@
 #!/usr/bin/env node
 
+process.stdin.setEncoding('utf8');
+var plat = process.platform
+
 var argv = require('minimist')(process.argv.slice(2), {})
 var mgSrch = require('./')
 var clivas = require('clivas')
-var socksArr = []
+var pfSpawn = require('child_process').spawn;
+var keypress = require('keypress')
+keypress(process.stdin);
+
+function launchPF(){
+	if(plat === "win32"){
+	}
+	else{
+		//pfSpawn("peerflix", argsList, {stdio:'inherit'});
+	}
+}
 
 var width = 0
 var drawPBShip = function() {
@@ -93,9 +106,7 @@ if(argv._[0] && (argv.s || argv.L)) {
 			for(var i=result.title.length-1; i>=0; i--) {
 				clivas.line("{bold:"+result.title[i]+"}")
 				clivas.line("{cyan:"+result.mag[i]+"}")
-				clivas.line("{green:"+result.seeders[i]+"}")
-				clivas.line("{magenta:"+result.peers[i]+"}")
-				clivas.line("{red:"+result.leechers[i]+"}")
+				clivas.line("{green:"+result.seeders[i]+"  }"+"{red:"+result.leechers[i]+"}")
 				clivas.line("\n");
 			}
 			process.exit(0)
@@ -108,8 +119,7 @@ if(argv._[0] && (argv.s || argv.L)) {
 			for(var i=result.title.length-1; i>=0; i--) {
 				clivas.line("{bold:"+result.title[i]+"}")
 				clivas.line("{cyan:"+result.mag[i]+"}")
-				clivas.line("{green:"+result.seeders[i]+"}")
-				clivas.line("{red:"+result.leechers[i]+"}")
+				clivas.line("{green:"+result.seeders[i]+"  }"+"{red:"+result.leechers[i]+"}")
 				clivas.line("\n")
 			}
 			process.exit(0)
@@ -122,8 +132,7 @@ if(argv._[0] && (argv.s || argv.L)) {
 			for(var i=result.title.length-1; i>=0; i--) {
 				clivas.line("{bold:"+result.title[i]+"}")
 				clivas.line("{cyan:"+result.mag[i]+"}")
-				clivas.line("{green:"+result.seeders[i]+"}")
-				clivas.line("{red:"+result.leechers[i]+"}")
+				clivas.line("{green:"+result.seeders[i]+"  }"+"{red:"+result.leechers[i]+"}")
 				clivas.line("\n")
 			}
 			process.exit(0)
@@ -140,3 +149,35 @@ else if(!argv.h && !argv.H) {
 	clivas.line("{green:  -L <option> : In case your feeling lucky.\r}")
 	clivas.line("\n")
 }
+
+
+
+//var searchStr = ""
+//var flag = ""
+//var txt = ""
+//
+//var stdin = process.openStdin()
+//process.stdin.setRawMode(true)
+//stdin.on('keypress', function (chunk, key) {
+//	if (key == undefined) {searchStr += chunk; process.stdout.clearLine(); process.stdout.cursorTo(0); process.stdout.write(searchStr);}
+//
+//	else if (key && key.ctrl && key.name == 'c') process.exit()
+//
+//	else if(key.name == "backspace") {searchStr = searchStr.slice(0, searchStr.length-1)}
+//
+//	else if(key.name == "return") {
+//		console.log("\n")
+//		if (searchStr[0] === 'r') {}
+//		
+//		else if (searchStr[0] === 's') {}
+//	}
+//	else { searchStr += chunk;}
+//	process.stdout.clearLine();
+//	process.stdout.cursorTo(0);
+//	process.stdout.write(searchStr);
+//});
+
+
+
+
+

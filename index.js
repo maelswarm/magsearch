@@ -221,26 +221,16 @@ exports.pbay = function(params, callback) {
 					}
 					//seeders
 					if(a%4===2 && a<uplim && a>lowlim) {
-						health(magLink)
-						.then(function(health) {
-							i++
-							attr.seeders.push("Seeders: " + health.seeds)
-							attr.peers.push("Peers: " + health.peers)
-							if(i === ($('td', tr).length)/8) { //if 15 prepare to dip
-								return callback(attr)
-							}
-						})
-						.catch(function (err) {
-							console.error(err)
-						});
+						attr.seeders.push("Seeders:" + $(b).text())
 					}
 					//leekers
 					if(a%4===3 && a<uplim && a>lowlim) {
-						attr.leechers.push("Leechers: " + $(b).text())
+						attr.leechers.push("Leechers:" + $(b).text())
 					}
 				})
 			})
 		}
+		return callback(attr)
 	})
 }
 

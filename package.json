@@ -24,7 +24,8 @@
 		"clivas": "*",
 		"tap": "*",
 		"torrent-health": "*",
-		"socks5-http-client": "*"
+		"socks5-http-client": "*",
+		"keypress": "*"
 	},
 	"scripts": {
     	"test": "node ./default.js"
