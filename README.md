@@ -94,7 +94,6 @@ magsearch "schubert" -L
   ```
 
 ## Notes ##
-Searching with ThePirateBay retrieves realtime torrent health.
 
 Some of torrenthounds trackers are invalid.
 
