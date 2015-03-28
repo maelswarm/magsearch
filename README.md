@@ -34,7 +34,7 @@ magsearch "blade runner"
   
   Socks compatible. <br>
   Searching on TOR uses .onions. <br>
-  Settings allow for quick changes to blocklist and player settings.
+  Settings allow for saving blocklist and player preferences.
   
 
 ## Usage ##
