@@ -16,14 +16,6 @@ searchArr.push("PIRATEBAY"); searchArr.push("BTDIGG")
 var watchrow = 1500
 var cursorcol = 500
 
-function launchPF(){
-	if(plat === "win32"){
-	}
-	else{
-		//pfSpawn("peerflix", argsList, {stdio:'inherit'});
-	}
-}
-
 var width = 0
 var drawPBShip = function() {
 	if(width < 20) {
@@ -82,18 +74,23 @@ if(argv.t || argv._[1]) {
 	}
 }
 
+function launchPF(){
+	if(plat === "win32"){
+	}
+	else{
+		if(searchArr[searchrow%2]==="PIRATEBAY") {
+			pfSpawn("peerflix", [mgSrch.getattr().mag[watchrow%15], "-a", "--vlc"], {stdio:'inherit'})
+		}
+		else {
+			pfSpawn("peerflix", [mgSrch.getattr().mag[watchrow%10], "-a", "--vlc"], {stdio:'inherit'})
+		}
+	}
+}
+
 function search() {
 	if(options.query && (argv.s || argv.L)) {
-		if(argv.L) {
-			mgSrch.feelingLucky(options, function(result) {
-				clivas.line("\n");
-				clivas.line("{bold:"+result.title[0]+"}")
-				clivas.line("{cyan:"+result.mag[0]+"}")
-				clivas.line("\n")
-			})
-		}
 
-		else if(argv.s === "btd") {
+		if(argv.s === "btd") {
 			mgSrch.btdigg(options, function(result) {
 				draw()
 			})
@@ -101,30 +98,6 @@ function search() {
 		else if(argv.s === "tpb") {
 			mgSrch.pbay(options, function(result) {
 				draw()
-			})
-		}
-		else if(argv.s === "opb") {
-			clivas.line("{bold:"+"\nSearching with OldPirateBay."+"}")
-			mgSrch.oldpbay(options, function(result) {
-				clivas.line("\n")
-				for(var i=result.title.length-1; i>=0; i--) {
-					clivas.line("{bold:"+result.title[i]+"}")
-					clivas.line("{cyan:"+result.mag[i]+"}")
-					clivas.line("{green:"+result.seeders[i]+"  }"+"{red:"+result.leechers[i]+"}")
-					clivas.line("\n")
-				}
-			})
-		}
-		else if(argv.s === "thd") {
-			clivas.line("{bold:"+"\nSearching with TorrentHound. Notice: some trackers in their given magnet links are dead."+"}");
-			mgSrch.torhound(options, function(result) {
-				clivas.line("\n")
-				for(var i=result.title.length-1; i>=0; i--) {
-					clivas.line("{bold:"+result.title[i]+"}")
-					clivas.line("{cyan:"+result.mag[i]+"}")
-					clivas.line("{green:"+result.seeders[i]+"  }"+"{red:"+result.leechers[i]+"}")
-					clivas.line("\n")
-				}
 			})
 		}
 	}
@@ -243,7 +216,7 @@ stdin.on('keypress', function (chunk, key) {
 			search()
 		}
 		else if (cursorcol%5 === 1) {
-			//launch peerflix
+			launchPF()
 		}
 		else if (cursorcol%5 === 2) {
 			options.socks.port = searchStr
