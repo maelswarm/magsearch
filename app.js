@@ -124,20 +124,20 @@ function search() {
 		if(argv.s === "btd") {
 			mgSrch.btdigg(options, function(result) {
 				draw()
-				if(result === 1) {
+				if(result.errno) {
 					clivas.line("")
 					clivas.line("")
-					clivas.write("Response was empty! If your using SOCKS, make sure it's configured properly.")
+					clivas.line(result)
 				}
 			})
 		}
 		else if(argv.s === "tpb") {
 			mgSrch.pbay(options, function(result) {
 				draw()
-				if(result === 1) {
+				if(result.errno) {
 					clivas.line("")
 					clivas.line("")
-					clivas.line("{bold:Response was empty! If your using SOCKS, make sure it's configured properly.}")
+					clivas.line(result)
 				}
 			})
 		}

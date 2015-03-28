@@ -203,8 +203,8 @@ exports.pbay = function(params, callback) {
 	
 	request(options, function(error, response, html) {
 		var i = 0
-		if(html == undefined) {
-			return callback(1)
+		if(error) {
+			return callback(error)
 		}
 		
 		if(!error){
@@ -272,8 +272,9 @@ exports.btdigg = function(params, callback) {
 
 	
 	request(options, function(error, response, html) {
-		if(html == undefined) {
-			return callback(1)
+		
+		if(error) {
+			return callback(error)
 		}
 		
 		if(!error) {
