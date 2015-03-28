@@ -11,30 +11,13 @@ npm install -g magsearch
 ```
 
 ## Flags ##
-
--s \<site> : "tpb", "opb", "btd", and "thd" (default is "tpb")
-
--p \<page#> : 1,2,3...
-
--k \<keyword> : "video", "audio", "applications", and "adult" (default is "all") <br />
-Only available with "tpb" and "opb"
-
--t \<port> \<host> : Default SOCKS port is "9050" with hostname "127.0.0.1" (TOR) <br />
-Only available with "tpb" and "btd"
-
-
--L : In case your feeling lucky
-
--h : Show list of commands
-
+ 
+  Launch. Add an option -t flag to launch with SOCKS.
 
   ```
 magsearch "blade runner"
   ```
-
-  ```
-magsearch "schubert" -s btd -k audio -t
-  ```
+  
   
   ```
 magsearch "schubert" -L

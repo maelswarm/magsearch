@@ -82,7 +82,7 @@ if(!argv.s) {
 
 var options = {
 		query: argv._[0],
-		page: argv.p-1,
+		page: 0,
 		keyword: argv.k,
 		socks: {port: 9150, host: "127.0.0.1", enabled: 0}
 }
@@ -214,6 +214,20 @@ stdin.on('keypress', function (chunk, key) {
 		process.stdout.clearLine()
 		process.stdout.cursorTo(0)
 		process.stdout.write("Input:"+searchStr)
+	}
+	
+	else if (key.ctrl && (key.name == 'n')) {
+		options.page++
+		options.page = Math.abs(options.page)
+		mgSrch.clearattr()
+		search()
+	}
+	
+	else if (key && key.ctrl && key.name == 'b') {
+		options.page--
+		options.page = Math.abs(options.page)
+		mgSrch.clearattr()
+		search()
 	}
 
 	else if (key && key.ctrl && key.name == 'c') {
