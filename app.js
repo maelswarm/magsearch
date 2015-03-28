@@ -12,13 +12,16 @@ nconf.use('file', { file: './settings.json' });
 nconf.load();
 
 if(nconf.get('port') === undefined) {
-	nconf.set('port', '9050');
+	nconf.set('port', "9050");
 }
 if(nconf.get('host') === undefined) {
-	nconf.set('host', '127.0.0.1');
+	nconf.set('host', "127.0.0.1");
 }
 if(nconf.get('player') === undefined) {
-	nconf.set('player', '--vlc');
+	nconf.set('player', "--vlc");
+}
+if(nconf.get('blocklist') === undefined) {
+	nconf.set('blocklist', undefined);
 }
 
 var keypress = require('keypress')
@@ -94,12 +97,19 @@ function launchPF(){
 	if(plat === "win32"){
 	}
 	else{
-		if(searchArr[searchrow%2]==="PIRATEBAY") {
-			pfSpawn("peerflix", [mgSrch.getattr().mag[watchrow%15], "-a", nconf.get('player')], {stdio:'inherit'})
+		var md = 15
+		var blist = ""
+		var list = [];
+		if(searchArr[searchrow%2]==="BTDIGG") {
+			md = 10
 		}
-		else {
-			pfSpawn("peerflix", [mgSrch.getattr().mag[watchrow%10], "-a", nconf.get('player')], {stdio:'inherit'})
+		list.push(mgSrch.getattr().mag[watchrow%md])
+		list.push("-a")
+		if(nconf.get('blocklist') !== "") {
+			list.push("-b "+nconf.get('blocklist'))
 		}
+		list.push(nconf.get('player'))
+		pfSpawn("peerflix", list, {stdio:'inherit'})
 	}
 }
 
@@ -314,9 +324,16 @@ stdin.on('keypress', function (chunk, key) {
 			searchStr = ""
 			draw()
 		}
+		else if (cursorcol%7 === 6) {
+			nconf.set('blocklist', searchStr);
+			process.stdout.clearLine()
+			process.stdout.cursorTo(0)
+			searchStr = ""
+			draw()
+		}
 	}
 	else {
-		if(cursorcol%7 === 0 || cursorcol%7 === 2) {
+		if(cursorcol%7 === 0 || cursorcol%7 === 2 || cursorcol%7 === 3 || cursorcol%7 === 4 || cursorcol%7 === 6) {
 			searchStr += chunk
 			process.stdout.clearLine();
 			process.stdout.cursorTo(0);
