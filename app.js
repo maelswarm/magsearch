@@ -7,6 +7,9 @@ var argv = require('minimist')(process.argv.slice(2), {})
 var mgSrch = require('./')
 var clivas = require('clivas')
 var pfSpawn = require('child_process').spawn;
+var keypress = require('keypress')
+keypress(process.stdin);
+
 var nconf = require('nconf');
 nconf.use('file', { file: './settings.json' });
 nconf.load();
@@ -23,9 +26,6 @@ if(nconf.get('player') === undefined) {
 if(nconf.get('blocklist') === undefined) {
 	nconf.set('blocklist', undefined);
 }
-
-var keypress = require('keypress')
-keypress(process.stdin);
 
 var settingsrow = 1001
 var watchrow = 1500
