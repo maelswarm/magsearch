@@ -1,6 +1,6 @@
 # magsearch #
 
-Search for magnet links in terminal.
+A lightweight magnet-link browser and player.
 
 
 ## Install ##
@@ -8,6 +8,9 @@ Search for magnet links in terminal.
 
 ```
 npm install -g magsearch
+```
+```
+npm install -g peerflix
 ```
 
 ## Flags ##
@@ -18,11 +21,25 @@ npm install -g magsearch
 magsearch "blade runner"
   ```
   
+  -----------
+  
   ![ScreenShot](https://raw.github.com/roecrew/magsearch/master/Screen Shot.png)
   
-  ```
-magsearch "schubert" -L
-  ```
+  -----------
+  
+  Navigate with the arrow keys.
+  
+  Search options are either ThePirateBay or BTDigg.
+  
+  Use Ctrl-B & Ctrl-N to flip search page.
+  
+  
+  Socks compatible.
+  
+  Searching on TOR uses .onions.
+  
+  Settings allow for quick changes to blocklist and player settings.
+  
 
 ## Usage ##
 
