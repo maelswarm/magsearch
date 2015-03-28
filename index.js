@@ -15,7 +15,19 @@ var attr = {
 		leechers: []
 }
 
-var outoftime = function() {
+exports.clearattr = function() {
+	attr.title = []
+	attr.mag = []
+	attr.seeders = []
+	attr.peers = []
+	attr.leechers = []
+}
+
+exports.getattr = function() {
+	return attr
+}
+
+outoftime = function() {
 	console.log("\nResponse timeout!\nIf you are using a socks make sure it is configured properly.\n")
 	process.exit(0)
 }
@@ -37,6 +49,7 @@ function parsequery(str) {
 }
 
 exports.feelingLucky = function(params, callback) {
+	
 	var ss=parsequery(params.query)
 	
 	if(params.socks.port !== undefined) {
@@ -73,10 +86,10 @@ exports.feelingLucky = function(params, callback) {
 		options = {url: 'http://btdigg.org/search?q='+ss+'&p=0&order=0'};
 	}
 
-	setTimeout(outoftime, 18000)
+	timer = setTimeout(outoftime, 18000)
 	
 	request(options, function(error, response, html) {
-		clearTimeout(outoftime)
+		clearTimeout(timer)
 		if(html === undefined) {
 			console.log("\nResponse is empty!\nIf you are using a Socks, make sure it is properly configured.\n")
 			process.exit(0)
@@ -137,6 +150,7 @@ exports.oldpbay = function(params, callback) {
 };
 
 exports.pbay = function(params, callback) {
+	
 	var qq=parsequery(params.query)
 	var kk=""
 
@@ -158,21 +172,15 @@ exports.pbay = function(params, callback) {
 		break
 	}
 
-	if(params.socks.port !== undefined) {
-		sPort = params.socks.port
-	}
-	if(params.socks.host !== undefined) {
-		sHost = params.socks.host
-	}
-
-	if(params.socks.port) {
-		if(sPort === 9150 || sPort === 9050) {
+	
+	if(Boolean(params.socks.enabled)) {
+		if(parseInt(params.socks.port) === 9150 || parseInt(params.socks.port) === 9050) {
 			options = {
 					url: 'http://uj3wazyk5u4hnvtk.onion/search/'+qq+'/'+(params.page/2)+'/7/'+kk,
 					agentClass: agent,
 					agentOptions: {
-						socksHost: sHost, // Defaults to 'localhost'.
-						socksPort: sPort, // Defaults to 1080.
+						socksHost: params.socks.host, // Defaults to 'localhost'.
+						socksPort: parseInt(params.socks.port), // Defaults to 1080.
 						rejectUnauthorized: false
 					}
 			}
@@ -182,8 +190,8 @@ exports.pbay = function(params, callback) {
 					url: 'http://thepiratebay.se/search/'+qq+'/'+(params.page/2)+'/7/'+kk,
 					agentClass: agent,
 					agentOptions: {
-						socksHost: sHost, // Defaults to 'localhost'.
-						socksPort: sPort, // Defaults to 1080.
+						socksHost: params.socks.host, // Defaults to 'localhost'.
+						socksPort: parseInt(params.socks.port), // Defaults to 1080.
 						rejectUnauthorized: false
 					}
 			}
@@ -192,11 +200,8 @@ exports.pbay = function(params, callback) {
 	else {
 		options = {url: 'http://thepiratebay.se/search/'+qq+'/'+(params.page/2)+'/7/'+kk}
 	}
-
-	setTimeout(outoftime, 18000)
 	
 	request(options, function(error, response, html) {
-		clearTimeout(outoftime)
 		var i = 0
 		
 		if(html === undefined) {
@@ -215,17 +220,19 @@ exports.pbay = function(params, callback) {
 
 					//title & mag
 					if(a%4===1 && a<uplim && a>lowlim) {
-						attr.title.push($(b).children().eq(0).text().trim() +"\n"+ $(b).children().eq(4).text())
+						var size = $(b).children().eq(4).text().substr(25)
+						size = size.slice(0,size.indexOf(","))
+						attr.title.push($(b).children().eq(0).text().trim() + size)
 						magLink = $('a', this).eq(1).filter("[href]").attr('href')
 						attr.mag.push(magLink)
 					}
 					//seeders
 					if(a%4===2 && a<uplim && a>lowlim) {
-						attr.seeders.push("Seeders:" + $(b).text())
+						attr.seeders.push(" "+$(b).text())
 					}
 					//leekers
 					if(a%4===3 && a<uplim && a>lowlim) {
-						attr.leechers.push("Leechers:" + $(b).text())
+						attr.leechers.push(" "+$(b).text())
 					}
 				})
 			})
@@ -237,21 +244,14 @@ exports.pbay = function(params, callback) {
 exports.btdigg = function(params, callback) {
 	var qq=parsequery(params.query)
 
-	if(params.socks.port !== undefined) {
-		sPort = params.socks.port
-	}
-	if(params.socks.host !== undefined) {
-		sHost = params.socks.host
-	}
-
-	if(params.socks.port) {
-		if(sPort === 9150 || sPort === 9050) {
+	if(Boolean(params.socks.enabled)) {
+		if(parseInt(params.socks.port) === 9150 || parseInt(params.socks.port) === 9050) {
 			options = {
 					url: 'http://btdigg63cdjmmmqj.onion/search?q='+qq+'&p='+params.page+'&order=0',
 					agentClass: agent,
 					agentOptions: {
 						socksHost: sHost, // Defaults to 'localhost'.
-						socksPort: sPort, // Defaults to 1080.
+						socksPort: parseInt(params.socks.port), // Defaults to 1080.
 						rejectUnauthorized: false
 					}
 			}
@@ -262,7 +262,7 @@ exports.btdigg = function(params, callback) {
 					agentClass: agent,
 					agentOptions: {
 						socksHost: sHost, // Defaults to 'localhost'.
-						socksPort: sPort, // Defaults to 1080.
+						socksPort: parseInt(params.socks.port), // Defaults to 1080.
 						rejectUnauthorized: false
 					}
 			}
@@ -272,10 +272,8 @@ exports.btdigg = function(params, callback) {
 		options = {url: 'http://btdigg.org/search?q='+qq+'&p='+params.page+'&order=0'}
 	}
 
-	setTimeout(outoftime, 18000)
 	
 	request(options, function(error, response, html) {
-		clearTimeout(outoftime)
 		if(html === undefined) {
 			console.log("\nResponse is empty!\nIf you are using a socks make sure it is configured properly.\n")
 			process.exit(0)
@@ -285,12 +283,11 @@ exports.btdigg = function(params, callback) {
 			var $ = cheerio.load(html)
 			$('.torrent_name_tbl').filter(function(c) {
 				if(c%2===0) {
-					var temp = $(this).text() + "\n"
+					var temp = $(this).text().trim()
 					var tr = $(this).next().children('tr').first()
 					$('td', tr).each(function(a, b) {
-							if(a>1&&8>a) {
-								temp += $('.attr_name', b).text() + $('.attr_val', b).text()
-								temp += " "
+							if(a===2) {
+								temp += " "+$('.attr_val', b).text().trim()
 							}
 					});
 					attr.title.push(temp)
