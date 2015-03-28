@@ -15,7 +15,7 @@ npm install -g peerflix
 
 ## Flags ##
  
-  Launch. Add an option -t flag to launch with SOCKS.
+  Add an option -t flag to launch with SOCKS.
 
   ```
 magsearch "blade runner"
