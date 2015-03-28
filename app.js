@@ -134,35 +134,35 @@ function draw() {
 	clivas.clear();
 	clivas.line("");
 	if(cursorcol%7 === 0) {
-		clivas.write(" |"+"{bold: "+searchArr[searchrow%2]+" }")
+		clivas.write(" |"+"{bold+red: "+searchArr[searchrow%2]+" }")
 		clivas.write("| watch ")
 		clivas.write("| socks |")
 		clivas.line(" settings |")
 	}
 	else if(cursorcol%7 === 1) {
 		clivas.write(" | search |")
-		clivas.write("{bold: WATCH }")
+		clivas.write("{bold+yellow: WATCH }")
 		clivas.write("| socks |")
 		clivas.line(" settings |")
 	}
 	else if(cursorcol%7 === 2) {
 		clivas.write(" | search |");
 		clivas.write(" watch |");
-		clivas.write("{bold: SOCKS }"+"|"+"{bold: Port: "+options.socks.port+"} |"+" Host: "+options.socks.host+" |"+
+		clivas.write("{bold+magenta: SOCKS }"+"|"+"{bold: Port: "+options.socks.port+"} |"+" Host: "+options.socks.host+" |"+
 				" Enabled: "+Boolean(options.socks.enabled)+" |")
 		clivas.line(" settings |")
 	}
 	else if(cursorcol%7 === 3) {
 		clivas.write(" | search |");
 		clivas.write(" watch |");
-		clivas.write("{bold: SOCKS }"+"|"+" Port: "+options.socks.port+" |"+"{bold: Host: "+options.socks.host+"} |"+
+		clivas.write("{bold+magenta: SOCKS }"+"|"+" Port: "+options.socks.port+" |"+"{bold: Host: "+options.socks.host+"} |"+
 				" Enabled: "+Boolean(options.socks.enabled)+" |")
 		clivas.line(" settings |")
 	}
 	else if(cursorcol%7 === 4) {
 		clivas.write(" | search |");
 		clivas.write(" watch |");
-		clivas.write("{bold: SOCKS }"+"|"+" Port: "+options.socks.port+" |"+" Host: "+options.socks.host+" |"+"" +
+		clivas.write("{bold+magenta: SOCKS }"+"|"+" Port: "+options.socks.port+" |"+" Host: "+options.socks.host+" |"+"" +
 				"{bold: Enabled: "+Boolean(options.socks.enabled)+"} |")
 		clivas.line(" settings |")
 	}
@@ -170,13 +170,13 @@ function draw() {
 		clivas.write(" | search |");
 		clivas.write(" watch |");
 		clivas.write(" socks |")
-		clivas.line("{bold: SETTINGS }"+"|"+"{bold: "+nconf.get('player')+" }"+"| blocklist |")
+		clivas.line("{bold+blue: SETTINGS }"+"|"+"{bold: "+nconf.get('player')+" }"+"| blocklist |")
 	}
 	else if(cursorcol%7 === 6) {
 		clivas.write(" | search |");
 		clivas.write(" watch |");
 		clivas.write(" socks |")
-		clivas.line("{bold: SETTINGS }"+"|"+" player |"+"{bold: "+nconf.get('blocklist')+" }"+"|")
+		clivas.line("{bold+blue: SETTINGS }"+"|"+" player |"+"{bold: "+nconf.get('blocklist')+" }"+"|")
 	}
 	clivas.line("");
 	for(var i=result.title.length-1; i>=0; i--) {
