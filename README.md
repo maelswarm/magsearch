@@ -18,7 +18,7 @@ npm install -g magsearch
 magsearch "blade runner"
   ```
   
-  ![ScreenShot](https://raw.github.com/roecrew/magsearch/Screen Shot)
+  ![ScreenShot](https://raw.github.com/roecrew/magsearch/master/Screen Shot.png)
   
   ```
 magsearch "schubert" -L
