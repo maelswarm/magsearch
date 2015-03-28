@@ -21,11 +21,11 @@ npm install -g peerflix
 magsearch "blade runner"
   ```
   
-  ---
+  ___
   
   ![ScreenShot](https://raw.github.com/roecrew/magsearch/master/Screen Shot.png)
   
-  ---
+  ___
   
   Navigate with the arrow keys. <br>
   Search with either ThePirateBay or BTDigg. <br>
