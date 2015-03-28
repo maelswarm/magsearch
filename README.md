@@ -27,17 +27,13 @@ magsearch "blade runner"
   
   -----------
   
-  Navigate with the arrow keys.
-  
-  Search options are either ThePirateBay or BTDigg.
-  
+  Navigate with the arrow keys. <br>
+  Search with either ThePirateBay or BTDigg. <br>
   Use Ctrl-B & Ctrl-N to flip search page.
   
   
-  Socks compatible.
-  
-  Searching on TOR uses .onions.
-  
+  Socks compatible. <br>
+  Searching on TOR uses .onions. <br>
   Settings allow for quick changes to blocklist and player settings.
   
 
