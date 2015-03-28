@@ -13,7 +13,7 @@ npm install -g magsearch
 npm install -g peerflix
 ```
 
-## Flags ##
+## Usage ##
  
   Add "-t" to launch with SOCKS.
 
@@ -37,7 +37,7 @@ magsearch "blade runner"
   Settings allow for saving blocklist and player preferences.
   
 
-## Usage ##
+## PI ##
 
   ```js
   var mgSrch = require('magsearch')
@@ -63,17 +63,16 @@ magsearch "blade runner"
   
   mgSrch.pbay(options, function(result) {
     ...    
-	result.title[x] //title + description
+	result.title[x] //title
 	result.mag[x] //magnet
 	result.seeders[x] //seeders
 	result.leechers[x] //leechers
-	result.peers[x] //peers
 	...
   })
   
   mgSrch.oldpbay(options, function(resultArr) {
     ...    
-	result.title[x] //title + description
+	result.title[x] //title
 	result.mag[x] //magnet
 	result.seeders[x] //seeders
 	result.leechers[x] //leechers
@@ -82,7 +81,7 @@ magsearch "blade runner"
   
   mgSrch.torrenthound(options, function(resultArr) {
     ...    
-	result.title[x] //title + description
+	result.title[x] //title
 	result.mag[x] //magnet
 	result.seeders[x] //seeders
 	result.leechers[x] //leechers

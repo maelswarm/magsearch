@@ -27,9 +27,11 @@ if(nconf.get('blocklist') === undefined) {
 	nconf.set('blocklist', undefined);
 }
 
+var searchStr = ""
+var lastSearched = ""
 var settingsrow = 1001
 var watchrow = 1500
-var cursorcol = 6000
+var cursorcol = 5999
 var searchrow = 1500
 var searchArr = []
 searchArr.push("PIRATEBAY"); searchArr.push("BTDIGG")
@@ -79,15 +81,18 @@ if(!argv.k) {
 if(!argv.s) {
 	argv.s="tpb"
 }
+if(!argv._[0]) {
+	argv._[0]=""
+}
 
 var options = {
 		query: argv._[0],
 		page: 0,
 		keyword: argv.k,
-		socks: {port: 9150, host: "127.0.0.1", enabled: 0}
+		socks: {port: nconf.get('port'), host: nconf.get('host'), enabled: 0}
 }
 
-if(argv.t || argv._[1]) {
+if(argv.t) {
 	if(argv.t) {
 		options.socks.enabled = 1
 	}
@@ -119,13 +124,26 @@ function search() {
 		if(argv.s === "btd") {
 			mgSrch.btdigg(options, function(result) {
 				draw()
+				if(result === 1) {
+					clivas.line("")
+					clivas.line("")
+					clivas.write("Response was empty! If your using SOCKS, make sure it's configured properly.")
+				}
 			})
 		}
 		else if(argv.s === "tpb") {
 			mgSrch.pbay(options, function(result) {
 				draw()
+				if(result === 1) {
+					clivas.line("")
+					clivas.line("")
+					clivas.line("{bold:Response was empty! If your using SOCKS, make sure it's configured properly.}")
+				}
 			})
 		}
+	}
+	else {
+		draw();
 	}
 } search()
 
@@ -203,9 +221,6 @@ function draw() {
 	process.stdout.cursorTo(0);
 	process.stdout.write("Input:"+ searchStr);
 }
-
-var searchStr = ""
-var lastSearched = ""
 	
 var stdin = process.openStdin()
 process.stdin.setRawMode(true)
@@ -308,6 +323,7 @@ stdin.on('keypress', function (chunk, key) {
 		}
 		else if (cursorcol%7 === 2) {
 			options.socks.port = searchStr
+			nconf.set('port', options.socks.port);
 			process.stdout.clearLine()
 			process.stdout.cursorTo(0)
 			searchStr = ""
@@ -315,6 +331,7 @@ stdin.on('keypress', function (chunk, key) {
 		}
 		else if (cursorcol%7 === 3) {
 			options.socks.host = searchStr
+			nconf.set('host', options.socks.host);
 			process.stdout.clearLine()
 			process.stdout.cursorTo(0)
 			searchStr = ""

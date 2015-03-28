@@ -203,10 +203,8 @@ exports.pbay = function(params, callback) {
 	
 	request(options, function(error, response, html) {
 		var i = 0
-		
-		if(html === undefined) {
-			console.log("\nResponse is empty!\nIf you are using a socks make sure it is configured properly.\n")
-			process.exit(0)
+		if(html == undefined) {
+			return callback(1)
 		}
 		
 		if(!error){
@@ -274,9 +272,8 @@ exports.btdigg = function(params, callback) {
 
 	
 	request(options, function(error, response, html) {
-		if(html === undefined) {
-			console.log("\nResponse is empty!\nIf you are using a socks make sure it is configured properly.\n")
-			process.exit(0)
+		if(html == undefined) {
+			return callback(1)
 		}
 		
 		if(!error) {
