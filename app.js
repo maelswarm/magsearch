@@ -65,7 +65,7 @@ var options = {
 		query: argv._[0],
 		page: argv.p-1,
 		keyword: argv.k,
-		socks: {port: 9050, host: "127.0.0.1", enabled: 0}
+		socks: {port: 9150, host: "127.0.0.1", enabled: 0}
 }
 
 if(argv.t || argv._[1]) {
@@ -89,7 +89,6 @@ function launchPF(){
 
 function search() {
 	if(options.query && (argv.s || argv.L)) {
-
 		if(argv.s === "btd") {
 			mgSrch.btdigg(options, function(result) {
 				draw()
@@ -153,6 +152,9 @@ function draw() {
 		}
 	}
 	clivas.line("");
+	process.stdout.clearLine();
+	process.stdout.cursorTo(0);
+	process.stdout.write("Input:"+ searchStr);
 }
 
 var searchStr = ""
@@ -165,7 +167,7 @@ stdin.on('keypress', function (chunk, key) {
 		searchStr += chunk
 		process.stdout.clearLine()
 		process.stdout.cursorTo(0)
-		process.stdout.write(searchStr)
+		process.stdout.write("Input:"+searchStr)
 	}
 
 	else if (key && key.ctrl && key.name == 'c') process.exit()
@@ -174,7 +176,7 @@ stdin.on('keypress', function (chunk, key) {
 		searchStr = searchStr.slice(0, searchStr.length-1)
 		process.stdout.clearLine()
 		process.stdout.cursorTo(0)
-		process.stdout.write(searchStr)
+		process.stdout.write("Input:"+searchStr)
 	}
 
 	else if(key.name == "up") {
@@ -213,6 +215,9 @@ stdin.on('keypress', function (chunk, key) {
 				argv.s = "btd"
 			}
 			watchrow = 1500
+			process.stdout.clearLine()
+			process.stdout.cursorTo(0)
+			searchStr = ""
 			search()
 		}
 		else if (cursorcol%5 === 1) {
@@ -220,9 +225,17 @@ stdin.on('keypress', function (chunk, key) {
 		}
 		else if (cursorcol%5 === 2) {
 			options.socks.port = searchStr
+			process.stdout.clearLine()
+			process.stdout.cursorTo(0)
+			searchStr = ""
+			draw()
 		}
 		else if (cursorcol%5 === 3) {
 			options.socks.host = searchStr
+			process.stdout.clearLine()
+			process.stdout.cursorTo(0)
+			searchStr = ""
+			draw()
 		}
 		else if (cursorcol%5 === 4) {
 			if(options.socks.enabled === 0) {
@@ -231,18 +244,18 @@ stdin.on('keypress', function (chunk, key) {
 			else {
 				options.socks.enabled = 0
 			}
+			process.stdout.clearLine()
+			process.stdout.cursorTo(0)
+			searchStr = ""
+			draw()
 		}
-		process.stdout.clearLine();
-		process.stdout.cursorTo(0);
-		draw();
-		searchStr = ""
 	}
 	else {
 		if(cursorcol%5 === 0 || cursorcol%5 === 2) {
 			searchStr += chunk
 			process.stdout.clearLine();
 			process.stdout.cursorTo(0);
-			process.stdout.write(searchStr);
+			process.stdout.write("Input:"+ searchStr);
 		}
 	}
 })

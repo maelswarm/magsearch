@@ -15,6 +15,22 @@ var attr = {
 		leechers: []
 }
 
+function parsequery(str) {
+	var ret = ""
+	for(var tmp=0; tmp<str.length; tmp++) {
+		if(str.charAt(tmp) === ' ') {
+			ret+='%20'
+		}
+		else if(tmp === str.length-1) {
+			ret+=str.charAt(tmp)
+			return ret
+		}
+		else {
+			ret+=str.charAt(tmp)
+		}
+	}
+}
+
 exports.clearattr = function() {
 	attr.title = []
 	attr.mag = []
@@ -30,22 +46,6 @@ exports.getattr = function() {
 outoftime = function() {
 	console.log("\nResponse timeout!\nIf you are using a socks make sure it is configured properly.\n")
 	process.exit(0)
-}
-
-function parsequery(str) {
-	var ret = ""
-	for(var tmp=0; tmp<str.length; tmp++) {
-		if(str.charAt(tmp) === ' ') {
-			ret+='%20'
-		}
-		else if(tmp === str.length-1) {
-			ret+=str.charAt(tmp)
-			return ret
-		}
-		else {
-			ret+=str.charAt(tmp)
-		}
-	}
 }
 
 exports.feelingLucky = function(params, callback) {
