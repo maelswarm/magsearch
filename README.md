@@ -23,7 +23,7 @@ magsearch "blade runner"
   
   ___
   
-  ![ScreenShot](http://postimg.org/image/41myd3009/)
+  ![ScreenShot](http://s28.postimg.org/rfuxp0hxp/Screen_Shot.png)
   
   ___
   
