@@ -1,6 +1,6 @@
 # magsearch #
 
-A lightweight magnet-link browser
+A low-key magnet-link browser
 
 
 ## Install ##

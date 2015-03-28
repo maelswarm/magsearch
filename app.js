@@ -98,17 +98,18 @@ function launchPF(){
 	}
 	else{
 		var md = 15
-		var blist = ""
+		var blist = nconf.get('blocklist')
 		var list = [];
 		if(searchArr[searchrow%2]==="BTDIGG") {
 			md = 10
 		}
 		list.push(mgSrch.getattr().mag[watchrow%md]+ " ")
-		list.push("-a ")
-		if(nconf.get('blocklist') !== "") {
-			list.push(" -b "+nconf.get('blocklist'))
+		if(blist !== "") {
+			list.push("--blocklist="+blist)
 		}
+		list.push("--all")
 		list.push(nconf.get('player'))
+		clivas.line(list)
 		pfSpawn("peerflix", list, {stdio:'inherit'})
 	}
 }
@@ -182,7 +183,7 @@ function draw() {
 	for(var i=result.title.length-1; i>=0; i--) {
 		if(argv.s === "tpb") {
 			if((watchrow%15) == i && cursorcol%7 === 1) {
-				clivas.line("{bold+cyan:>"+(i+1)+": "+result.title[i]+"}"+"{green:"+result.seeders[i]+"}"+"{red:"+result.leechers[i]+"}")
+				clivas.line("{bold+cyan+blink:>}"+"{bold+cyan:"+(i+1)+": "+result.title[i]+"}"+"{green:"+result.seeders[i]+"}"+"{red:"+result.leechers[i]+"}")
 			}
 			else {
 				clivas.line("{bold: "+(i+1)+": "+result.title[i]+"}"+"{green:"+result.seeders[i]+"}"+"{red:"+result.leechers[i]+"}")
@@ -190,7 +191,7 @@ function draw() {
 		}
 		else {
 			if((watchrow%10) == i && cursorcol%7 === 1) {
-				clivas.line("{bold+cyan:>"+(i+1)+": "+result.title[i]+"}")
+				clivas.line("{bold+cyan+blink:>}"+"{bold+cyan:"+(i+1)+": "+result.title[i]+"}")
 			}
 			else {
 				clivas.line("{bold: "+(i+1)+": "+result.title[i]+"}")
