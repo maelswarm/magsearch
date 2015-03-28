@@ -37,7 +37,7 @@ magsearch "blade runner"
   Settings allow for saving blocklist and player preferences.
   
 
-## PI ##
+## API ##
 
   ```js
   var mgSrch = require('magsearch')
