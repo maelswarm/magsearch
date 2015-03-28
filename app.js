@@ -103,10 +103,10 @@ function launchPF(){
 		if(searchArr[searchrow%2]==="BTDIGG") {
 			md = 10
 		}
-		list.push(mgSrch.getattr().mag[watchrow%md])
-		list.push("-a")
+		list.push(mgSrch.getattr().mag[watchrow%md]+ " ")
+		list.push("-a ")
 		if(nconf.get('blocklist') !== "") {
-			list.push("-b "+nconf.get('blocklist'))
+			list.push(" -b "+nconf.get('blocklist'))
 		}
 		list.push(nconf.get('player'))
 		pfSpawn("peerflix", list, {stdio:'inherit'})

@@ -1,9 +1,9 @@
 {
 	"name": "magsearch",
-	"version": "0.4.7",
+	"version": "0.4.8",
 	"author": "Brandon Barber (@roecrew)",
 	"license": "MIT",
-	"description": "Search for magnet links in terminal",
+	"description": "A lightweight magnet-link browser",
 	"main": "index.js",
 	"repository": {
 	"type": "git",

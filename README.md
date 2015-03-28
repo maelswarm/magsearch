@@ -1,6 +1,6 @@
 # magsearch #
 
-A lightweight magnet-link browser.
+A lightweight magnet-link browser
 
 
 ## Install ##
@@ -15,7 +15,7 @@ npm install -g peerflix
 
 ## Flags ##
  
-  Add an option -t flag to launch with SOCKS.
+  Add "-t" to launch with SOCKS.
 
   ```
 magsearch "blade runner"
