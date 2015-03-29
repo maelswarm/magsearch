@@ -27,7 +27,7 @@ magsearch "blade runner"
   Search with either ThePirateBay or BTDigg. <br>
   Use Ctrl-B & Ctrl-N to flip search page.
   
-  ![ScreenShot1](http://s4.postimg.org/ibyzuh2r1/Screen_Shot_2015_03_28_at_22_14_19.png)
+  ![ScreenShot1](http://s24.postimg.org/xnt0ci5fp/Screen_Shot_2015_03_28_at_23_24_45.png)
   
   ---
   
@@ -36,7 +36,7 @@ magsearch "blade runner"
   Settings allow for saving blocklist and player preferences. <br>
   Toggle peerflix's "--remove" in settings.json.
   
-  ![ScreenShot2](http://s8.postimg.org/d13adam5x/Screen_Shot_2015_03_28_at_22_22_54.png)
+  ![ScreenShot2](http://s15.postimg.org/nktf3ct1n/Screen_Shot_2015_03_28_at_23_24_15.png)
   
   ___
   
