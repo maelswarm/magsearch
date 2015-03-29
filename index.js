@@ -218,9 +218,10 @@ exports.pbay = function(params, callback) {
 
 					//title & mag
 					if(a%4===1 && a<uplim && a>lowlim) {
-						var size = $(b).children().eq(4).text().substr(25)
-						size = size.slice(0,size.indexOf(","))
-						attr.title.push($(b).children().eq(0).text().trim() + size)
+						var childs = $(b).children()
+						var size = childs.eq(4).text().substr(25)
+						size = size.slice(0, size.indexOf(","))
+						attr.title.push(childs.eq(0).text().trim().replace("{", "").replace("}", "") + size)
 						magLink = $('a', this).eq(1).filter("[href]").attr('href')
 						attr.mag.push(magLink)
 					}

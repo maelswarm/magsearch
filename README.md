@@ -1,6 +1,6 @@
 # magsearch #
 
-A low-key magnet-link browser
+A low-key magnet-link cli
 
 
 ## Install ##

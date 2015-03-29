@@ -34,7 +34,7 @@ var searchStr = ""
 var lastSearched = ""
 var settingsrow = 1001
 var watchrow = 1500
-var cursorcol = 5999
+var cursorcol = 6000
 var searchrow = 1500
 var searchArr = []
 searchArr.push("PIRATEBAY"); searchArr.push("BTDIGG")
