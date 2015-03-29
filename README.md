@@ -31,7 +31,8 @@ magsearch "blade runner"
   
   Socks compatible. <br>
   Searching on TOR uses .onions. <br>
-  Settings allow for saving blocklist and player preferences.
+  Settings allow for saving blocklist and player preferences. <br>
+  Toggle peerflix's "--remove" in settings.json.
   
   ![ScreenShot2](http://s8.postimg.org/d13adam5x/Screen_Shot_2015_03_28_at_22_22_54.png)
   
