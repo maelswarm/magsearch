@@ -36,16 +36,6 @@ magsearch "blade runner"
   Searching on TOR uses .onions. <br>
   Settings allow for saving blocklist and player preferences.
   
-  ## Menu ##
-  
-  PirateBay  -  keyword  -  watch  -  socks  -  settings
-  |	      			      |		|
-  BTDigg      			      port	player
-              			      |		|
-              			      host	blocklist
-              			      |
-              			      enabled
-  
 
 ## API ##
 
