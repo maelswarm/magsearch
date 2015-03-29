@@ -27,7 +27,7 @@ magsearch "blade runner"
   Search with either ThePirateBay or BTDigg. <br>
   Use Ctrl-B & Ctrl-N to flip search page.
   
-  ![ScreenShot1](http://s8.postimg.org/84ha2mshh/Screen_Shot_2015_03_28_at_22_13_51.png)
+  ![ScreenShot1](http://s4.postimg.org/ibyzuh2r1/Screen_Shot_2015_03_28_at_22_14_19.png)
   
   Socks compatible. <br>
   Searching on TOR uses .onions. <br>
