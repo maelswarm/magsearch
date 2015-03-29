@@ -23,6 +23,9 @@ if(nconf.get('host') === undefined) {
 if(nconf.get('player') === undefined) {
 	nconf.set('player', "--vlc");
 }
+if(nconf.get('remove') === undefined) {
+	nconf.set('remove', "false");
+}
 if(nconf.get('blocklist') === undefined) {
 	nconf.set('blocklist', undefined);
 }
@@ -61,17 +64,13 @@ var drawPBShip = function() {
 
 if(argv.h || argv.H) {
 	clivas.line("{green:\n  Usage:\r}")
-	clivas.line("{green:  -s <option> : tpb (PirateBay), opb (OldPB), btd (Btdigg), and thd (TorrentHound).\r}")
-	clivas.line("{green:  -p <option> : Choose page (default is 1).\r}")
-	clivas.line("{green:  -k <option> : Keyword options are video, audio, adult, or applications. Only available on tpb and opb.\r}")
-	clivas.line("{green:  -t <port> <hostname> : Socks default port is 9050, and default host is 127.0.0.1. Only available on tpb and btd.\r}")
-	clivas.line("{green:  -L <option> : In case your feeling lucky.\r}")
+	clivas.line("{green:  Use the arrow keys to toggle and navigate.\r}")
+	clivas.line("{green:  To search for a magnet, input text and hit enter.\r}")
+	clivas.line("{green:  For SOCKS, set your port and host.\r}")
+	clivas.line("{green:  If you want to launch with SOCKS, use a \"-t\" flag\r}")
+	clivas.line("{green:  Settings include blocklist and autoplay application. Make sure your blocklist is in the current path!\r}")
 	clivas.line("\n")
 	process.exit(0)
-}
-
-if(!argv.p) {
-	argv.p=1
 }
 
 if(!argv.k) {
@@ -104,6 +103,7 @@ function launchPF(){
 	else{
 		var md = 15
 		var blist = nconf.get('blocklist')
+		var rem = nconf.get('remove')
 		var list = [];
 		if(searchArr[searchrow%2]==="BTDIGG") {
 			md = 10
@@ -111,6 +111,9 @@ function launchPF(){
 		list.push(mgSrch.getattr().mag[watchrow%md]+ " ")
 		if(blist !== "") {
 			list.push("--blocklist="+blist)
+		}
+		if(rem !== "false") {
+			list.push("--remove")
 		}
 		list.push("--all")
 		list.push(nconf.get('player'))
