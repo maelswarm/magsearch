@@ -65,6 +65,7 @@ var drawPBShip = function() {
 	}
 }
 
+
 if(argv.h || argv.H) {
 	clivas.line("{green:\n  Usage:\r}")
 	clivas.line("{green:  Use the arrow keys to toggle and navigate.\r}")
@@ -102,6 +103,7 @@ if(argv.t) {
 
 function launchPF(){
 	if(plat === "win32"){
+		//todo
 	}
 	else{
 		var md = 15
@@ -159,7 +161,7 @@ function draw() {
 	process.stdout.clearLine();
 	process.stdout.cursorTo(0);
 	clivas.clear()
-	clivas.line("{bold:┎────────────────────────────────────────────────────────────────────────────────────────────────┓}")
+	clivas.line("{bold:┎─────────────────────────────────────────────────────────────────────────────────────────────────}")
 	if(cursorcol%8 === 0) {
 		clivas.write("{bold:┃}"+"{bold+red: "+searchArr[searchrow%2]+" }")
 		clivas.write("{bold:│}"+" keyword ")
@@ -219,7 +221,7 @@ function draw() {
 		clivas.write(" socks "+"{bold:│}")
 		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"{bold:│ "+nconf.get('blocklist')+" }"+"{bold:│}")
 	}
-	clivas.line("{bold:┠────────────────────────────────────────────────────────────────────────────────────────────────┛}")
+	clivas.line("{bold:┠─────────────────────────────────────────────────────────────────────────────────────────────────}")
 	for(var i=result.title.length-1; i>=0; i--) {
 		if(argv.s === "tpb") {
 			if((watchrow%15) == i && cursorcol%8 === 2) {
