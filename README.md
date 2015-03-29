@@ -33,7 +33,7 @@ magsearch "blade runner"
   Searching on TOR uses .onions. <br>
   Settings allow for saving blocklist and player preferences.
   
-  ![ScreenShot2](http://s4.postimg.org/ibyzuh2r1/Screen_Shot_2015_03_28_at_22_14_19.png)
+  ![ScreenShot2](http://s8.postimg.org/d13adam5x/Screen_Shot_2015_03_28_at_22_22_54.png)
   
   ___
   
