@@ -29,6 +29,8 @@ magsearch "blade runner"
   
   ![ScreenShot1](http://s4.postimg.org/ibyzuh2r1/Screen_Shot_2015_03_28_at_22_14_19.png)
   
+  ---
+  
   Socks compatible. <br>
   Searching on TOR uses .onions. <br>
   Settings allow for saving blocklist and player preferences. <br>
