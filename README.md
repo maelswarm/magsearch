@@ -23,18 +23,19 @@ magsearch "blade runner"
   
   ___
   
-  ![ScreenShot](http://s12.postimg.org/oq1b1kgq5/Screen_Shot_2015_03_28_at_20_52_23.png)
-  
-  ___
-  
   Navigate with the arrow keys. <br>
   Search with either ThePirateBay or BTDigg. <br>
   Use Ctrl-B & Ctrl-N to flip search page.
   
+  ![ScreenShot1](http://s8.postimg.org/84ha2mshh/Screen_Shot_2015_03_28_at_22_13_51.png)
   
   Socks compatible. <br>
   Searching on TOR uses .onions. <br>
   Settings allow for saving blocklist and player preferences.
+  
+  ![ScreenShot2](http://s4.postimg.org/ibyzuh2r1/Screen_Shot_2015_03_28_at_22_14_19.png)
+  
+  ___
   
 
 ## API ##
