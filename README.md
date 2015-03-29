@@ -96,6 +96,7 @@ magsearch "blade runner"
 ## Notes ##
 
 Some of torrenthounds trackers are invalid.
+UI looks best in iTerm.
 
 ## License ##
 MIT
