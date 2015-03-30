@@ -23,14 +23,13 @@ if(nconf.get('host') === undefined) {
 if(nconf.get('player') === undefined) {
 	nconf.set('player', "--vlc");
 }
-//switch remove and print-mag conditions back in next update
-if(nconf.get('remove') !== false) {
+if(typeof(nconf.get('remove')) !== "boolean") {
 	nconf.set('remove', false);
 }
 if(nconf.get('blocklist') === undefined) {
 	nconf.set('blocklist', undefined);
 }
-if(nconf.get('print-mag') !== false) {
+if(typeof(nconf.get('print-mag')) !== "boolean") {
 	nconf.set('print-mag', false);
 }
 
@@ -117,7 +116,7 @@ function launchPF(){
 		if(searchArr[searchrow%2]==="BTDIGG") {
 			md = 10
 		}
-		list.push(mgSrch.getattr().mag[watchrow%md]+ " ")
+		list.push(mgSrch.getattr().mag[watchrow%md])
 		if(blist !== undefined) {
 			list.push("--blocklist="+blist)
 		}
@@ -258,7 +257,11 @@ function draw() {
 		return
 	}
 	if(nconf.get('print-mag') === true) {
-		var tempmag = mgSrch.getattr().mag[watchrow%15]
+		var md = 15
+		if(searchArr[searchrow%2]==="BTDIGG") {
+			md = 10
+		}
+		var tempmag = mgSrch.getattr().mag[watchrow%md]
 		nconf.get('print-mag')
 		if(tempmag !== undefined) {
 			clivas.write(tempmag)
