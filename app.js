@@ -23,18 +23,22 @@ if(nconf.get('host') === undefined) {
 if(nconf.get('player') === undefined) {
 	nconf.set('player', "--vlc");
 }
-if(nconf.get('remove') === undefined) {
-	nconf.set('remove', "false");
+//switch remove and print-mag conditions back in next update
+if(nconf.get('remove') !== false) {
+	nconf.set('remove', false);
 }
 if(nconf.get('blocklist') === undefined) {
 	nconf.set('blocklist', undefined);
+}
+if(nconf.get('print-mag') !== false) {
+	nconf.set('print-mag', false);
 }
 
 var searchStr = ""
 var lastSearched = ""
 var settingsrow = 1001
 var watchrow = 1500
-var cursorcol = 6000
+var cursorcol = 6003
 var searchrow = 1500
 var searchArr = []
 searchArr.push("PIRATEBAY"); searchArr.push("BTDIGG")
@@ -92,7 +96,7 @@ var options = {
 		query: argv._[0],
 		page: 0,
 		keyword: argv.k,
-		socks: {port: nconf.get('port'), host: nconf.get('host'), enabled: 0}
+		socks: {port: nconf.get('port'), host: nconf.get('host'), enabled: false}
 }
 
 if(argv.t) {
@@ -114,10 +118,10 @@ function launchPF(){
 			md = 10
 		}
 		list.push(mgSrch.getattr().mag[watchrow%md]+ " ")
-		if(blist !== "") {
+		if(blist !== undefined) {
 			list.push("--blocklist="+blist)
 		}
-		if(rem !== "false") {
+		if(rem != false) {
 			list.push("--remove")
 		}
 		list.push("--all")
@@ -128,7 +132,7 @@ function launchPF(){
 }
 
 function search() {
-	if(options.query && (argv.s || argv.L)) {
+	if(options.query && argv.s) {
 		if(argv.s === "btd") {
 			mgSrch.btdigg(options, function(result) {
 				draw()
@@ -162,28 +166,28 @@ function draw() {
 	process.stdout.cursorTo(0);
 	clivas.clear()
 	clivas.line("{bold:┎─────────────────────────────────────────────────────────────────────────────────────────────────}")
-	if(cursorcol%8 === 0) {
+	if(cursorcol%9 === 0) {
 		clivas.write("{bold:┃}"+"{bold+red: "+searchArr[searchrow%2]+" }")
 		clivas.write("{bold:│}"+" keyword ")
 		clivas.write("│ watch ")
 		clivas.write("│ socks │")
 		clivas.line(" settings │")
 	}
-	if(cursorcol%8 === 1) {
+	if(cursorcol%9 === 1) {
 		clivas.write("{bold:┃ }"+searchArr[searchrow%2])
 		clivas.write("{bold: │ "+keywordArr[keywordrow%5]+" │}")
 		clivas.write(" watch ")
 		clivas.write("│ socks │")
 		clivas.line(" settings │")
 	}
-	else if(cursorcol%8 === 2) {
+	else if(cursorcol%9 === 2) {
 		clivas.write("{bold:┃ }"+searchArr[searchrow%2]+" │")
 		clivas.write(" keyword "+"{bold:│}")
 		clivas.write("{bold+yellow: WATCH }")
 		clivas.write("{bold:│}"+" socks │")
 		clivas.line(" settings │")
 	}
-	else if(cursorcol%8 === 3) {
+	else if(cursorcol%9 === 3) {
 		clivas.write("{bold:┃ }"+searchArr[searchrow%2]+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch "+"{bold:│}")
@@ -191,7 +195,7 @@ function draw() {
 				" Enabled: "+Boolean(options.socks.enabled)+" │")
 		clivas.line(" settings "+"{bold:┃}")
 	}
-	else if(cursorcol%8 === 4) {
+	else if(cursorcol%9 === 4) {
 		clivas.write("{bold:┃ }"+searchArr[searchrow%2]+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch "+"{bold:│}")
@@ -199,7 +203,7 @@ function draw() {
 				" Enabled: "+Boolean(options.socks.enabled)+" │")
 		clivas.line(" settings "+"{bold:┃}")
 	}
-	else if(cursorcol%8 === 5) {
+	else if(cursorcol%9 === 5) {
 		clivas.write("{bold:┃ }"+searchArr[searchrow%2]+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch "+"{bold:│}")
@@ -207,24 +211,31 @@ function draw() {
 				"{bold: │ Enabled: "+Boolean(options.socks.enabled)+" │}")
 		clivas.line(" settings "+"{bold:┃}")
 	}
-	else if(cursorcol%8 === 6) {
+	else if(cursorcol%9 === 6) {
 		clivas.write("{bold:┃ }"+searchArr[searchrow%2]+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch │")
 		clivas.write(" socks "+"{bold:│}")
-		clivas.line("{bold+blue: SETTINGS }"+"{bold:│ "+nconf.get('player')+" │}"+" blocklist │")
+		clivas.line("{bold+blue: SETTINGS }"+"{bold:│ "+nconf.get('player')+" │}"+" blocklist │"+" mag-print │")
 	}
-	else if(cursorcol%8 === 7) {
+	else if(cursorcol%9 === 7) {
 		clivas.write("{bold:┃ }"+searchArr[searchrow%2]+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch │")
 		clivas.write(" socks "+"{bold:│}")
-		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"{bold:│ "+nconf.get('blocklist')+" }"+"{bold:│}")
+		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"{bold:│ "+nconf.get('blocklist')+" │}"+" mag-print │")
+	}
+	else if(cursorcol%9 === 8) {
+		clivas.write("{bold:┃ }"+searchArr[searchrow%2]+" │");
+		clivas.write(" keyword │")
+		clivas.write(" watch │")
+		clivas.write(" socks "+"{bold:│}")
+		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"│ blocklist "+"{bold:│ "+nconf.get('print-mag')+" │}")
 	}
 	clivas.line("{bold:┠─────────────────────────────────────────────────────────────────────────────────────────────────}")
 	for(var i=result.title.length-1; i>=0; i--) {
 		if(argv.s === "tpb") {
-			if((watchrow%15) == i && cursorcol%8 === 2) {
+			if((watchrow%15) == i && cursorcol%9 === 2) {
 				clivas.line("{bold+cyan+blink:>}"+"{bold+cyan: "+result.title[i]+"}"+"{green:"+result.seeders[i]+"}"+"{red:"+result.leechers[i]+"}")
 			}
 			else {
@@ -232,7 +243,7 @@ function draw() {
 			}
 		}
 		else {
-			if((watchrow%10) == i && cursorcol%8 === 2) {
+			if((watchrow%10) == i && cursorcol%9 === 2) {
 				clivas.line("{bold+cyan+blink:>}"+"{bold+cyan: "+result.title[i]+"}")
 			}
 			else {
@@ -241,7 +252,18 @@ function draw() {
 		}
 	}
 	clivas.line("{bold:┖─────────────────────────────────────────────────────────────────────────────────────────────────}")
-	process.stdout.write(" Input:"+ searchStr);
+	
+	if(cursorcol%9 !== 2) {
+		process.stdout.write(" Input:"+ searchStr)
+		return
+	}
+	if(nconf.get('print-mag') === true) {
+		var tempmag = mgSrch.getattr().mag[watchrow%15]
+		nconf.get('print-mag')
+		if(tempmag !== undefined) {
+			clivas.write(tempmag)
+		}
+	}
 }
 	
 var stdin = process.openStdin()
@@ -286,16 +308,16 @@ stdin.on('keypress', function (chunk, key) {
 	}
 
 	else if(key.name == "up") {
-		if (cursorcol%8 === 0) {
+		if (cursorcol%9 === 0) {
 			searchrow++; 
 		}
-		else if (cursorcol%8 === 1) {
+		else if (cursorcol%9 === 1) {
 			keywordrow++; 
 		}
-		else if (cursorcol%8 === 2) {
+		else if (cursorcol%9 === 2) {
 			watchrow++; 
 		}
-		else if (cursorcol%8 === 6) {
+		else if (cursorcol%9 === 6) {
 			process.stdout.clearLine()
 			process.stdout.cursorTo(0)
 			searchStr = ""
@@ -306,16 +328,16 @@ stdin.on('keypress', function (chunk, key) {
 	}
 
 	else if(key.name == "down") {
-		if (cursorcol%8 === 0) {
+		if (cursorcol%9 === 0) {
 			searchrow--
 		}
-		else if (cursorcol%8 === 1) {
+		else if (cursorcol%9 === 1) {
 			keywordrow--; 
 		}
-		else if (cursorcol%8 === 2) {
+		else if (cursorcol%9 === 2) {
 			watchrow--
 		}
-		else if (cursorcol%8 === 6) {
+		else if (cursorcol%9 === 6) {
 			process.stdout.clearLine()
 			process.stdout.cursorTo(0)
 			searchStr = ""
@@ -330,7 +352,7 @@ stdin.on('keypress', function (chunk, key) {
 	else if(key.name == "left") {cursorcol--; draw();}
 	
 	else if(key.name == "return") {
-		if (cursorcol%8 === 0 || cursorcol%8 === 1) {
+		if (cursorcol%9 === 0 || cursorcol%9 === 1) {
 			options.query = searchStr.trim()
 			options.keyword = keywordArr[keywordrow%5]
 			mgSrch.clearattr()
@@ -347,10 +369,10 @@ stdin.on('keypress', function (chunk, key) {
 			searchStr = ""
 			search()
 		}
-		else if (cursorcol%8 === 2) {
+		else if (cursorcol%9 === 2) {
 			launchPF()
 		}
-		else if (cursorcol%8 === 3) {
+		else if (cursorcol%9 === 3) {
 			options.socks.port = searchStr
 			nconf.set('port', options.socks.port);
 			process.stdout.clearLine()
@@ -358,7 +380,7 @@ stdin.on('keypress', function (chunk, key) {
 			searchStr = ""
 			draw()
 		}
-		else if (cursorcol%8 === 4) {
+		else if (cursorcol%9 === 4) {
 			options.socks.host = searchStr
 			nconf.set('host', options.socks.host);
 			process.stdout.clearLine()
@@ -366,27 +388,43 @@ stdin.on('keypress', function (chunk, key) {
 			searchStr = ""
 			draw()
 		}
-		else if (cursorcol%8 === 5) {
-			if(options.socks.enabled === 0) {
-				options.socks.enabled = 1
+		else if (cursorcol%9 === 5) {
+			if(options.socks.enabled === false) {
+				options.socks.enabled = true
 			}
 			else {
-				options.socks.enabled = 0
+				options.socks.enabled = false
 			}
 			process.stdout.clearLine()
 			process.stdout.cursorTo(0)
 			searchStr = ""
 			draw()
 		}
-		else if (cursorcol%8 === 6) {
+		else if (cursorcol%9 === 6) {
 			nconf.set('player', settingsObj.player[(settingsrow++)%10]);
 			process.stdout.clearLine()
 			process.stdout.cursorTo(0)
 			searchStr = ""
 			draw()
 		}
-		else if (cursorcol%8 === 7) {
-			nconf.set('blocklist', searchStr);
+		else if (cursorcol%9 === 7) {
+			if(searchStr.trim() === "") {
+				nconf.set('blocklist', undefined)
+			} else {
+				nconf.set('blocklist', searchStr)
+			}
+			process.stdout.clearLine()
+			process.stdout.cursorTo(0)
+			searchStr = ""
+			draw()
+		}
+		else if (cursorcol%9 === 8) {
+			if(nconf.get('print-mag') === false) {
+				nconf.set('print-mag', true)
+			}
+			else {
+				nconf.set('print-mag', false)
+			}
 			process.stdout.clearLine()
 			process.stdout.cursorTo(0)
 			searchStr = ""
@@ -394,7 +432,7 @@ stdin.on('keypress', function (chunk, key) {
 		}
 	}
 	else {
-		if(cursorcol%8 === 0 || cursorcol%8 === 1 || cursorcol%8 === 3 || cursorcol%8 === 4 || cursorcol%8 === 5 || cursorcol%8 === 7) {
+		if(cursorcol%9 === 0 || cursorcol%9 === 1 || cursorcol%9 === 3 || cursorcol%9 === 4 || cursorcol%9 === 5 || cursorcol%9 === 7) {
 			searchStr += chunk
 			process.stdout.clearLine();
 			process.stdout.cursorTo(0);
