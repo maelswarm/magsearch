@@ -6,9 +6,15 @@ A low-key magnet-link cli
 ## Install ##
 ![tag alt](https://travis-ci.org/roecrew/magsearch.svg?branch=master)
 
+
+Use magsearch to search for magnet links.
+
 ```
 npm install -g magsearch
 ```
+
+Once you've selected a magnet link, you can stream it with peerflix.
+
 ```
 npm install -g peerflix
 ```

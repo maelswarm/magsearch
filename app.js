@@ -105,29 +105,31 @@ if(argv.t) {
 }
 
 function launchPF(){
-	if(plat === "win32"){
-		//todo
+	var md = 15
+	var blist = nconf.get('blocklist')
+	var rem = nconf.get('remove')
+	var list = [];
+	if(searchArr[searchrow%2]==="BTDIGG") {
+		md = 10
 	}
-	else{
-		var md = 15
-		var blist = nconf.get('blocklist')
-		var rem = nconf.get('remove')
-		var list = [];
-		if(searchArr[searchrow%2]==="BTDIGG") {
-			md = 10
-		}
-		list.push(mgSrch.getattr().mag[watchrow%md])
-		if(blist !== undefined) {
-			list.push("--blocklist="+blist)
-		}
-		if(rem != false) {
-			list.push("--remove")
-		}
-		list.push("--all")
-		list.push(nconf.get('player'))
-		clivas.line(list)
+	list.push(mgSrch.getattr().mag[watchrow%md])
+	if(blist !== undefined) {
+		list.push("--blocklist="+blist)
+	}
+	if(rem != false) {
+		list.push("--remove")
+	}
+	list.push("--all")
+	list.push(nconf.get('player'))
+	
+	if(plat === "win32") {
+		list.unshift("/c", "peerflix");
+		pfSpawn("cmd", list, {stdio:'inherit'})
+	}
+	else {
 		pfSpawn("peerflix", list, {stdio:'inherit'})
 	}
+	clivas.line(list)
 }
 
 function search() {
