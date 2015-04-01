@@ -175,7 +175,6 @@ exports.pbay = function(params, callback) {
 	
 	if(Boolean(params.socks.enabled)) {
 		if(parseInt(params.socks.port) === 9150 || parseInt(params.socks.port) === 9050) {
-			console.log("hit");
 			options = {
 					url: 'http://uj3wazyk5u4hnvtk.onion/search/'+qq+'/'+(params.page/2)+'/7/'+kk,
 					agentClass: agent,
