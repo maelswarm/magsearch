@@ -9,29 +9,7 @@ var clivas = require('clivas')
 var pfSpawn = require('child_process').spawn;
 var keypress = require('keypress')
 keypress(process.stdin);
-
-var nconf = require('nconf');
-nconf.use('file', { file: 'settings.json' });
-nconf.load();
-
-if(nconf.get('port') === undefined) {
-	nconf.set('port', "9050");
-}
-if(nconf.get('host') === undefined) {
-	nconf.set('host', "127.0.0.1");
-}
-if(nconf.get('player') === undefined) {
-	nconf.set('player', "--vlc");
-}
-if(typeof(nconf.get('remove')) !== "boolean") {
-	nconf.set('remove', false);
-}
-if(nconf.get('blocklist') === undefined) {
-	nconf.set('blocklist', undefined);
-}
-if(typeof(nconf.get('printmag')) !== "boolean") {
-	nconf.set('printmag', false);
-}
+var settings = require('./settings.js')
 
 var searchStr = ""
 var lastSearched = ""
@@ -95,19 +73,16 @@ var options = {
 		query: argv._[0],
 		page: 0,
 		keyword: argv.k,
-		socks: {port: nconf.get('port'), host: nconf.get('host'), enabled: false}
+		socks: {port: settings.port, host: settings.host, enabled: false}
 }
 
 if(argv.t) {
-	if(argv.t) {
-		options.socks.enabled = 1
-	}
+	options.socks.enabled = 1
 }
 
 function launchPF(){
 	var md = 15
-	var blist = nconf.get('blocklist')
-	var rem = nconf.get('remove')
+	var blist = settings.blocklist
 	var list = [];
 	if(searchArr[searchrow%2]==="BTDIGG") {
 		md = 10
@@ -116,11 +91,11 @@ function launchPF(){
 	if(blist !== undefined) {
 		list.push("--blocklist="+blist)
 	}
-	if(rem != false) {
+	if(settings.remove != false) {
 		list.push("--remove")
 	}
 	list.push("--all")
-	list.push(nconf.get('player'))
+	list.push(settings.player)
 	
 	if(plat === "win32") {
 		list.unshift("/c", "peerflix");
@@ -217,21 +192,21 @@ function draw() {
 		clivas.write(" keyword │")
 		clivas.write(" watch │")
 		clivas.write(" socks "+"{bold:│}")
-		clivas.line("{bold+blue: SETTINGS }"+"{bold:│ "+nconf.get('player')+" │}"+" blocklist │"+" mag-print │")
+		clivas.line("{bold+blue: SETTINGS }"+"{bold:│ "+settings.player+" │}"+" blocklist │"+" mag-print │")
 	}
 	else if(cursorcol%9 === 7) {
 		clivas.write("{bold:┃ }"+searchArr[searchrow%2]+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch │")
 		clivas.write(" socks "+"{bold:│}")
-		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"{bold:│ "+nconf.get('blocklist')+" │}"+" mag-print │")
+		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"{bold:│ "+settings.blocklist+" │}"+" mag-print │")
 	}
 	else if(cursorcol%9 === 8) {
 		clivas.write("{bold:┃ }"+searchArr[searchrow%2]+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch │")
 		clivas.write(" socks "+"{bold:│}")
-		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"│ blocklist "+"{bold:│ "+nconf.get('printmag')+" │}")
+		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"│ blocklist "+"{bold:│ "+settings.printmag+" │}")
 	}
 	clivas.line("{bold:┠─────────────────────────────────────────────────────────────────────────────────────────────────}")
 	for(var i=result.title.length-1; i>=0; i--) {
@@ -258,7 +233,7 @@ function draw() {
 		process.stdout.write(" Input:"+ searchStr)
 		return
 	}
-	if(nconf.get('printmag') === true) {
+	if(settings.printmag === true) {
 		var md = 15
 		if(searchArr[searchrow%2]==="BTDIGG") {
 			md = 10
@@ -295,13 +270,7 @@ stdin.on('keypress', function (chunk, key) {
 	}
 
 	else if (key && key.ctrl && key.name == 'c') {
-		nconf.save(function (err) {
-			if (err) {
-				console.error(err.message)
-				process.exit()
-			}
-			process.exit()
-		})
+		process.exit()
 	}
 
 	else if(key.name == "backspace") {
@@ -326,7 +295,7 @@ stdin.on('keypress', function (chunk, key) {
 			process.stdout.cursorTo(0)
 			searchStr = ""
 			settingsrow++
-			nconf.set('player', settingsObj.player[(settingsrow%10)]);
+			settings.player = settingsObj.player[(settingsrow%10)]
 		}
 		draw();
 	}
@@ -346,7 +315,7 @@ stdin.on('keypress', function (chunk, key) {
 			process.stdout.cursorTo(0)
 			searchStr = ""
 			settingsrow--
-			nconf.set('player', settingsObj.player[(settingsrow%10)]);
+			settings.player = settingsObj.player[(settingsrow%10)]
 		}
 		draw()
 	}
@@ -378,7 +347,7 @@ stdin.on('keypress', function (chunk, key) {
 		}
 		else if (cursorcol%9 === 3) {
 			options.socks.port = searchStr
-			nconf.set('port', options.socks.port);
+			settings.post = options.socks.port
 			process.stdout.clearLine()
 			process.stdout.cursorTo(0)
 			searchStr = ""
@@ -386,7 +355,7 @@ stdin.on('keypress', function (chunk, key) {
 		}
 		else if (cursorcol%9 === 4) {
 			options.socks.host = searchStr
-			nconf.set('host', options.socks.host);
+			settings.host = options.socks.host
 			process.stdout.clearLine()
 			process.stdout.cursorTo(0)
 			searchStr = ""
@@ -405,7 +374,7 @@ stdin.on('keypress', function (chunk, key) {
 			draw()
 		}
 		else if (cursorcol%9 === 6) {
-			nconf.set('player', settingsObj.player[(settingsrow++)%10]);
+			settings.player = settingsObj.player[(settingsrow++)%10]
 			process.stdout.clearLine()
 			process.stdout.cursorTo(0)
 			searchStr = ""
@@ -413,9 +382,9 @@ stdin.on('keypress', function (chunk, key) {
 		}
 		else if (cursorcol%9 === 7) {
 			if(searchStr.trim() === "") {
-				nconf.set('blocklist', undefined)
+				settings.blocklist = undefined
 			} else {
-				nconf.set('blocklist', searchStr)
+				settings.blocklist = searchStr
 			}
 			process.stdout.clearLine()
 			process.stdout.cursorTo(0)
@@ -423,11 +392,11 @@ stdin.on('keypress', function (chunk, key) {
 			draw()
 		}
 		else if (cursorcol%9 === 8) {
-			if(nconf.get('printmag') === false) {
-				nconf.set('printmag', true)
+			if(settings.printmag === false) {
+				settings.printmag = true
 			}
 			else {
-				nconf.set('printmag', false)
+				settings.printmag = false
 			}
 			process.stdout.clearLine()
 			process.stdout.cursorTo(0)

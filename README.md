@@ -21,7 +21,7 @@ npm install -g peerflix
 
 ## Usage ##
  
-  Add "-t" to launch with SOCKS.
+  Add "-t" to launch with SOCKS enabled.
 
   ```
 magsearch "blade runner"
@@ -39,12 +39,17 @@ magsearch "blade runner"
   
   Socks compatible. <br>
   Searching on TOR uses .onions. <br>
-  Settings allow for saving blocklist and player preferences. <br>
-  Toggle peerflix's "--remove" in settings.json.
   
   ![ScreenShot2](http://s15.postimg.org/nktf3ct1n/Screen_Shot_2015_03_28_at_23_24_15.png)
   
   ___
+  
+  Settings allow for saving blocklist, player, port, host, and --remove preferences. <br>
+  If installed globally, you can access settings.js to change the default values. <br>
+  
+  ```
+  cd /usr/local/lib/node_modules/magsearch; (sudo) nano settings.js
+  ```
   
 
 ## API ##
