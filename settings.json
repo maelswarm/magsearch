@@ -3,5 +3,6 @@
   "host": "127.0.0.1",
   "player": "--vlc",
   "remove": false,
-  "print-mag": false
+  "print-mag": false,
+  "blocklist": "bt_level1"
 }

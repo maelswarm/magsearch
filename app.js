@@ -4,7 +4,7 @@ process.stdin.setEncoding('utf8');
 var plat = process.platform
 
 var argv = require('minimist')(process.argv.slice(2), {})
-var mgSrch = require('./')
+var mgSrch = require('./index.js')
 var clivas = require('clivas')
 var pfSpawn = require('child_process').spawn;
 var keypress = require('keypress')
