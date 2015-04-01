@@ -44,8 +44,8 @@ magsearch "blade runner"
   
   ___
   
-  Settings allow for saving blocklist, player, port, host, and --remove preferences. <br>
-  If installed globally, you can access settings.js to change the default values. <br>
+  Settings include blocklist, player, port, host, and --remove preferences. <br>
+  If installed globally, you can access settings.js with the following. <br>
   
   ```
   cd /usr/local/lib/node_modules/magsearch; (sudo) nano settings.js
