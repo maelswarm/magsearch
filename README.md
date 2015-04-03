@@ -8,7 +8,7 @@ A low-key magnet-link cli
 ![platform alt](https://img.shields.io/badge/platform-windows%20|%20linux%20|%20osx-blue.svg)
 
 
-Use magsearch to search for magnet links.
+Use magsearch to find magnet links.
 
 ```
 npm install -g magsearch
@@ -46,7 +46,9 @@ magsearch "blade runner"
   
   ___
   
-  Settings include blocklist, player, socks port/host, health, and --remove preferences. <br>
+  Settings include blocklist, player, socks port/host, health, magprint, and --remove preferences. <br>
+  
+  
   Use the health setting to run a realtime seed and peer check. The results will update <br>
   a few seconds after the search query returns. <br>
   
