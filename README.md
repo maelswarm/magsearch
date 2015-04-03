@@ -4,7 +4,8 @@ A low-key magnet-link cli
 
 
 ## Install ##
-![tag alt](https://travis-ci.org/roecrew/magsearch.svg?branch=master)
+![build alt](https://travis-ci.org/roecrew/magsearch.svg?branch=master)
+![platform alt](https://img.shields.io/badge/platform-windows%20|%20linux%20|%20osx-blue.svg)
 
 
 Use magsearch to search for magnet links.
