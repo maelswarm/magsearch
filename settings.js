@@ -5,3 +5,4 @@ config.player = "--vlc"
 config.remove = false
 config.blocklist = undefined
 config.printmag = false
+config.health = false

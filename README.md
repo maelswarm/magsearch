@@ -30,6 +30,7 @@ magsearch "blade runner"
   
   ___
   
+  Green is seed count. Red is Leech count. Magenta is peer count (if health setting is on). <br>
   Navigate with the arrow keys. <br>
   Search with either ThePirateBay or BTDigg. <br>
   Use Ctrl-B & Ctrl-N to flip search page.
@@ -45,7 +46,10 @@ magsearch "blade runner"
   
   ___
   
-  Settings include blocklist, player, port, host, and --remove preferences. <br>
+  Settings include blocklist, player, socks port/host, health, and --remove preferences. <br>
+  Use the health setting to run a realtime seed and peer check. The results will update <br>
+  a few seconds after the search query returns. <br>
+  
   If installed globally, you can access settings.js with the following. <br>
   
   ```
@@ -55,55 +59,7 @@ magsearch "blade runner"
 
 ## API ##
 
-  ```js
-  var mgSrch = require('magsearch')
-  
-  var options = {
-		query: "blade runner",
-		page: 1,
-		keyword: "video",
-		socks: {port: undefined, host: undefined}
-	}
-  
-  mgSrch.feelingLucky(options, function(result) {
-	console.log(result.title[0]) //print title
-	console.log(result.mag[0]) // print magnet
-  })
-  
-  mgSrch.btdigg(options, function(result) {
-    ...    
-	result.title[x] //title + description
-	result.mag[x] //magnet
-	...
-  })
-  
-  mgSrch.pbay(options, function(result) {
-    ...    
-	result.title[x] //title
-	result.mag[x] //magnet
-	result.seeders[x] //seeders
-	result.leechers[x] //leechers
-	...
-  })
-  
-  mgSrch.oldpbay(options, function(resultArr) {
-    ...    
-	result.title[x] //title
-	result.mag[x] //magnet
-	result.seeders[x] //seeders
-	result.leechers[x] //leechers
-	...
-  })
-  
-  mgSrch.torrenthound(options, function(resultArr) {
-    ...    
-	result.title[x] //title
-	result.mag[x] //magnet
-	result.seeders[x] //seeders
-	result.leechers[x] //leechers
-	...
-  })
-  ```
+  TODO
 
 ## Notes ##
 

@@ -43,6 +43,11 @@ exports.getattr = function() {
 	return attr
 }
 
+exports.setpeerseed = function(i, seed, peer) {
+	attr.seeders[i] = " " + seed
+	attr.peers[i] = " " + peer
+}
+
 outoftime = function() {
 	console.log("\nResponse timeout!\nIf you are using a socks make sure it is configured properly.\n")
 	process.exit(0)
@@ -215,7 +220,7 @@ exports.pbay = function(params, callback) {
 				var lowlim = (((params.page%2))*60)
 				var uplim = (((params.page%2)+1)*60)+1 //reduce output from 30 to 15.
 				$('td', tr).each(function(a, b) {
-
+					attr.peers.push(" ")
 					//title & mag
 					if(a%4===1 && a<uplim && a>lowlim) {
 						var childs = $(b).children()
@@ -295,6 +300,7 @@ exports.btdigg = function(params, callback) {
 			$('.ttth').filter(function(c){
 				if(c%2===0) {
 					attr.mag.push($('a', this).filter("[href]").attr('href'))
+					attr.peers.push(" ")
 				}
 			})
 		}
