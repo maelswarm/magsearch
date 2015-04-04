@@ -30,7 +30,7 @@ magsearch "blade runner"
   
   ___
   
-  Green is seed count. Red is Leech count. Magenta is peer count (if health setting is on). <br>
+  Green is seed count. Red is leech count. Magenta is peer count (if health setting is on). <br>
   Navigate with the arrow keys. <br>
   Search with either ThePirateBay or BTDigg. <br>
   Use Ctrl-B & Ctrl-N to flip search page.
