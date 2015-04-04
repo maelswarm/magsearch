@@ -35,7 +35,7 @@ magsearch "blade runner"
   Search with either ThePirateBay or BTDigg. <br>
   Use Ctrl-B & Ctrl-N to flip search page.
   
-  ![ScreenShot1](http://s16.postimg.org/68xh9pdlx/Screen_Shot_2015_04_03_at_18_57_49.png)
+  ![ScreenShot1](http://s23.postimg.org/l4zi60cuj/Screen_Shot_2015_04_03_at_19_02_29.png)
   
   ---
   
