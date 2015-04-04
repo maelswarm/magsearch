@@ -35,14 +35,14 @@ magsearch "blade runner"
   Search with either ThePirateBay or BTDigg. <br>
   Use Ctrl-B & Ctrl-N to flip search page.
   
-  ![ScreenShot1](http://s24.postimg.org/xnt0ci5fp/Screen_Shot_2015_03_28_at_23_24_45.png)
+  ![ScreenShot1](http://s16.postimg.org/68xh9pdlx/Screen_Shot_2015_04_03_at_18_57_49.png)
   
   ---
   
   Socks compatible. <br>
   Searching on TOR uses .onions. <br>
   
-  ![ScreenShot2](http://s15.postimg.org/nktf3ct1n/Screen_Shot_2015_03_28_at_23_24_15.png)
+  ![ScreenShot2](http://s1.postimg.org/dwdjiwlrz/Screen_Shot_2015_04_03_at_18_57_15.png)
   
   ___
   
