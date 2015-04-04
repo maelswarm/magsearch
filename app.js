@@ -23,7 +23,7 @@ searchArr.push("PIRATEBAY"); searchArr.push("BTDIGG")
 var keywordArr = []
 var keywordrow = 5000
 keywordArr.push("all"); keywordArr.push("video"); keywordArr.push("audio"); keywordArr.push("applications"); keywordArr.push("adult");
-var playerObj = ["--vlc", "--airplay", "--mplayer", "--smplayer", "--mpchc", "--potplayer", "--mpv", "--omx", "--webplay", "--jack"]
+var playerArr = ["--vlc", "--airplay", "--mplayer", "--smplayer", "--mpchc", "--potplayer", "--mpv", "--omx", "--webplay", "--jack"]
 
 
 if(argv.h || argv.H) {
@@ -86,18 +86,6 @@ function launchPF(){
 	clivas.line(list)
 }
 
-function gethealth(i, mag, callback) {
-	var a = i
-	health(mag)
-	.then(function(health) {
-		mgSrch.setpeerseed(a, health.seeds, health.peers)
-		return callback(1);
-	})
-	.catch(function (err) {
-		console.error(err)
-	})
-}
-
 function search() {
 	if(options.query && argv.s) {
 		if(argv.s === "btd") {
@@ -121,7 +109,7 @@ function search() {
 				}
 				if(settings.health === true) {
 					for(var i=0; i<result.title.length; i++) {
-						gethealth(i, result.mag[i], function(fin) {
+						mgSrch.gethealth(i, function(fin) {
 							cnt+=fin
 							if(cnt === result.title.length) {
 								draw()

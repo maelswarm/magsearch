@@ -31,6 +31,20 @@ function parsequery(str) {
 	}
 }
 
+exports.gethealth = function(i, callback) {
+	var a = i
+	health(attr.mag[a])
+	.then(function(health) {
+		attr.seeders[a] = " " + health.seeds
+		attr.peers[a] = " " + health.peers
+		return callback(1);
+	})
+	.catch(function (err) {
+		console.error(err)
+	})
+}
+
+
 exports.clearattr = function() {
 	attr.title = []
 	attr.mag = []
