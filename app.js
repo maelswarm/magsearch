@@ -106,12 +106,14 @@ function search() {
 					clivas.line("")
 					clivas.line("")
 					clivas.line(result)
+					return
 				}
 				if(settings.health === true) {
-					for(var i=0; i<result.title.length; i++) {
+					var len = result.title.length
+					for(var i=0; i<len; i++) {
 						mgSrch.gethealth(i, function(fin) {
 							cnt+=fin
-							if(cnt === result.title.length) {
+							if(cnt === len) {
 								draw()
 							}
 						})
@@ -288,9 +290,7 @@ stdin.on('keypress', function (chunk, key) {
 			watchrow++; 
 		}
 		else if (cursorcol%10 === 6) {
-			process.stdout.clearLine()
-			process.stdout.cursorTo(0)
-			searchStr = ""
+			resetInput()
 			settingsrow++
 			settings.player = playerArr[(settingsrow%10)]
 		}
@@ -308,9 +308,7 @@ stdin.on('keypress', function (chunk, key) {
 			watchrow--
 		}
 		else if (cursorcol%10 === 6) {
-			process.stdout.clearLine()
-			process.stdout.cursorTo(0)
-			searchStr = ""
+			resetInput()
 			settingsrow--
 			settings.player = playerArr[(settingsrow%10)]
 		}
@@ -334,9 +332,7 @@ stdin.on('keypress', function (chunk, key) {
 				argv.s = "btd"
 			}
 			watchrow = 1500
-			process.stdout.clearLine()
-			process.stdout.cursorTo(0)
-			searchStr = ""
+			resetInput()
 			search()
 		}
 		else if (cursorcol%10 === 2) {
@@ -345,17 +341,13 @@ stdin.on('keypress', function (chunk, key) {
 		else if (cursorcol%10 === 3) {
 			options.socks.port = searchStr
 			settings.post = options.socks.port
-			process.stdout.clearLine()
-			process.stdout.cursorTo(0)
-			searchStr = ""
+			resetInput()
 			draw()
 		}
 		else if (cursorcol%10 === 4) {
 			options.socks.host = searchStr
 			settings.host = options.socks.host
-			process.stdout.clearLine()
-			process.stdout.cursorTo(0)
-			searchStr = ""
+			resetInput()
 			draw()
 		}
 		else if (cursorcol%10 === 5) {
@@ -365,16 +357,12 @@ stdin.on('keypress', function (chunk, key) {
 			else {
 				options.socks.enabled = false
 			}
-			process.stdout.clearLine()
-			process.stdout.cursorTo(0)
-			searchStr = ""
+			resetInput()
 			draw()
 		}
 		else if (cursorcol%10 === 6) {
 			settings.player = playerArr[(settingsrow++)%10]
-			process.stdout.clearLine()
-			process.stdout.cursorTo(0)
-			searchStr = ""
+			resetInput()
 			draw()
 		}
 		else if (cursorcol%10 === 7) {
@@ -383,9 +371,7 @@ stdin.on('keypress', function (chunk, key) {
 			} else {
 				settings.blocklist = searchStr
 			}
-			process.stdout.clearLine()
-			process.stdout.cursorTo(0)
-			searchStr = ""
+			resetInput()
 			draw()
 		}
 		else if (cursorcol%10 === 8) {
@@ -395,9 +381,7 @@ stdin.on('keypress', function (chunk, key) {
 			else {
 				settings.printmag = false
 			}
-			process.stdout.clearLine()
-			process.stdout.cursorTo(0)
-			searchStr = ""
+			resetInput()
 			draw()
 		}
 		else if (cursorcol%10 === 9) {
@@ -407,19 +391,22 @@ stdin.on('keypress', function (chunk, key) {
 			else {
 				settings.health = false
 			}
-			process.stdout.clearLine()
-			process.stdout.cursorTo(0)
-			searchStr = ""
+			resetInput()
 			draw()
 		}
 	}
 	else {
 		if(cursorcol%10 === 0 || cursorcol%10 === 1 || cursorcol%10 === 3 || cursorcol%10 === 4 || cursorcol%10 === 5 || cursorcol%10 === 7) {
 			searchStr += chunk
-			process.stdout.clearLine();
-			process.stdout.cursorTo(0);
-			process.stdout.write(" Input:"+ searchStr);
+			process.stdout.clearLine()
+			process.stdout.cursorTo(0)
+			process.stdout.write(" Input:"+ searchStr)
 		}
 	}
 })
 
+function resetInput() {
+	process.stdout.clearLine()
+	process.stdout.cursorTo(0)
+	searchStr = ""
+}

@@ -1,6 +1,6 @@
 {
 	"name": "magsearch",
-	"version": "0.6.2",
+	"version": "0.6.3",
 	"author": "Brandon Barber (@roecrew)",
 	"license": "MIT",
 	"description": "A low-key magnet-link cli",
