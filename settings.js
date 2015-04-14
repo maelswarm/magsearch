@@ -5,4 +5,5 @@ config.player = "--vlc"
 config.remove = true
 config.blocklist = undefined
 config.printmag = false
-config.health = false
+config.health = true
+config.subtitles = "eng"

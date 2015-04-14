@@ -1,20 +1,27 @@
 #!/usr/bin/env node
 
+///var/folders/ry/mpng9rv976b3vc13w2cjq5d00000gn/T
+
 process.stdin.setEncoding('utf8');
 var plat = process.platform
 
 var mgSrch = require('./index.js')
 var settings = require('./settings.js')
+var http = require('http')
+var fs = require('fs')
+var os = require('os')
 var argv = require('minimist')(process.argv.slice(2), {})
 var clivas = require('clivas')
 var pfSpawn = require('child_process').spawn;
 var keypress = require('keypress')
 keypress(process.stdin);
 var health = require('torrent-health');
+var opensubtitles = require('opensubtitles-client');
 
 var searchStr = ""
 var lastSearched = ""
-var settingsrow = 1001
+var playerrow = 1000
+var subrow = 1000
 var watchrow = 1500
 var cursorcol = 6000
 var searchrow = 1500
@@ -24,6 +31,7 @@ var keywordArr = []
 var keywordrow = 5000
 keywordArr.push("all"); keywordArr.push("video"); keywordArr.push("audio"); keywordArr.push("applications"); keywordArr.push("adult");
 var playerArr = ["--vlc", "--airplay", "--mplayer", "--smplayer", "--mpchc", "--potplayer", "--mpv", "--omx", "--webplay", "--jack"]
+var subArr = ["none", "eng", "chi", "ger", "ita", "kor", "spa", "swe", "rus", "pol", "por"]
 
 
 if(argv.h || argv.H) {
@@ -59,7 +67,60 @@ if(argv.t) {
 	options.socks.enabled = true
 }
 
-function launchPF(){
+function getSubs(md, callback) {
+	var title = mgSrch.getattr().title[watchrow%md]
+	opensubtitles.api.login()
+	.then(function(token){
+		opensubtitles.api.search(token, settings.subtitles, {
+		    query: title,
+		    tag: ""
+		})
+		.then(function(results) {
+			if (results[0] !== undefined) {
+				clivas.line("Found subs. One moment please.")
+
+				var url = results[0].SubDownloadLink.split('.gz').join('.srt')
+				var path = os.tmpdir() + "sub.srt"
+
+				function retrieve(url, path) {
+					var temp = fs.createWriteStream(path)
+					http.get(url, function(response) {
+						response.pipe(temp)
+						temp.on('finish', function() {
+							clivas.line("Subtitles downloaded.")
+							opensubtitles.api.logout(token)
+							return callback(path)
+						})
+					})
+				} retrieve(url, path);
+
+			} else {
+				clivas.line("No subs")
+				opensubtitles.api.logout(token)
+				return callback(null)
+			}
+		})
+	})
+}
+
+function launchPF(callback) {
+
+	var endSpawn = function() {
+
+		list.push(settings.player)
+
+		if(plat === "win32") {
+			list.unshift("/c", "peerflix");
+			pfSpawn("cmd", list, {stdio:'inherit'})
+		}
+		else {
+			pfSpawn("peerflix", list, {stdio:'inherit'})
+		}
+		clivas.line(list)
+	}
+	
+	clivas.line("Preparing...")
+	
 	var md = 15
 	var blist = settings.blocklist
 	var list = [];
@@ -74,16 +135,18 @@ function launchPF(){
 		list.push("--remove")
 	}
 	list.push("--all")
-	list.push(settings.player)
 	
-	if(plat === "win32") {
-		list.unshift("/c", "peerflix");
-		pfSpawn("cmd", list, {stdio:'inherit'})
+	if(settings.subtitles !== "none") {
+		getSubs(md, function(result) {
+			if(result !== null) {
+				list.push("--subtitles="+result)
+			}
+			endSpawn()
+		})
+	} else {
+		endSpawn()
 	}
-	else {
-		pfSpawn("peerflix", list, {stdio:'inherit'})
-	}
-	clivas.line(list)
+	
 }
 
 function search() {
@@ -130,33 +193,34 @@ function search() {
 
 function draw() {
 	var result = mgSrch.getattr()
+	var searchEngine = searchArr[searchrow%2]
 	process.stdout.clearLine();
 	process.stdout.cursorTo(0);
 	clivas.clear()
 	clivas.line("{bold:┎─────────────────────────────────────────────────────────────────────────────────────────────────}")
 	if(cursorcol%10 === 0) {
-		clivas.write("{bold:┃}"+"{bold+red: "+searchArr[searchrow%2]+" }")
+		clivas.write("{bold:┃}"+"{bold+red: "+searchEngine+" }")
 		clivas.write("{bold:│}"+" keyword ")
 		clivas.write("│ watch ")
 		clivas.write("│ socks │")
 		clivas.line(" settings │")
 	}
 	if(cursorcol%10 === 1) {
-		clivas.write("{bold:┃ }"+searchArr[searchrow%2])
+		clivas.write("{bold:┃ }"+searchEngine)
 		clivas.write("{bold: │ "+keywordArr[keywordrow%5]+" │}")
 		clivas.write(" watch ")
 		clivas.write("│ socks │")
 		clivas.line(" settings │")
 	}
 	else if(cursorcol%10 === 2) {
-		clivas.write("{bold:┃ }"+searchArr[searchrow%2]+" │")
+		clivas.write("{bold:┃ }"+searchEngine+" │")
 		clivas.write(" keyword "+"{bold:│}")
 		clivas.write("{bold+yellow: WATCH }")
 		clivas.write("{bold:│}"+" socks │")
 		clivas.line(" settings │")
 	}
 	else if(cursorcol%10 === 3) {
-		clivas.write("{bold:┃ }"+searchArr[searchrow%2]+" │");
+		clivas.write("{bold:┃ }"+searchEngine+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch "+"{bold:│}")
 		clivas.write("{bold+magenta: SOCKS }"+"{bold:│ Port: "+options.socks.port+" │}"+" Host: "+options.socks.host+" │"+
@@ -164,7 +228,7 @@ function draw() {
 		clivas.line(" settings "+"{bold:┃}")
 	}
 	else if(cursorcol%10 === 4) {
-		clivas.write("{bold:┃ }"+searchArr[searchrow%2]+" │");
+		clivas.write("{bold:┃ }"+searchEngine+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch "+"{bold:│}")
 		clivas.write("{bold+magenta: SOCKS }"+"{bold:│}"+" Port: "+options.socks.port+" "+"{bold:│ Host: "+options.socks.host+" │}"+
@@ -172,7 +236,7 @@ function draw() {
 		clivas.line(" settings "+"{bold:┃}")
 	}
 	else if(cursorcol%10 === 5) {
-		clivas.write("{bold:┃ }"+searchArr[searchrow%2]+" │");
+		clivas.write("{bold:┃ }"+searchEngine+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch "+"{bold:│}")
 		clivas.write("{bold+magenta: SOCKS }"+"{bold:│}"+" Port: "+options.socks.port+" │"+" Host: "+options.socks.host+
@@ -180,41 +244,41 @@ function draw() {
 		clivas.line(" settings "+"{bold:┃}")
 	}
 	else if(cursorcol%10 === 6) {
-		clivas.write("{bold:┃ }"+searchArr[searchrow%2]+" │");
+		clivas.write("{bold:┃ }"+searchEngine+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch │")
 		clivas.write(" socks "+"{bold:│}")
-		clivas.line("{bold+blue: SETTINGS }"+"{bold:│ "+settings.player+" │}"+" blocklist │"+" mag-print │"+" health │")
+		clivas.line("{bold+blue: SETTINGS }"+"{bold:│ "+settings.player+" │}"+" blocklist │"+" mag-print │"+" subtitles │")
 	}
 	else if(cursorcol%10 === 7) {
-		clivas.write("{bold:┃ }"+searchArr[searchrow%2]+" │");
+		clivas.write("{bold:┃ }"+searchEngine+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch │")
 		clivas.write(" socks "+"{bold:│}")
-		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"{bold:│ "+settings.blocklist+" │}"+" mag-print │"+" health │")
+		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"{bold:│ "+settings.blocklist+" │}"+" mag-print │"+" subtitles │")
 	}
 	else if(cursorcol%10 === 8) {
-		clivas.write("{bold:┃ }"+searchArr[searchrow%2]+" │");
+		clivas.write("{bold:┃ }"+searchEngine+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch │")
 		clivas.write(" socks "+"{bold:│}")
-		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"│ blocklist "+"{bold:│ "+settings.printmag+" │}"+" health │")
+		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"│ blocklist "+"{bold:│ "+settings.printmag+" │}"+" subtitles │")
 	}
 	else if(cursorcol%10 === 9) {
-		clivas.write("{bold:┃ }"+searchArr[searchrow%2]+" │");
+		clivas.write("{bold:┃ }"+searchEngine+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch │")
 		clivas.write(" socks "+"{bold:│}")
-		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"│ blocklist "+"│ mag-print "+"{bold:│ "+settings.health+" │}")
+		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"│ blocklist "+"│ mag-print "+"{bold:│ "+settings.subtitles+" │}")
 	}
 	clivas.line("{bold:┠─────────────────────────────────────────────────────────────────────────────────────────────────}")
 	for(var i=result.title.length-1; i>=0; i--) {
 		if(argv.s === "tpb") {
 			if((watchrow%15) == i && cursorcol%10 === 2) {
-				clivas.line("{bold+cyan+blink:>}"+"{bold+cyan: "+result.title[i]+"}"+"{green:"+result.seeders[i]+"}"+"{red:"+result.leechers[i]+"}"+"{magenta:"+result.peers[i]+"}")
+				clivas.line("{bold+cyan+blink:>}"+"{bold+cyan: "+result.title[i]+"}"+"{bold:"+result.size[i]+"}"+"{green:"+result.seeders[i]+"}"+"{red:"+result.leechers[i]+"}"+"{magenta:"+result.peers[i]+"}")
 			}
 			else {
-				clivas.line("{bold:┃ "+result.title[i]+"}"+"{green:"+result.seeders[i]+"}"+"{red:"+result.leechers[i]+"}"+"{magenta:"+result.peers[i]+"}")
+				clivas.line("{bold:┃ "+result.title[i]+"}"+"{bold:"+result.size[i]+"}"+"{green:"+result.seeders[i]+"}"+"{red:"+result.leechers[i]+"}"+"{magenta:"+result.peers[i]+"}")
 			}
 		}
 		else {
@@ -291,8 +355,13 @@ stdin.on('keypress', function (chunk, key) {
 		}
 		else if (cursorcol%10 === 6) {
 			resetInput()
-			settingsrow++
-			settings.player = playerArr[(settingsrow%10)]
+			playerrow++
+			settings.player = playerArr[(playerrow%10)]
+		}
+		else if (cursorcol%10 === 9) {
+			resetInput()
+			subrow++
+			settings.subtitles = subArr[(subrow%11)]
 		}
 		draw();
 	}
@@ -309,8 +378,13 @@ stdin.on('keypress', function (chunk, key) {
 		}
 		else if (cursorcol%10 === 6) {
 			resetInput()
-			settingsrow--
-			settings.player = playerArr[(settingsrow%10)]
+			playerrow--
+			settings.player = playerArr[(playerrow%10)]
+		}
+		else if (cursorcol%10 === 9) {
+			resetInput()
+			subrow--
+			settings.subtitles = subArr[(subrow%11)]
 		}
 		draw()
 	}
@@ -361,7 +435,7 @@ stdin.on('keypress', function (chunk, key) {
 			draw()
 		}
 		else if (cursorcol%10 === 6) {
-			settings.player = playerArr[(settingsrow++)%10]
+			settings.player = playerArr[(playerrow++)%10]
 			resetInput()
 			draw()
 		}
@@ -380,16 +454,6 @@ stdin.on('keypress', function (chunk, key) {
 			}
 			else {
 				settings.printmag = false
-			}
-			resetInput()
-			draw()
-		}
-		else if (cursorcol%10 === 9) {
-			if(settings.health === false) {
-				settings.health = true
-			}
-			else {
-				settings.health = false
 			}
 			resetInput()
 			draw()

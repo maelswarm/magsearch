@@ -1,6 +1,6 @@
 {
 	"name": "magsearch",
-	"version": "0.6.3",
+	"version": "0.7.0",
 	"author": "Brandon Barber (@roecrew)",
 	"license": "MIT",
 	"description": "A low-key magnet-link cli",
@@ -25,7 +25,9 @@
 		"tap": "*",
 		"torrent-health": "*",
 		"socks5-http-client": "*",
-		"keypress": "*"
+		"keypress": "*",
+		"q": "*",
+		"opensubtitles-client": "*"
 	},
 	"scripts": {
     	"test": "node ./default.js"

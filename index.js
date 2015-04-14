@@ -10,6 +10,7 @@ var sPort = 9050
 var attr = {
 		title: [],
 		mag: [],
+		size: [],
 		seeders: [],
 		peers: [],
 		leechers: []
@@ -240,7 +241,8 @@ exports.pbay = function(params, callback) {
 						var childs = $(b).children()
 						var size = childs.eq(4).text().substr(25)
 						size = size.slice(0, size.indexOf(","))
-						attr.title.push(childs.eq(0).text().trim().replace("{", "").replace("}", "") + size)
+						attr.size.push(size)
+						attr.title.push(childs.eq(0).text().trim().replace("{", "").replace("}", ""))
 						magLink = $('a', this).eq(1).filter("[href]").attr('href')
 						attr.mag.push(magLink)
 					}
