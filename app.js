@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-///var/folders/ry/mpng9rv976b3vc13w2cjq5d00000gn/T
-
 process.stdin.setEncoding('utf8');
 var plat = process.platform
 
@@ -25,22 +23,20 @@ var subrow = 1000
 var watchrow = 1500
 var cursorcol = 6000
 var searchrow = 1500
-var searchArr = []
-searchArr.push("PIRATEBAY"); searchArr.push("BTDIGG")
-var keywordArr = []
 var keywordrow = 5000
-keywordArr.push("all"); keywordArr.push("video"); keywordArr.push("audio"); keywordArr.push("applications"); keywordArr.push("adult");
+var searchArr = ["PIRATEBAY", "BTDIGG"]
+var keywordArr = ["all", "video", "audio", "applications", "adult"]
 var playerArr = ["--vlc", "--airplay", "--mplayer", "--smplayer", "--mpchc", "--potplayer", "--mpv", "--omx", "--webplay", "--jack"]
-var subArr = ["none", "eng", "chi", "ger", "ita", "kor", "spa", "swe", "rus", "pol", "por"]
+var subArr = ["none", "eng", "chi", "ger", "ita", "jpn", "kor", "pol", "por", "rus", "spa", "swe"]
 
 
 if(argv.h || argv.H) {
 	clivas.line("{green:\n  Usage:\r}")
 	clivas.line("{green:  Use the arrow keys to toggle and navigate.\r}")
 	clivas.line("{green:  To search for a magnet, input text and hit enter.\r}")
-	clivas.line("{green:  For SOCKS, set your port and host.\r}")
+	clivas.line("{green:  For SOCKS, set your port and host. If you use TOR, .onion sites will be used.\r}")
 	clivas.line("{green:  If you want to launch with SOCKS, use a \"-t\" flag\r}")
-	clivas.line("{green:  Settings include blocklist and autoplay application. Make sure your blocklist is in the current path!\r}")
+	clivas.line("{green:  If you use a blocklist, then make sure it's in the current path!\r}")
 	clivas.line("\n")
 	process.exit(0)
 }
@@ -361,7 +357,7 @@ stdin.on('keypress', function (chunk, key) {
 		else if (cursorcol%10 === 9) {
 			resetInput()
 			subrow++
-			settings.subtitles = subArr[(subrow%11)]
+			settings.subtitles = subArr[(subrow%12)]
 		}
 		draw();
 	}
@@ -384,7 +380,7 @@ stdin.on('keypress', function (chunk, key) {
 		else if (cursorcol%10 === 9) {
 			resetInput()
 			subrow--
-			settings.subtitles = subArr[(subrow%11)]
+			settings.subtitles = subArr[(subrow%12)]
 		}
 		draw()
 	}
