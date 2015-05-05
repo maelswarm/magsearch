@@ -167,6 +167,12 @@ function search() {
 					clivas.line(result)
 					return
 				}
+				if(result.title[0] === undefined) {
+					clivas.line("")
+					clivas.line("")
+					clivas.line("Either there are no results, or the pirate by is down. Try using it's .onion with socks enabled.")
+					return
+				}
 				if(settings.health === true) {
 					var len = result.title.length
 					for(var i=0; i<len; i++) {
