@@ -277,10 +277,10 @@ function draw() {
 	for(var i=result.title.length-1; i>=0; i--) {
 		if(argv.s === "tpb") {
 			if((watchrow%15) == i && cursorcol%10 === 2) {
-				clivas.line("{bold+cyan+blink:>}"+"{bold+cyan: "+result.title[i]+"}"+"{bold:"+result.size[i]+"}"+"{green:"+result.seeders[i]+"}"+"{red:"+result.leechers[i]+"}"+"{magenta:"+result.peers[i]+"}")
+				clivas.line("{bold+cyan+blink:>}"+"{bold+cyan: "+result.title[i]+"}"+"{bold: "+result.size[i]+"}"+"{green:"+result.seeders[i]+"}"+"{red:"+result.leechers[i]+"}"+"{magenta:"+result.peers[i]+"}")
 			}
 			else {
-				clivas.line("{bold:┃ "+result.title[i]+"}"+"{bold:"+result.size[i]+"}"+"{green:"+result.seeders[i]+"}"+"{red:"+result.leechers[i]+"}"+"{magenta:"+result.peers[i]+"}")
+				clivas.line("{bold:┃ "+result.title[i]+"}"+"{bold: "+result.size[i]+"}"+"{green:"+result.seeders[i]+"}"+"{red:"+result.leechers[i]+"}"+"{magenta:"+result.peers[i]+"}")
 			}
 		}
 		else {
