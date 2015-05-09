@@ -239,7 +239,7 @@ exports.pbay = function(params, callback) {
 					//title & mag
 					if(a%4===1 && a<uplim && a>lowlim) {
 						var childs = $(b).children()
-						var size = childs.eq(4).text().substr(25)
+						var size = childs.eq(4).text().substr(26)
 						size = size.slice(0, size.indexOf(","))
 						attr.size.push(size)
 						attr.title.push(childs.eq(0).text().trim().replace("{", "").replace("}", ""))
