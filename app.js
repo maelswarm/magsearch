@@ -19,7 +19,7 @@ var opensubtitles = require('opensubtitles-client');
 var searchStr = ""
 var lastSearched = ""
 var playerrow = 1000
-var subrow = 1000
+var subrow = 997
 var watchrow = 1500
 var cursorcol = 6000
 var searchrow = 1500
@@ -48,6 +48,7 @@ if(!argv.k) {
 if(!argv.s) {
 	argv.s="tpb"
 }
+
 if(!argv._[0]) {
 	argv._[0]=""
 }
