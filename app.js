@@ -29,13 +29,12 @@ var keywordArr = ["all", "video", "audio", "applications", "adult"]
 var playerArr = ["--vlc", "--airplay", "--mplayer", "--smplayer", "--mpchc", "--potplayer", "--mpv", "--omx", "--webplay", "--jack"]
 var subArr = ["none", "eng", "chi", "ger", "ita", "jpn", "kor", "pol", "por", "rus", "spa", "swe"]
 
-
-if(argv.h || argv.H) {
+if(argv.h || argv.H || argv.help || argv.HELP) {
 	clivas.line("{green:\n  Usage:\r}")
 	clivas.line("{green:  Use the arrow keys to toggle and navigate.\r}")
 	clivas.line("{green:  To search for a magnet, input text and hit enter.\r}")
 	clivas.line("{green:  For SOCKS, set your port and host. If you use TOR, .onion sites will be used.\r}")
-	clivas.line("{green:  If you want to launch with SOCKS, use a \"-t\" flag\r}")
+	clivas.line("{green:  If you want to launch with TOR enabled, use \"-t\" flag and \"-p\" followed by the port number (probably 9050 or 9051).\r}")
 	clivas.line("{green:  If you use a blocklist, then make sure it's in the current path!\r}")
 	clivas.line("\n")
 	process.exit(0)
@@ -47,6 +46,10 @@ if(!argv.k) {
 
 if(!argv.s) {
 	argv.s="tpb"
+}
+
+if(!argv.p) {
+	argv.p=settings.port;
 }
 
 if(!argv._[0]) {
@@ -171,7 +174,7 @@ function search() {
 				if(result.title[0] === undefined) {
 					clivas.line("")
 					clivas.line("")
-					clivas.line("Either there are no results, or the pirate by is down. Try using it's .onion with socks enabled.")
+					clivas.line("Either there are no results, or the piratebay is down. Try using it's .onion.")
 					return
 				}
 				if(settings.health === true) {
