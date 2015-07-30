@@ -69,11 +69,12 @@ if(argv.t) {
 
 function getBlocklist(callback) {
 	var url = "http://list.iblocklist.com/?list=ydxerpxkpcfqjaybcssw&fileformat=p2p&archiveformat=gz"
-	var path = os.tmpdir() + "blist"
+	var path = os.tmpdir() + "blist.txt"
 	
 	function retrieve(url, path) {
 		var temp = fs.createWriteStream(path)
 		http.get(url, function(response) {
+			console.log(response);
 			response.pipe(temp)
 			temp.on('finish', function() {
 				clivas.line("Blocklist succesfully downloaded.")
@@ -96,6 +97,7 @@ function getSubs(md, callback) {
 				clivas.line("Found subs. One moment please.")
 
 				var url = results[0].SubDownloadLink.split('.gz').join('.srt')
+				console.log(url)
 				var path = os.tmpdir() + "sub.srt"
 
 				function retrieve(url, path) {
@@ -157,16 +159,17 @@ function launchPF(callback) {
 	list.push("--all")
 	
 	if(blist === "auto") {
-		getBlocklist(function(result) {
-			if(result !== null) {
-				list.push("--blocklist="+result)
-			}
+//		getBlocklist(function(result) {
+//			if(result !== null) {
+//				list.push("--blocklist="+result)
+//			}
+//			tc++
+//		});
+			list.push("--blocklist=/usr/local/lib/node_modules/magsearch/bt_level1")
 			tc++
-		});
 	} else {
 		if(blist !== undefined) {
 			list.push("--blocklist="+blist)
-			
 		}
 		tc++
 	}
