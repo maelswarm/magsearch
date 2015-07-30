@@ -165,8 +165,10 @@ function launchPF(callback) {
 //			}
 //			tc++
 //		});
+		if(plat !== "win32") {
 			list.push("--blocklist=/usr/local/lib/node_modules/magsearch/bt_level1")
-			tc++
+		}
+		tc++
 	} else {
 		if(blist !== undefined) {
 			list.push("--blocklist="+blist)
