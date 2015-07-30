@@ -63,6 +63,10 @@ magsearch "blade runner"
 
   TODO
 
+## What's New ##
+
+Auto-blocklist now configured. Blocklist is bt_level1 from www.iblocklist.com.
+
 ## Notes ##
 
 UI looks best in iTerm.

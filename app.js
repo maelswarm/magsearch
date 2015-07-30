@@ -19,7 +19,7 @@ var opensubtitles = require('opensubtitles-client');
 var searchStr = ""
 var lastSearched = ""
 var playerrow = 1000
-var subrow = 997
+var subrow = 996
 var watchrow = 1500
 var cursorcol = 6000
 var searchrow = 1500
@@ -67,6 +67,22 @@ if(argv.t) {
 	options.socks.enabled = true
 }
 
+function getBlocklist(callback) {
+	var url = "http://list.iblocklist.com/?list=ydxerpxkpcfqjaybcssw&fileformat=p2p&archiveformat=gz"
+	var path = os.tmpdir() + "blist"
+	
+	function retrieve(url, path) {
+		var temp = fs.createWriteStream(path)
+		http.get(url, function(response) {
+			response.pipe(temp)
+			temp.on('finish', function() {
+				clivas.line("Blocklist succesfully downloaded.")
+				return callback(path)
+			})
+		})
+	} retrieve(url, path);
+}
+
 function getSubs(md, callback) {
 	var title = mgSrch.getattr().title[watchrow%md]
 	opensubtitles.api.login()
@@ -104,9 +120,9 @@ function getSubs(md, callback) {
 }
 
 function launchPF(callback) {
-
+	var tc = 0
 	var endSpawn = function() {
-
+		clearInterval(tcInterval)
 		list.push(settings.player)
 
 		if(plat === "win32") {
@@ -118,35 +134,52 @@ function launchPF(callback) {
 		}
 		clivas.line(list)
 	}
-	
+
+	var tcInterval = setInterval(function() {
+		if(tc===2) {
+			endSpawn();
+		}
+	}, 1250);
+
 	clivas.line("Preparing...")
-	
+
 	var md = 15
-	var blist = settings.blocklist
-	var list = [];
 	if(searchArr[searchrow%2]==="BTDIGG") {
 		md = 10
 	}
+	var blist = settings.blocklist
+	var list = [];
+	
 	list.push(mgSrch.getattr().mag[watchrow%md])
-	if(blist !== undefined) {
-		list.push("--blocklist="+blist)
-	}
 	if(settings.remove != false) {
 		list.push("--remove")
 	}
 	list.push("--all")
 	
+	if(blist === "auto") {
+		getBlocklist(function(result) {
+			if(result !== null) {
+				list.push("--blocklist="+result)
+			}
+			tc++
+		});
+	} else {
+		if(blist !== undefined) {
+			list.push("--blocklist="+blist)
+			
+		}
+		tc++
+	}
 	if(settings.subtitles !== "none") {
 		getSubs(md, function(result) {
 			if(result !== null) {
 				list.push("--subtitles="+result)
 			}
-			endSpawn()
+			tc++
 		})
 	} else {
-		endSpawn()
+		tc++
 	}
-	
 }
 
 function search() {
