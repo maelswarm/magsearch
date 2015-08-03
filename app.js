@@ -67,22 +67,22 @@ if(argv.t) {
 	options.socks.enabled = true
 }
 
-function getBlocklist(callback) {
-	var url = "http://list.iblocklist.com/?list=ydxerpxkpcfqjaybcssw&fileformat=p2p&archiveformat=gz"
-	var path = os.tmpdir() + "blist.txt"
-	
-	function retrieve(url, path) {
-		var temp = fs.createWriteStream(path)
-		http.get(url, function(response) {
-			console.log(response);
-			response.pipe(temp)
-			temp.on('finish', function() {
-				clivas.line("Blocklist succesfully downloaded.")
-				return callback(path)
-			})
-		})
-	} retrieve(url, path);
-}
+//function getBlocklist(callback) {
+//	var url = "http://list.iblocklist.com/?list=ydxerpxkpcfqjaybcssw&fileformat=p2p&archiveformat=gz"
+//	var path = os.tmpdir() + "blist.txt"
+//	
+//	function retrieve(url, path) {
+//		var temp = fs.createWriteStream(path)
+//		http.get(url, function(response) {
+//			console.log(response);
+//			response.pipe(temp)
+//			temp.on('finish', function() {
+//				clivas.line("Blocklist succesfully downloaded.")
+//				return callback(path)
+//			})
+//		})
+//	} retrieve(url, path);
+//}
 
 function getSubs(md, callback) {
 	var title = mgSrch.getattr().title[watchrow%md]
@@ -158,15 +158,11 @@ function launchPF(callback) {
 	}
 	list.push("--all")
 	
-	if(blist === "auto") {
-//		getBlocklist(function(result) {
-//			if(result !== null) {
-//				list.push("--blocklist="+result)
-//			}
-//			tc++
-//		});
+	if(blist === "bt_level1") {
 		if(plat !== "win32") {
 			list.push("--blocklist=/usr/local/lib/node_modules/magsearch/bt_level1")
+		} else {
+			list.push("--blocklist=C:\Users\Administrator\AppData\Roaming\npm\node_modules\magsearch\bt_level1")
 		}
 		tc++
 	} else {

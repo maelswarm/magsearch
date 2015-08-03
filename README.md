@@ -66,6 +66,7 @@ magsearch "blade runner"
 ## What's New ##
 
 Auto-blocklist now configured. Blocklist is bt_level1 from www.iblocklist.com.
+I will add updated blocklist in each update.
 
 ## Notes ##
 
