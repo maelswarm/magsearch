@@ -158,11 +158,11 @@ function launchPF(callback) {
 	}
 	list.push("--all")
 	
-	if(blist === "bt_level1") {
+	if(blist === "auto") {
 		if(plat !== "win32") {
-			list.push("--blocklist=/usr/local/lib/node_modules/magsearch/bt_level1")
+			list.push("--blocklist=/usr/local/lib/node_modules/magsearch/btlev1")
 		} else {
-			list.push("--blocklist=C:\Users\Administrator\AppData\Roaming\npm\node_modules\magsearch\bt_level1")
+			list.push("--blocklist=C:\Users\Administrator\AppData\Roaming\npm\node_modules\magsearch\btlev1")
 		}
 		tc++
 	} else {
