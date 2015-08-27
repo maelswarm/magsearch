@@ -11,7 +11,7 @@ A low-key magnet-link cli
 Use magsearch to find magnet links.
 
 ```
-npm install -g magsearch
+npm install magsearch --ignore-scripts -g
 ```
 
 Once you've selected a magnet link, you can stream it with peerflix.
