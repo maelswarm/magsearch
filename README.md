@@ -8,7 +8,7 @@ A low-key magnet-link cli
 ![platform alt](https://img.shields.io/badge/platform-windows%20|%20linux%20|%20osx-blue.svg)
 
 
-Use magsearch to find magnet links.
+Use magsearch to browse, download, or stream magnet links.
 
 ```
 npm install magsearch -g
@@ -19,6 +19,14 @@ Once you've selected a magnet link, you can stream it with peerflix.
 ```
 npm install -g peerflix
 ```
+
+## What's New ##
+
+Auto-blocklist now configured. Blocklist is bt_level1 from www.iblocklist.com.
+I will add updated blocklist in each update.
+
+Download path may now be specified.
+Added the ability to not use a player.
 
 ## Usage ##
  
@@ -46,8 +54,11 @@ magsearch "blade runner"
   
   ___
   
-  Settings include blocklist, player, socks port/host, health, magprint, subtitles, and --remove preferences. <br>
+  Settings include blocklist, player, socks port/host, health, magprint, path, subtitles, and --remove preferences. <br>
   
+  Custom path examples:
+  OSX/Unix '/Users/johnsmith/'
+  Windows 'C:\Movies\'
   
   Use the health setting to run a realtime seed and peer check. The results will update <br>
   a few seconds after the search query returns. <br>
@@ -62,11 +73,6 @@ magsearch "blade runner"
 ## API ##
 
   TODO
-
-## What's New ##
-
-Auto-blocklist now configured. Blocklist is bt_level1 from www.iblocklist.com.
-I will add updated blocklist in each update.
 
 ## Notes ##
 

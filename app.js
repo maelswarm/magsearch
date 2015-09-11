@@ -18,15 +18,15 @@ var opensubtitles = require('opensubtitles-client');
 
 var searchStr = ""
 var lastSearched = ""
-var playerrow = 1000
+var playerrow = 1002
 var subrow = 996
 var watchrow = 1500
-var cursorcol = 6000
+var cursorcol = 6006
 var searchrow = 1500
 var keywordrow = 5000
 var searchArr = ["PIRATEBAY", "BTDIGG"]
 var keywordArr = ["all", "video", "audio", "applications", "adult"]
-var playerArr = ["--vlc", "--airplay", "--mplayer", "--smplayer", "--mpchc", "--potplayer", "--mpv", "--omx", "--webplay", "--jack"]
+var playerArr = ["none", "--vlc", "--airplay", "--mplayer", "--smplayer", "--mpchc", "--potplayer", "--mpv", "--omx", "--webplay", "--jack"]
 var subArr = ["none", "eng", "chi", "ger", "ita", "jpn", "kor", "pol", "por", "rus", "spa", "swe"]
 
 if(argv.h || argv.H || argv.help || argv.HELP) {
@@ -125,8 +125,12 @@ function launchPF(callback) {
 	var tc = 0
 	var endSpawn = function() {
 		clearInterval(tcInterval)
-		list.push(settings.player)
-
+		if(settings.path !== "tmp") {
+			list.push("--path="+settings.path)
+		}
+		if(settings.player !== "none") {
+			list.push(settings.player)
+		}
 		if(plat === "win32") {
 			list.unshift("/c", "peerflix");
 			pfSpawn("cmd", list, {stdio:'inherit'})
@@ -153,7 +157,7 @@ function launchPF(callback) {
 	var list = [];
 	
 	list.push(mgSrch.getattr().mag[watchrow%md])
-	if(settings.remove != false) {
+	if(settings.remove != false && settings.path === "tmp") {
 		list.push("--remove")
 	}
 	list.push("--all")
@@ -237,29 +241,29 @@ function draw() {
 	process.stdout.clearLine();
 	process.stdout.cursorTo(0);
 	clivas.clear()
-	clivas.line("{bold:┎─────────────────────────────────────────────────────────────────────────────────────────────────}")
-	if(cursorcol%10 === 0) {
+	clivas.line("{bold:┎──────────────────────────────────────────────────────────────────────────────────────────────────────────────────}")
+	if(cursorcol%11 === 0) {
 		clivas.write("{bold:┃}"+"{bold+red: "+searchEngine+" }")
 		clivas.write("{bold:│}"+" keyword ")
 		clivas.write("│ watch ")
 		clivas.write("│ socks │")
 		clivas.line(" settings │")
 	}
-	if(cursorcol%10 === 1) {
+	if(cursorcol%11 === 1) {
 		clivas.write("{bold:┃ }"+searchEngine)
 		clivas.write("{bold: │ "+keywordArr[keywordrow%5]+" │}")
 		clivas.write(" watch ")
 		clivas.write("│ socks │")
 		clivas.line(" settings │")
 	}
-	else if(cursorcol%10 === 2) {
+	else if(cursorcol%11 === 2) {
 		clivas.write("{bold:┃ }"+searchEngine+" │")
 		clivas.write(" keyword "+"{bold:│}")
 		clivas.write("{bold+yellow: WATCH }")
 		clivas.write("{bold:│}"+" socks │")
 		clivas.line(" settings │")
 	}
-	else if(cursorcol%10 === 3) {
+	else if(cursorcol%11 === 3) {
 		clivas.write("{bold:┃ }"+searchEngine+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch "+"{bold:│}")
@@ -267,7 +271,7 @@ function draw() {
 				" Enabled: "+Boolean(options.socks.enabled)+" │")
 		clivas.line(" settings "+"{bold:┃}")
 	}
-	else if(cursorcol%10 === 4) {
+	else if(cursorcol%11 === 4) {
 		clivas.write("{bold:┃ }"+searchEngine+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch "+"{bold:│}")
@@ -275,7 +279,7 @@ function draw() {
 				" Enabled: "+Boolean(options.socks.enabled)+" │")
 		clivas.line(" settings "+"{bold:┃}")
 	}
-	else if(cursorcol%10 === 5) {
+	else if(cursorcol%11 === 5) {
 		clivas.write("{bold:┃ }"+searchEngine+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch "+"{bold:│}")
@@ -283,38 +287,45 @@ function draw() {
 				"{bold: │ Enabled: "+Boolean(options.socks.enabled)+" │}")
 		clivas.line(" settings "+"{bold:┃}")
 	}
-	else if(cursorcol%10 === 6) {
+	else if(cursorcol%11 === 6) {
 		clivas.write("{bold:┃ }"+searchEngine+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch │")
 		clivas.write(" socks "+"{bold:│}")
-		clivas.line("{bold+blue: SETTINGS }"+"{bold:│ "+settings.player+" │}"+" blocklist │"+" mag-print │"+" subtitles │")
+		clivas.line("{bold+blue: SETTINGS }"+"{bold:│ "+settings.player+" │}"+" blocklist │"+" mag-print │"+" subtitles │"+" path │")
 	}
-	else if(cursorcol%10 === 7) {
+	else if(cursorcol%11 === 7) {
 		clivas.write("{bold:┃ }"+searchEngine+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch │")
 		clivas.write(" socks "+"{bold:│}")
-		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"{bold:│ "+settings.blocklist+" │}"+" mag-print │"+" subtitles │")
+		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"{bold:│ "+settings.blocklist+" │}"+" mag-print │"+" subtitles │"+" path │")
 	}
-	else if(cursorcol%10 === 8) {
+	else if(cursorcol%11 === 8) {
 		clivas.write("{bold:┃ }"+searchEngine+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch │")
 		clivas.write(" socks "+"{bold:│}")
-		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"│ blocklist "+"{bold:│ "+settings.printmag+" │}"+" subtitles │")
+		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"│ blocklist "+"{bold:│ "+settings.printmag+" │}"+" subtitles │"+" path │")
 	}
-	else if(cursorcol%10 === 9) {
+	else if(cursorcol%11 === 9) {
 		clivas.write("{bold:┃ }"+searchEngine+" │");
 		clivas.write(" keyword │")
 		clivas.write(" watch │")
 		clivas.write(" socks "+"{bold:│}")
-		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"│ blocklist "+"│ mag-print "+"{bold:│ "+settings.subtitles+" │}")
+		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"│ blocklist "+"│ mag-print "+"{bold:│ "+settings.subtitles+" │}"+" path │")
 	}
-	clivas.line("{bold:┠─────────────────────────────────────────────────────────────────────────────────────────────────}")
+	else if(cursorcol%11 === 10) {
+		clivas.write("{bold:┃ }"+searchEngine+" │");
+		clivas.write(" keyword │")
+		clivas.write(" watch │")
+		clivas.write(" socks "+"{bold:│}")
+		clivas.line("{bold+blue: SETTINGS }"+"{bold:│}"+" player "+"│ blocklist "+"│ mag-print "+"│ subtitles "+"{bold:│ "+settings.path+" │}")
+	}
+	clivas.line("{bold:┠──────────────────────────────────────────────────────────────────────────────────────────────────────────────────}")
 	for(var i=result.title.length-1; i>=0; i--) {
 		if(argv.s === "tpb") {
-			if((watchrow%15) == i && cursorcol%10 === 2) {
+			if((watchrow%15) == i && cursorcol%11 === 2) {
 				clivas.line("{bold+cyan+blink:>}"+"{bold+cyan: "+result.title[i]+"}"+"{bold: "+result.size[i]+"}"+"{green:"+result.seeders[i]+"}"+"{red:"+result.leechers[i]+"}"+"{magenta:"+result.peers[i]+"}")
 			}
 			else {
@@ -322,7 +333,7 @@ function draw() {
 			}
 		}
 		else {
-			if((watchrow%10) == i && cursorcol%10 === 2) {
+			if((watchrow%11) == i && cursorcol%11 === 2) {
 				clivas.line("{bold+cyan+blink:>}"+"{bold+cyan: "+result.title[i]+"}")
 			}
 			else {
@@ -330,10 +341,14 @@ function draw() {
 			}
 		}
 	}
-	clivas.line("{bold:┖─────────────────────────────────────────────────────────────────────────────────────────────────}")
+	clivas.line("{bold:┖──────────────────────────────────────────────────────────────────────────────────────────────────────────────────}")
 	
-	if(cursorcol%10 !== 2) {
-		process.stdout.write(" Input:"+ searchStr)
+	if(cursorcol%11 !== 2) {
+		if(cursorcol%11 === 0 || cursorcol%11 === 1) {
+			process.stdout.write(" Search:"+ searchStr)
+		} else {
+			process.stdout.write(" Input:"+ searchStr)
+		}
 		return
 	}
 	if(settings.printmag === true) {
@@ -355,7 +370,11 @@ stdin.on('keypress', function (chunk, key) {
 		searchStr += chunk
 		process.stdout.clearLine()
 		process.stdout.cursorTo(0)
-		process.stdout.write(" Input:"+searchStr)
+		if(cursorcol%11 === 0 || cursorcol%11 === 1) {
+			process.stdout.write(" Search:"+ searchStr)
+		} else {
+			process.stdout.write(" Input:"+ searchStr)
+		}
 	}
 	
 	else if (key.ctrl && (key.name == 'n')) {
@@ -380,25 +399,29 @@ stdin.on('keypress', function (chunk, key) {
 		searchStr = searchStr.slice(0, searchStr.length-1)
 		process.stdout.clearLine()
 		process.stdout.cursorTo(0)
-		process.stdout.write(" Input:"+searchStr)
+		if(cursorcol%11 === 0 || cursorcol%11 === 1) {
+			process.stdout.write(" Search:"+ searchStr)
+		} else {
+			process.stdout.write(" Input:"+ searchStr)
+		}
 	}
 
 	else if(key.name == "up") {
-		if (cursorcol%10 === 0) {
+		if (cursorcol%11 === 0) {
 			searchrow++; 
 		}
-		else if (cursorcol%10 === 1) {
+		else if (cursorcol%11 === 1) {
 			keywordrow++; 
 		}
-		else if (cursorcol%10 === 2) {
+		else if (cursorcol%11 === 2) {
 			watchrow++; 
 		}
-		else if (cursorcol%10 === 6) {
+		else if (cursorcol%11 === 6) {
 			resetInput()
 			playerrow++
-			settings.player = playerArr[(playerrow%10)]
+			settings.player = playerArr[(playerrow%11)]
 		}
-		else if (cursorcol%10 === 9) {
+		else if (cursorcol%11 === 9) {
 			resetInput()
 			subrow++
 			settings.subtitles = subArr[(subrow%12)]
@@ -407,21 +430,21 @@ stdin.on('keypress', function (chunk, key) {
 	}
 
 	else if(key.name == "down") {
-		if (cursorcol%10 === 0) {
+		if (cursorcol%11 === 0) {
 			searchrow--
 		}
-		else if (cursorcol%10 === 1) {
+		else if (cursorcol%11 === 1) {
 			keywordrow--; 
 		}
-		else if (cursorcol%10 === 2) {
+		else if (cursorcol%11 === 2) {
 			watchrow--
 		}
-		else if (cursorcol%10 === 6) {
+		else if (cursorcol%11 === 6) {
 			resetInput()
 			playerrow--
-			settings.player = playerArr[(playerrow%10)]
+			settings.player = playerArr[(playerrow%11)]
 		}
-		else if (cursorcol%10 === 9) {
+		else if (cursorcol%11 === 9) {
 			resetInput()
 			subrow--
 			settings.subtitles = subArr[(subrow%12)]
@@ -434,7 +457,7 @@ stdin.on('keypress', function (chunk, key) {
 	else if(key.name == "left") {cursorcol--; draw();}
 	
 	else if(key.name == "return") {
-		if (cursorcol%10 === 0 || cursorcol%10 === 1) {
+		if (cursorcol%11 === 0 || cursorcol%11 === 1) {
 			options.query = searchStr.trim()
 			options.keyword = keywordArr[keywordrow%5]
 			mgSrch.clearattr()
@@ -449,22 +472,22 @@ stdin.on('keypress', function (chunk, key) {
 			resetInput()
 			search()
 		}
-		else if (cursorcol%10 === 2) {
+		else if (cursorcol%11 === 2) {
 			launchPF()
 		}
-		else if (cursorcol%10 === 3) {
+		else if (cursorcol%11 === 3) {
 			options.socks.port = searchStr
 			settings.post = options.socks.port
 			resetInput()
 			draw()
 		}
-		else if (cursorcol%10 === 4) {
+		else if (cursorcol%11 === 4) {
 			options.socks.host = searchStr
 			settings.host = options.socks.host
 			resetInput()
 			draw()
 		}
-		else if (cursorcol%10 === 5) {
+		else if (cursorcol%11 === 5) {
 			if(options.socks.enabled === false) {
 				options.socks.enabled = true
 			}
@@ -474,12 +497,12 @@ stdin.on('keypress', function (chunk, key) {
 			resetInput()
 			draw()
 		}
-		else if (cursorcol%10 === 6) {
+		else if (cursorcol%11 === 6) {
 			settings.player = playerArr[(playerrow++)%10]
 			resetInput()
 			draw()
 		}
-		else if (cursorcol%10 === 7) {
+		else if (cursorcol%11 === 7) {
 			if(searchStr.trim() === "") {
 				settings.blocklist = undefined
 			} else {
@@ -488,7 +511,7 @@ stdin.on('keypress', function (chunk, key) {
 			resetInput()
 			draw()
 		}
-		else if (cursorcol%10 === 8) {
+		else if (cursorcol%11 === 8) {
 			if(settings.printmag === false) {
 				settings.printmag = true
 			}
@@ -498,13 +521,26 @@ stdin.on('keypress', function (chunk, key) {
 			resetInput()
 			draw()
 		}
+		else if (cursorcol%11 === 10) {
+			if(searchStr.trim() === "") {
+				settings.path = "tmp"
+			} else {
+				settings.path = searchStr
+			}
+			resetInput()
+			draw()
+		}
 	}
 	else {
-		if(cursorcol%10 === 0 || cursorcol%10 === 1 || cursorcol%10 === 3 || cursorcol%10 === 4 || cursorcol%10 === 5 || cursorcol%10 === 7) {
+		if(cursorcol%11 === 0 || cursorcol%11 === 1 || cursorcol%11 === 3 || cursorcol%11 === 4 || cursorcol%11 === 5 || cursorcol%11 === 7 || cursorcol%11 === 10) {
 			searchStr += chunk
 			process.stdout.clearLine()
 			process.stdout.cursorTo(0)
-			process.stdout.write(" Input:"+ searchStr)
+			if(cursorcol%11 === 0 || cursorcol%11 === 1) {
+				process.stdout.write(" Search:"+ searchStr)
+			} else {
+				process.stdout.write(" Input:"+ searchStr)
+			}
 		}
 	}
 })
