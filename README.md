@@ -17,15 +17,15 @@ npm install magsearch -g
 Once you've selected a magnet link, you can stream it with peerflix.
 
 ```
-npm install -g peerflix
+npm install peerflix -g
 ```
 
 ## What's New ##
 
-Auto-blocklist now configured. Blocklist is bt_level1 from www.iblocklist.com.
+Auto-blocklist now configured. Blocklist is bt_level1 from www.iblocklist.com <br>
 I will add updated blocklist in each update.
 
-Download path may now be specified.
+Download path may now be specified. <br>
 Added the ability to not use a player.
 
 ## Usage ##
@@ -56,8 +56,8 @@ magsearch "blade runner"
   
   Settings include blocklist, player, socks port/host, health, magprint, path, subtitles, and --remove preferences. <br>
   
-  Custom path examples:
-  OSX/Unix '/Users/johnsmith/'
+  Custom path examples: <br>
+  OSX/Unix '/Users/johnsmith/' <br>
   Windows 'C:\Movies\'
   
   Use the health setting to run a realtime seed and peer check. The results will update <br>
