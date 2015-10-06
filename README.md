@@ -22,11 +22,13 @@ npm install peerflix -g
 
 ## What's New ##
 
-Auto-blocklist now configured. Blocklist is bt_level1 from www.iblocklist.com <br>
-I will add updated blocklist in each update.
+SOCKS functionality is currently unavailable for all proxies except TOR.<br>
 
 Download path may now be specified. <br>
 Added the ability to not use a player.
+
+Auto-blocklist now configured. Blocklist is bt_level1 from www.iblocklist.com <br>
+I will add updated blocklist in each update.
 
 ## Usage ##
  
