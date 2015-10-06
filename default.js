@@ -25,29 +25,29 @@ tap.test('App loads', function(t) {
 				t.end();
 			});
 		});
-		tap.test('Test BTDIGG', function(t) {
-			app.btdigg(options, function(result) {
-				t.type((result.title[3]), 'string', 'PASS');
-				t.end();
-			});
-		});
-		tap.test('Test OLDPB', function(t) {
-			tArr = app.oldpbay(options, function(result) {
-				t.type((result.title[3]), 'string', 'PASS');
-				t.end();
-			});
-		});
-		tap.test('Test FEELINGLUCKY', function(t) {
-			app.feelingLucky(options, function(result) {
-				t.type((result.title[0]), 'string', 'PASS');
-				t.end();
-			});
-		});
-		tap.test('Test TORHOUND', function(t) {
-			app.torhound(options, function(result) {
-				t.type((result.title[3]), 'string', 'PASS');
-				t.end();
-			});
-		});
+//		tap.test('Test BTDIGG', function(t) {
+//			app.btdigg(options, function(result) {
+//				t.type((result.title[3]), 'string', 'PASS');
+//				t.end();
+//			});
+//		});
+//		tap.test('Test OLDPB', function(t) {
+//			tArr = app.oldpbay(options, function(result) {
+//				t.type((result.title[3]), 'string', 'PASS');
+//				t.end();
+//			});
+//		});
+//		tap.test('Test FEELINGLUCKY', function(t) {
+//			app.feelingLucky(options, function(result) {
+//				t.type((result.title[0]), 'string', 'PASS');
+//				t.end();
+//			});
+//		});
+//		tap.test('Test TORHOUND', function(t) {
+//			app.torhound(options, function(result) {
+//				t.type((result.title[3]), 'string', 'PASS');
+//				t.end();
+//			});
+//		});
 	}
 });
