@@ -19,12 +19,12 @@ tap.test('App loads', function(t) {
 
 	function load_app() {
 		
-		tap.test('Test TPB', function(t) {
-			app.pbay(options, function(result) {
-				t.type((result.title[3]), 'string', 'PASS');
-				t.end();
-			});
-		});
+//		tap.test('Test TPB', function(t) {
+//			app.pbay(options, function(result) {
+//				t.type((result.title[3]), 'string', 'PASS');
+//				t.end();
+//			});
+//		});
 //		tap.test('Test BTDIGG', function(t) {
 //			app.btdigg(options, function(result) {
 //				t.type((result.title[3]), 'string', 'PASS');
