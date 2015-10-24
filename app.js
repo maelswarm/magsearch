@@ -50,6 +50,8 @@ if(!argv.s) {
 
 if(!argv.p) {
 	argv.p=settings.port;
+} else {
+	settings.port = argv.p
 }
 
 if(!argv._[0]) {
@@ -196,6 +198,7 @@ function search() {
 					clivas.line("")
 					clivas.line("")
 					clivas.line(result)
+					return
 				}
 			})
 		}
@@ -206,7 +209,13 @@ function search() {
 				if(result.errno) {
 					clivas.line("")
 					clivas.line("")
-					clivas.line(result)
+					clivas.line(result.errno)
+					return
+				}
+				if(result.title[0] === undefined) {
+					clivas.line("")
+					clivas.line("")
+					clivas.line("Either there are no results, or the piratebay is down. Try using it's .onion.")
 					return
 				}
 				if(result.title[0] === undefined) {
