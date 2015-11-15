@@ -42,6 +42,7 @@ exports.gethealth = function(i, callback) {
 	})
 	.catch(function (err) {
 		console.error(err)
+		return callback(1);
 	})
 }
 

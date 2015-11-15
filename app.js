@@ -194,6 +194,9 @@ function search() {
 		if(argv.s === "btd") {
 			mgSrch.btdigg(options, function(result) {
 				draw()
+				if(result===undefined) {
+					return
+				}
 				if(result.errno) {
 					clivas.line("")
 					clivas.line("")
@@ -206,19 +209,16 @@ function search() {
 			mgSrch.pbay(options, function(result) {
 				var cnt = 0;
 				draw()
+				if(result===undefined) {
+					return
+				}
 				if(result.errno) {
 					clivas.line("")
 					clivas.line("")
 					clivas.line(result.errno)
 					return
 				}
-				if(result.title[0] === undefined) {
-					clivas.line("")
-					clivas.line("")
-					clivas.line("Either there are no results, or the piratebay is down. Try using it's .onion.")
-					return
-				}
-				if(result.title[0] === undefined) {
+				if(result.title === undefined) {
 					clivas.line("")
 					clivas.line("")
 					clivas.line("Either there are no results, or the piratebay is down. Try using it's .onion.")
