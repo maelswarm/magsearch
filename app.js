@@ -69,23 +69,6 @@ if(argv.t) {
 	options.socks.enabled = true
 }
 
-//function getBlocklist(callback) {
-//	var url = "http://list.iblocklist.com/?list=ydxerpxkpcfqjaybcssw&fileformat=p2p&archiveformat=gz"
-//	var path = os.tmpdir() + "blist.txt"
-//	
-//	function retrieve(url, path) {
-//		var temp = fs.createWriteStream(path)
-//		http.get(url, function(response) {
-//			console.log(response);
-//			response.pipe(temp)
-//			temp.on('finish', function() {
-//				clivas.line("Blocklist succesfully downloaded.")
-//				return callback(path)
-//			})
-//		})
-//	} retrieve(url, path);
-//}
-
 function getSubs(md, callback) {
 	var title = mgSrch.getattr().title[watchrow%md]
 	opensubtitles.api.login()
