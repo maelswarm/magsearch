@@ -22,6 +22,8 @@ npm install peerflix -g
 
 ## What's New ##
 
+Kickass is now supported!
+
 SOCKS functionality is currently unavailable for all proxies except TOR.<br>
 
 Download path may now be specified. <br>

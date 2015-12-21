@@ -13,7 +13,8 @@ var attr = {
 		size: [],
 		seeders: [],
 		peers: [],
-		leechers: []
+		leechers: [],
+		url: ""
 }
 
 function parsequery(str) {
@@ -197,7 +198,7 @@ exports.pbay = function(params, callback) {
 	if(Boolean(params.socks.enabled)) {
 		if(parseInt(params.socks.port) === 9150 || parseInt(params.socks.port) === 9050) {
 			options = {
-					url: 'http://uj3wazyk5u4hnvtk.onion/search/'+qq+'/'+(params.page/2)+'/7/'+kk,
+					url: 'http://uj3wazyk5u4hnvtk.onion/search/'+qq+'/'+Math.floor(params.page/2)+'/7/'+kk,
 					agentClass: agent,
 					agentOptions: {
 						socksHost: params.socks.host, // Defaults to 'localhost'.
@@ -208,7 +209,7 @@ exports.pbay = function(params, callback) {
 		}
 		else {
 			options = {
-					url: 'http://thepiratebay.se/search/'+qq+'/'+(params.page/2)+'/7/'+kk,
+					url: 'http://thepiratebay.se/search/'+qq+'/'+Math.floor(params.page/2)+'/7/'+kk,
 					agentClass: agent,
 					agentOptions: {
 						socksHost: params.socks.host, // Defaults to 'localhost'.
@@ -219,7 +220,7 @@ exports.pbay = function(params, callback) {
 		}
 	}
 	else {
-		options = {url: 'http://thepiratebay.se/search/'+qq+'/'+(params.page/2)+'/7/'+kk}
+		options = {url: 'http://thepiratebay.se/search/'+qq+'/'+Math.floor(params.page/2)+'/7/'+kk}
 	}
 	
 	request(options, function(error, response, html) {
@@ -258,6 +259,120 @@ exports.pbay = function(params, callback) {
 				})
 			})
 		}
+		attr.url = options.url
+		return callback(attr)
+	})
+}
+
+exports.kat = function(params, callback) {
+	
+	var qq=parsequery(params.query)
+	var kk=""
+
+	switch(params.keyword) {
+	case "all":
+		kk=""
+		break
+	case "video":
+		kk="%20category%3Amovies"
+		break
+	case "audio":
+		kk="%20category%3Amusic"
+		break
+	case "adult":
+		kk="%20category%3Axxx"
+		break
+	case "applications":
+		kk="%20category%3Aapplications"
+		break
+	}
+
+//	http://www.katproxyabq6ezj6.onion/usearch/blade%20runner/2/
+//	http://www.katproxyabq6ezj6.onion/usearch/blade%20runner%20category%3Amovies/1/
+//		http://www.katproxyabq6ezj6.onion/usearch/blade%20runner%20category%3Amovies/1/
+	
+//	'http://www.kat.cr/usearch/'+qq+kk+'/'+(params.page+1)+'/'
+	
+//	if(Boolean(params.socks.enabled)) {
+//		if(parseInt(params.socks.port) === 9150 || parseInt(params.socks.port) === 9050) {
+//			options = {
+//					url: 'http://www.katproxyabq6ezj6.onion/json.php?q='+qq,
+//					agentClass: agent,
+//					agentOptions: {
+//						socksHost: params.socks.host, // Defaults to 'localhost'.
+//						socksPort: parseInt(params.socks.port), // Defaults to 1080.
+//						rejectUnauthorized: false
+//					}
+//			}
+//		}
+//		else {
+//			options = {
+//					url: 'http://www.kat.cr/json.php?q='+qq,
+//					agentClass: agent,
+//					agentOptions: {
+//						socksHost: params.socks.host, // Defaults to 'localhost'.
+//						socksPort: parseInt(params.socks.port), // Defaults to 1080.
+//						rejectUnauthorized: false
+//					}
+//			}
+//		}
+//	}
+//	else {
+		options = {url: 'http://www.kat.cr/json.php?q='+qq}
+//	}
+	
+	request(options, function(error, response, html) {
+		var i = 0
+		if(error) {
+			return callback(error)
+		}
+
+		if(!error){
+			var data = JSON.parse(html)
+			//console.log(data.list[0]);
+			
+			for(var i=params.page*15; i<(params.page+1)*15; i++) {
+				attr.title.push(data.list[i].title.trim())
+				attr.mag.push(data.list[i].torrentLink)
+				attr.seeders.push(" "+data.list[i].seeds)
+				attr.leechers.push(" "+data.list[i].leechs)
+				attr.peers.push(" "+data.list[i].peers)
+				attr.size.push((data.list[i].size/1000000000)+" GiB")
+			}
+			
+//			$('#wrapper').filter(function() {
+//				var tr = $(this).children('tr')
+//				var magLink = ""
+//				console.log("REACH");
+//				console.log(options.url+"\n");
+//				console.log(tr);
+				
+//				var lowlim = (((params.page%2))*60)
+//				var uplim = (((params.page%2)+1)*60)+1 //reduce output from 30 to 15.	
+//				$('td', tr).each(function(a, b) {
+//					attr.peers.push(" ")
+//					//title & mag
+//					if(a%4===1 && a<uplim && a>lowlim) {
+//						var childs = $(b).children()
+//						var size = childs.eq(4).text().substr(26)
+//						size = size.slice(0, size.indexOf(","))
+//						attr.size.push(size)
+//						attr.title.push(childs.eq(0).text().trim().replace("{", "").replace("}", ""))
+//						magLink = $('a', this).eq(1).filter("[href]").attr('href')
+//						attr.mag.push(magLink)
+//					}
+//					//seeders
+//					if(a%4===2 && a<uplim && a>lowlim) {
+//						attr.seeders.push(" "+$(b).text())
+//					}
+//					//leekers
+//					if(a%4===3 && a<uplim && a>lowlim) {
+//						attr.leechers.push(" "+$(b).text())
+//					}
+//				})
+//			})
+		}
+		attr.url = options.url
 		return callback(attr)
 	})
 }
@@ -321,6 +436,7 @@ exports.btdigg = function(params, callback) {
 				}
 			})
 		}
+		attr.url = options.url
 		return callback(attr)
 	});
 };

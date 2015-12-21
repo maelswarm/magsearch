@@ -24,7 +24,7 @@ var watchrow = 1500
 var cursorcol = 6006
 var searchrow = 1500
 var keywordrow = 5000
-var searchArr = ["PIRATEBAY", "BTDIGG"]
+var searchArr = ["PIRATEBAY", "KICKASS", "BTDIGG"]
 var keywordArr = ["all", "video", "audio", "applications", "adult"]
 var playerArr = ["none", "--vlc", "--airplay", "--mplayer", "--smplayer", "--mpchc", "--potplayer", "--mpv", "--omx", "--webplay", "--jack"]
 var subArr = ["none", "eng", "chi", "ger", "ita", "jpn", "kor", "pol", "por", "rus", "spa", "swe"]
@@ -135,7 +135,7 @@ function launchPF(callback) {
 	clivas.line("Preparing...")
 
 	var md = 15
-	if(searchArr[searchrow%2]==="BTDIGG") {
+	if(searchArr[searchrow%3]==="BTDIGG") {
 		md = 10
 	}
 	var blist = settings.blocklist
@@ -220,6 +220,40 @@ function search() {
 				}
 			})
 		}
+		else if(argv.s === "kat") {
+			mgSrch.kat(options, function(result) {
+				
+				//process.exit()
+				var cnt = 0;
+				draw()
+				if(result===undefined) {
+					return
+				}
+				if(result.errno) {
+					clivas.line("")
+					clivas.line("")
+					clivas.line(result.errno)
+					return
+				}
+				if(result.title === undefined) {
+					clivas.line("")
+					clivas.line("")
+					clivas.line("Either there are no results, or the kickass is down. Try using it's .onion.")
+					return
+				}
+//				if(settings.health === true) {
+//					var len = result.title.length
+//					for(var i=0; i<len; i++) {
+//						mgSrch.gethealth(i, function(fin) {
+//							cnt+=fin
+//							if(cnt === len) {
+//								draw()
+//							}
+//						})
+//					}
+//				}
+			})
+		}
 	}
 	else {
 		draw();
@@ -229,7 +263,7 @@ function search() {
 
 function draw() {
 	var result = mgSrch.getattr()
-	var searchEngine = searchArr[searchrow%2]
+	var searchEngine = searchArr[searchrow%3]
 	process.stdout.clearLine();
 	process.stdout.cursorTo(0);
 	clivas.clear()
@@ -316,7 +350,7 @@ function draw() {
 	}
 	clivas.line("{bold:┠──────────────────────────────────────────────────────────────────────────────────────────────────────────────────}")
 	for(var i=result.title.length-1; i>=0; i--) {
-		if(argv.s === "tpb") {
+		if(argv.s === "tpb" || argv.s === "kat") {
 			if((watchrow%15) == i && cursorcol%11 === 2) {
 				clivas.line("{bold+cyan+blink:>}"+"{bold+cyan: "+result.title[i]+"}"+"{bold: "+result.size[i]+"}"+"{green:"+result.seeders[i]+"}"+"{red:"+result.leechers[i]+"}"+"{magenta:"+result.peers[i]+"}")
 			}
@@ -334,7 +368,11 @@ function draw() {
 		}
 	}
 	clivas.line("{bold:┖──────────────────────────────────────────────────────────────────────────────────────────────────────────────────}")
-	
+	if(argv.s === "kat" && options.socks.enabled) {
+		clivas.line(" "+result.url+" Note: kat's onion isn't supported, please use tpb or btdigg.")
+	} else {
+		clivas.line(" "+result.url);
+	}
 	if(cursorcol%11 !== 2) {
 		if(cursorcol%11 === 0 || cursorcol%11 === 1) {
 			process.stdout.write(" Search:"+ searchStr)
@@ -345,7 +383,7 @@ function draw() {
 	}
 	if(settings.printmag === true) {
 		var md = 15
-		if(searchArr[searchrow%2]==="BTDIGG") {
+		if(searchArr[searchrow%3]==="BTDIGG") {
 			md = 10
 		}
 		var tempmag = mgSrch.getattr().mag[watchrow%md]
@@ -454,8 +492,10 @@ stdin.on('keypress', function (chunk, key) {
 			options.keyword = keywordArr[keywordrow%5]
 			mgSrch.clearattr()
 			lastSearched = searchStr
-			if(searchArr[searchrow%2]==="PIRATEBAY") {
+			if(searchArr[searchrow%3]==="PIRATEBAY") {
 				argv.s = "tpb"
+			} else if(searchArr[searchrow%3]==="KICKASS") {
+				argv.s = "kat"
 			}
 			else {
 				argv.s = "btd"
