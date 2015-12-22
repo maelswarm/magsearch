@@ -33,8 +33,8 @@ if(argv.h || argv.H || argv.help || argv.HELP) {
 	clivas.line("{green:\n  Usage:\r}")
 	clivas.line("{green:  Use the arrow keys to toggle and navigate.\r}")
 	clivas.line("{green:  To search for a magnet, input text and hit enter.\r}")
-	clivas.line("{green:  For SOCKS, set your port and host. If you use TOR, .onion sites will be used.\r}")
-	clivas.line("{green:  If you want to launch with TOR enabled, use \"-t\" flag and \"-p\" followed by the port number (probably 9050 or 9051).\r}")
+	clivas.line("{green:  For SOCKS, set your port and host. If you use TOR, .onion sites will be used (except with kickass).\r}")
+	clivas.line("{green:  If you want to launch with TOR enabled, use \"-t\" flag and \"-p\" followed by the port number (probably 9050 or 9150).\r}")
 	clivas.line("{green:  If you use a blocklist, then make sure it's in the current path!\r}")
 	clivas.line("\n")
 	process.exit(0)
@@ -237,20 +237,9 @@ function search() {
 				if(result.title === undefined) {
 					clivas.line("")
 					clivas.line("")
-					clivas.line("Either there are no results, or the kickass is down. Try using it's .onion.")
+					clivas.line("Either there are no results, or the kickass is down. Try a different search engine.")
 					return
 				}
-//				if(settings.health === true) {
-//					var len = result.title.length
-//					for(var i=0; i<len; i++) {
-//						mgSrch.gethealth(i, function(fin) {
-//							cnt+=fin
-//							if(cnt === len) {
-//								draw()
-//							}
-//						})
-//					}
-//				}
 			})
 		}
 		else if(argv.s === "demon") {
@@ -271,20 +260,9 @@ function search() {
 				if(result.title === undefined) {
 					clivas.line("")
 					clivas.line("")
-					clivas.line("Either there are no results, or the kickass is down. Try using it's .onion.")
+					clivas.line("Either there are no results, or the demon is down. Try using it's .onion.")
 					return
 				}
-//				if(settings.health === true) {
-//					var len = result.title.length
-//					for(var i=0; i<len; i++) {
-//						mgSrch.gethealth(i, function(fin) {
-//							cnt+=fin
-//							if(cnt === len) {
-//								draw()
-//							}
-//						})
-//					}
-//				}
 			})
 		}
 	}
@@ -408,10 +386,12 @@ function draw() {
 		}
 	}
 	clivas.line("{bold:┖──────────────────────────────────────────────────────────────────────────────────────────────────────────────────}")
-	if(argv.s === "kat" && options.socks.enabled) {
-		clivas.line(" "+result.url+" Note: kat's onion isn't supported, please use tpb or btdigg.")
-	} else {
-		clivas.line(" "+result.url);
+	if(result.url != "") {
+		if(argv.s === "kat" && options.socks.enabled) {
+			clivas.line(" URL:"+result.url+" Note: kat's onion isn't supported.")
+		} else {
+			clivas.line(" URL:"+result.url);
+		}
 	}
 	if(cursorcol%11 !== 2) {
 		if(cursorcol%11 === 0 || cursorcol%11 === 1) {

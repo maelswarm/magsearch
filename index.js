@@ -285,7 +285,7 @@ exports.demon = function(params, callback) {
 		if(!error){
 			//console.log(options.url)
 			var $ = cheerio.load(html)
-			var upperlim = 8+(Math.floor((params.page%4)+1)*45)
+			var upperlim = 4+(Math.floor((params.page%4)+1)*45)
 			var lowerlim = 3+(Math.floor(params.page%4)*45)
 			$('.ctable_content_no_pad').filter(function() {
 				var tmp = $(this).eq(0).eq(0)
@@ -300,38 +300,9 @@ exports.demon = function(params, callback) {
 							attr.size.push(" "+childs.eq(3).text())
 							attr.mag.push(options.host+childs.eq(2).children().eq(1).filter("[href]").attr('href'))
 						}
-						//attr.title.push(tmp.eq(1).text())
-						//console.log($(this).text())
-						//console.log(a)
 					}
 				})
 			})
-				
-//				var tr = $(this).children('tr')
-//				var magLink = ""
-//				var lowlim = (((params.page%2))*60)
-//				var uplim = (((params.page%2)+1)*60)+1 //reduce output from 30 to 15.
-//				$('td', tr).each(function(a, b) {
-//					attr.peers.push(" ")
-//					//title & mag
-//					if(a%4===1 && a<uplim && a>lowlim) {
-//						var childs = $(b).children()
-//						var size = childs.eq(4).text().substr(26)
-//						size = size.slice(0, size.indexOf(","))
-//						attr.size.push(size)
-//						attr.title.push(childs.eq(0).text().trim().replace("{", "").replace("}", ""))
-//						magLink = $('a', this).eq(1).filter("[href]").attr('href')
-//						attr.mag.push(magLink)
-//					}
-//					//seeders
-//					if(a%4===2 && a<uplim && a>lowlim) {
-//						attr.seeders.push(" "+$(b).text())
-//					}
-//					//leekers
-//					if(a%4===3 && a<uplim && a>lowlim) {
-//						attr.leechers.push(" "+$(b).text())
-//					}
-//				})
 		}
 		attr.url = options.url
 		return callback(attr)
@@ -413,38 +384,6 @@ exports.kat = function(params, callback) {
 				attr.peers.push(" "+data.list[i].peers)
 				attr.size.push((data.list[i].size/1000000000)+" GiB")
 			}
-			
-//			$('#wrapper').filter(function() {
-//				var tr = $(this).children('tr')
-//				var magLink = ""
-//				console.log("REACH");
-//				console.log(options.url+"\n");
-//				console.log(tr);
-				
-//				var lowlim = (((params.page%2))*60)
-//				var uplim = (((params.page%2)+1)*60)+1 //reduce output from 30 to 15.	
-//				$('td', tr).each(function(a, b) {
-//					attr.peers.push(" ")
-//					//title & mag
-//					if(a%4===1 && a<uplim && a>lowlim) {
-//						var childs = $(b).children()
-//						var size = childs.eq(4).text().substr(26)
-//						size = size.slice(0, size.indexOf(","))
-//						attr.size.push(size)
-//						attr.title.push(childs.eq(0).text().trim().replace("{", "").replace("}", ""))
-//						magLink = $('a', this).eq(1).filter("[href]").attr('href')
-//						attr.mag.push(magLink)
-//					}
-//					//seeders
-//					if(a%4===2 && a<uplim && a>lowlim) {
-//						attr.seeders.push(" "+$(b).text())
-//					}
-//					//leekers
-//					if(a%4===3 && a<uplim && a>lowlim) {
-//						attr.leechers.push(" "+$(b).text())
-//					}
-//				})
-//			})
 		}
 		attr.url = options.url
 		return callback(attr)
