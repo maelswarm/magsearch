@@ -22,6 +22,8 @@ npm install peerflix -g
 
 ## What's New ##
 
+Demonoid and its .onion site are now supported!
+
 Kickass is now supported!
 
 SOCKS functionality is currently unavailable for all proxies except TOR.<br>

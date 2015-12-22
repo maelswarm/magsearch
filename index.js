@@ -127,50 +127,6 @@ exports.feelingLucky = function(params, callback) {
 	})
 }
 
-exports.oldpbay = function(params, callback) {
-	var qq=parsequery(params.query)
-	var kk=""
-
-	switch(params.keyword) {
-	case "all":
-		kk=0
-		break
-	case "video":
-		kk=5
-		break
-	case "audio":
-		kk=6
-		break
-	case "adult":
-		kk=4
-		break
-	case "applications":
-		kk=2
-		break
-	}
-
-	options = {url: 'https://oldpiratebay.org/search?q='+qq+'&sort=-seeders&page='+params.page+'&per-page=15&iht='+kk }
-	
-	request(options, function(error, response, html) {
-
-		if(!error) {
-			var $ = cheerio.load(html);
-			$('.table-responsive').filter(function() {
-				var first = $(this).children().first()
-				$('tr', first).each(function(a, b) {
-					if(a!==0) {
-						attr.title.push($(this).children().eq(1).text().trim() + "\nSize: " + $(this).children().eq(3).text())
-						attr.mag.push($(this).children().eq(1).find('a').filter("[href]").eq(2).attr('href'))
-						attr.seeders.push("Seeders: " + $(this).children().eq(4).text())
-						attr.leechers.push("Leechers: " + $(this).children().eq(5).text())
-					}
-				});
-			});
-		}
-		return callback(attr)
-	});
-};
-
 exports.pbay = function(params, callback) {
 	
 	var qq=parsequery(params.query)
@@ -258,6 +214,124 @@ exports.pbay = function(params, callback) {
 					}
 				})
 			})
+		}
+		attr.url = options.url
+		return callback(attr)
+	})
+}
+
+exports.demon = function(params, callback) {
+	
+	var qq=parsequery(params.query)
+	var kk=""
+
+	switch(params.keyword) {
+	case "all":
+		kk=0
+		break
+	case "video":
+		kk=1
+		break
+	case "audio":
+		kk=2
+		break
+	case "adult":
+		kk=1
+		break
+	case "applications":
+		kk=5
+		break
+	}
+
+	
+	if(Boolean(params.socks.enabled)) {
+		if(parseInt(params.socks.port) === 9150 || parseInt(params.socks.port) === 9050) {
+			options = {
+					host: 'http://demonhkzoijsvvui.onion',
+					url: 'http://demonhkzoijsvvui.onion/files/?query='+qq+'&subcategory=All&quality=All&seeded=2&external=2&sort=S&category='+kk+'&page='+Math.floor((params.page/4)+1),
+					agentClass: agent,
+					agentOptions: {
+						socksHost: params.socks.host, // Defaults to 'localhost'.
+						socksPort: parseInt(params.socks.port), // Defaults to 1080.
+						rejectUnauthorized: false
+					}
+			}
+		}
+		else {
+			options = {
+					host: 'http://www.demonoid.pw',
+					url: 'http://www.demonoid.pw/files/?query='+qq+'&subcategory=All&quality=All&seeded=2&external=2&sort=S&category='+kk+'&page='+Math.floor((params.page/4)+1),
+					agentClass: agent,
+					agentOptions: {
+						socksHost: params.socks.host, // Defaults to 'localhost'.
+						socksPort: parseInt(params.socks.port), // Defaults to 1080.
+						rejectUnauthorized: false
+					}
+			}
+		}
+	}
+	else {
+		options = {
+				host: 'http://www.demonoid.pw',
+				url: 'http://www.demonoid.pw/files/?query='+qq+'&subcategory=All&quality=All&seeded=2&external=2&sort=S&category='+kk+'&page='+Math.floor((params.page/4)+1)}
+	}
+	
+	request(options, function(error, response, html) {
+		var i = 0
+		if(error) {
+			return callback(error)
+		}
+		
+		if(!error){
+			//console.log(options.url)
+			var $ = cheerio.load(html)
+			var upperlim = 8+(Math.floor((params.page%4)+1)*45)
+			var lowerlim = 3+(Math.floor(params.page%4)*45)
+			$('.ctable_content_no_pad').filter(function() {
+				var tmp = $(this).eq(0).eq(0)
+				$('tr', tmp).each(function(a, b) {
+					if((a<upperlim) && (a>lowerlim)) {
+						var childs = $(b).children('td')
+						if((a-4)%3==1) {
+							attr.title.push($(this).text().trim())
+						} else if((a-4)%3==2) {
+							attr.leechers.push(" "+childs.eq(7).text())
+							attr.seeders.push(" "+childs.eq(6).text())
+							attr.size.push(" "+childs.eq(3).text())
+							attr.mag.push(options.host+childs.eq(2).children().eq(1).filter("[href]").attr('href'))
+						}
+						//attr.title.push(tmp.eq(1).text())
+						//console.log($(this).text())
+						//console.log(a)
+					}
+				})
+			})
+				
+//				var tr = $(this).children('tr')
+//				var magLink = ""
+//				var lowlim = (((params.page%2))*60)
+//				var uplim = (((params.page%2)+1)*60)+1 //reduce output from 30 to 15.
+//				$('td', tr).each(function(a, b) {
+//					attr.peers.push(" ")
+//					//title & mag
+//					if(a%4===1 && a<uplim && a>lowlim) {
+//						var childs = $(b).children()
+//						var size = childs.eq(4).text().substr(26)
+//						size = size.slice(0, size.indexOf(","))
+//						attr.size.push(size)
+//						attr.title.push(childs.eq(0).text().trim().replace("{", "").replace("}", ""))
+//						magLink = $('a', this).eq(1).filter("[href]").attr('href')
+//						attr.mag.push(magLink)
+//					}
+//					//seeders
+//					if(a%4===2 && a<uplim && a>lowlim) {
+//						attr.seeders.push(" "+$(b).text())
+//					}
+//					//leekers
+//					if(a%4===3 && a<uplim && a>lowlim) {
+//						attr.leechers.push(" "+$(b).text())
+//					}
+//				})
 		}
 		attr.url = options.url
 		return callback(attr)
@@ -440,30 +514,3 @@ exports.btdigg = function(params, callback) {
 		return callback(attr)
 	});
 };
-
-exports.torhound = function(params, callback) {
-	var qq=parsequery(params.query)
-
-	options = {url: 'http://www.torrenthound.com/search/'+params.page+'/'+qq+'/seeds:desc' }
-
-	request(options, function(error, response, html) {
-
-		if(!error){
-			var $ = cheerio.load(html)
-			$('.searchtable').filter(function(n){
-				if(n === 1) {
-					$('tr', $(this)).each(function(a, b) {
-						if (a!==0) {
-							attr.title.push($(this).find('a').filter("[href]").text().substr(2)+"\nUploaded "+$(this).children().eq(1).children().find('span').text()+", Size "+$(this).children().eq(2).text())
-							attr.mag.push($(this).find('a').filter("[href]").eq(0).attr('href'))
-							attr.seeders.push("Seeders: " +  $(this).find('td').eq(3).text())
-							attr.leechers.push("Leechers:" +  $(this).find('td').eq(4).text())
-						}
-					})
-				}
-			})
-		}
-		return callback(attr)
-	})
-}
-
