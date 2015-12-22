@@ -28,7 +28,7 @@
 		"keypress": "*",
 		"q": "*",
 		"opensubtitles-client": "*"
-	},
+	}
 //	"scripts": {
 //    	"test": "node ./default.js"
 // 	}
