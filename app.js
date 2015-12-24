@@ -10,7 +10,8 @@ var fs = require('fs')
 var os = require('os')
 var argv = require('minimist')(process.argv.slice(2), {})
 var clivas = require('clivas')
-var pfSpawn = require('child_process').spawn;
+var spawn = require('child_process').spawn;
+var pf;
 var keypress = require('keypress')
 keypress(process.stdin);
 var health = require('torrent-health');
@@ -108,7 +109,7 @@ function getSubs(md, callback) {
 
 function launchPF(callback) {
 	var tc = 0
-	var endSpawn = function() {
+	var finSpawn = function() {
 		clearInterval(tcInterval)
 		if(settings.path !== "tmp") {
 			list.push("--path="+settings.path)
@@ -118,17 +119,17 @@ function launchPF(callback) {
 		}
 		if(plat === "win32") {
 			list.unshift("/c", "peerflix");
-			pfSpawn("cmd", list, {stdio:'inherit'})
+			pf = spawn("cmd", list, {stdio:'inherit'})
 		}
 		else {
-			pfSpawn("peerflix", list, {stdio:'inherit'})
+			pf = spawn("peerflix", list, {stdio:'inherit'})
 		}
 		clivas.line(list)
 	}
 
 	var tcInterval = setInterval(function() {
 		if(tc===2) {
-			endSpawn();
+			finSpawn();
 		}
 	}, 1250);
 
@@ -442,7 +443,13 @@ stdin.on('keypress', function (chunk, key) {
 	}
 
 	else if (key && key.ctrl && key.name == 'c') {
-		process.exit()
+		if(pf!=undefined) {
+			pf.kill('SIGINT');
+			draw();
+			pf = undefined;
+		} else {
+			process.exit()
+		}
 	}
 
 	else if(key.name == "backspace") {
