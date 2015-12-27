@@ -39,14 +39,14 @@ I will add updated blocklist in each update.
   Add "-t" to launch with SOCKS enabled.
 
   ```
-magsearch "blade runner"
+  magsearch "blade runner"
   ```
   
   ___
   
-  Green is seed count. Red is leech count. Magenta is peer count (if health setting is on). <br>
+  Green is seed count. Red is leech count. Magenta is peer count. Both TPB and BTDigg fetch live peer count. <br>
   Navigate with the arrow keys. <br>
-  Search with either ThePirateBay or BTDigg. <br>
+  Search with either ThePirateBay, BTDigg, Kickass, or Demonoid. <br>
   Use Ctrl-B & Ctrl-N to flip search page.
   
   ![ScreenShot1](http://s23.postimg.org/l4zi60cuj/Screen_Shot_2015_04_03_at_19_02_29.png)
