@@ -36,12 +36,20 @@ I will add updated blocklist in each update.
 
 ## Usage ##
  
-  Add "-t" to launch with SOCKS enabled.
-
+ Empty launch
+   ```
+  magsearch
+  ```
+  
+  Searching blade runner through the pirate bay
   ```
   magsearch "blade runner"
   ```
   
+  Searching blade runner through the pirate bay's .onion on port 9150 (default is 9050).
+  ```
+  magsearch "blade runner" -t -p 9150
+  ```
   ___
   
   Green is seed count. Red is leech count. Magenta is peer count. Both TPB and BTDigg fetch live peer count. <br>
