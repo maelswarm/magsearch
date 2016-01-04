@@ -63,7 +63,7 @@ var options = {
 		query: argv._[0],
 		page: 0,
 		keyword: argv.k,
-		socks: {port: settings.port, host: settings.host, enabled: false}
+		socks: {port: argv.p, host: settings.host, enabled: false}
 }
 
 if(argv.t) {
@@ -396,9 +396,9 @@ function draw() {
 	}
 	if(cursorcol%11 !== 2) {
 		if(cursorcol%11 === 0 || cursorcol%11 === 1) {
-			process.stdout.write(" Search:"+ searchStr)
+			clivas.write(" Search:"+ searchStr)
 		} else {
-			process.stdout.write(" Input:"+ searchStr)
+			clivas.write(" Input:"+ searchStr)
 		}
 		return
 	}
@@ -419,13 +419,7 @@ process.stdin.setRawMode(true)
 stdin.on('keypress', function (chunk, key) {
 	if (key == undefined) {
 		searchStr += chunk
-		process.stdout.clearLine()
-		process.stdout.cursorTo(0)
-		if(cursorcol%11 === 0 || cursorcol%11 === 1) {
-			process.stdout.write(" Search:"+ searchStr)
-		} else {
-			process.stdout.write(" Input:"+ searchStr)
-		}
+		draw()
 	}
 	
 	else if (key.ctrl && (key.name == 'n')) {
@@ -454,13 +448,7 @@ stdin.on('keypress', function (chunk, key) {
 
 	else if(key.name == "backspace") {
 		searchStr = searchStr.slice(0, searchStr.length-1)
-		process.stdout.clearLine()
-		process.stdout.cursorTo(0)
-		if(cursorcol%11 === 0 || cursorcol%11 === 1) {
-			process.stdout.write(" Search:"+ searchStr)
-		} else {
-			process.stdout.write(" Input:"+ searchStr)
-		}
+		draw()
 	}
 
 	else if(key.name == "up") {
@@ -595,19 +583,11 @@ stdin.on('keypress', function (chunk, key) {
 	else {
 		if(cursorcol%11 === 0 || cursorcol%11 === 1 || cursorcol%11 === 3 || cursorcol%11 === 4 || cursorcol%11 === 5 || cursorcol%11 === 7 || cursorcol%11 === 10) {
 			searchStr += chunk
-			process.stdout.clearLine()
-			process.stdout.cursorTo(0)
-			if(cursorcol%11 === 0 || cursorcol%11 === 1) {
-				process.stdout.write(" Search:"+ searchStr)
-			} else {
-				process.stdout.write(" Input:"+ searchStr)
-			}
+			draw()
 		}
 	}
 })
 
 function resetInput() {
-	process.stdout.clearLine()
-	process.stdout.cursorTo(0)
 	searchStr = ""
 }
