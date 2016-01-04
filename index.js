@@ -54,6 +54,8 @@ exports.clearattr = function() {
 	attr.seeders = []
 	attr.peers = []
 	attr.leechers = []
+	attr.size = []
+	attr.url = ""
 }
 
 exports.getattr = function() {
@@ -68,63 +70,6 @@ exports.setpeerseed = function(i, seed, peer) {
 outoftime = function() {
 	console.log("\nResponse timeout!\nIf you are using a socks make sure it is configured properly.\n")
 	process.exit(0)
-}
-
-exports.feelingLucky = function(params, callback) {
-	
-	var ss=parsequery(params.query)
-	
-	if(params.socks.port !== undefined) {
-		sPort = params.socks.port
-	}
-	if(params.socks.host !== undefined) {
-		sHost = params.socks.host
-	}
-	if(params.socks.port) {
-		if(sPort === 9150 || sPort === 9050) {
-			options = {
-					url: 'http://btdigg63cdjmmmqj.onion/search?q='+ss+'&p=0&order=0',
-					agentClass: agent,
-					agentOptions: {
-						socksHost: sHost, // Defaults to 'localhost'.
-						socksPort: sPort, // Defaults to 1080.
-						rejectUnauthorized: false
-					}
-			}
-		}
-		else {
-			options = {
-					url: 'http://btdigg.org/search?q='+ss+'&p=0&order=0',
-					agentClass: agent,
-					agentOptions: {
-						socksHost: sHost, // Defaults to 'localhost'.
-						socksPort: sPort, // Defaults to 1080.
-						rejectUnauthorized: false
-					}
-			}
-		}
-	}
-	else {
-		options = {url: 'http://btdigg.org/search?q='+ss+'&p=0&order=0'};
-	}
-
-	timer = setTimeout(outoftime, 18000)
-	//var trackers = "&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969"
-	request(options, function(error, response, html) {
-		clearTimeout(timer)
-		if(html === undefined) {
-			console.log("\nResponse is empty!\nIf you are using a Socks, make sure it is properly configured.\n")
-			process.exit(0)
-		}
-		
-		if(!error) {
-			var i=0
-			var $ = cheerio.load(html)
-			attr.title.push($('.torrent_name_tbl').first().text())
-			attr.mag.push($('.ttth').first().find('a').filter("[href]").attr('href'))
-			return callback(attr)
-		}
-	})
 }
 
 exports.pbay = function(params, callback) {
@@ -434,19 +379,15 @@ exports.btdigg = function(params, callback) {
 				if(c%2===0) {
 					var temp = $(this).text().trim()
 					var tr = $(this).next().children('tr').first()
-					$('td', tr).each(function(a, b) {
-							if(a===2) {
-								temp += " "+$('.attr_val', b).text().trim()
-							}
-					});
+					
 					attr.title.push(temp)
+				} else {
+					var temp = $(this).children('tr').children('td').eq(1).text()
+					attr.size.push(temp)
 				}
 			})
 			$('.ttth').filter(function(c){
-				if(c%2===0) {
-					attr.mag.push($('a', this).filter("[href]").attr('href'))
-					attr.peers.push(" ")
-				}
+				attr.mag.push($('a', this).filter("[href]").attr('href'))
 			})
 		}
 		attr.url = options.url

@@ -378,11 +378,11 @@ function draw() {
 			}
 		}
 		else {
-			if((watchrow%11) == i && cursorcol%11 === 2) {
-				clivas.line("{bold+cyan+blink:>}"+"{bold+cyan: "+result.title[i]+"}")
+			if((watchrow%10) == i && cursorcol%11 === 2) {
+				clivas.line("{bold+cyan+blink:>}"+"{bold+cyan: "+result.title[i]+"}"+"{bold: "+result.size[i]+"}")
 			}
 			else {
-				clivas.line("{bold:┃ "+result.title[i]+"}")
+				clivas.line("{bold:┃ "+result.title[i]+"}"+"{bold: "+result.size[i]+"}")
 			}
 		}
 	}
@@ -396,7 +396,11 @@ function draw() {
 	}
 	if(cursorcol%11 !== 2) {
 		if(cursorcol%11 === 0 || cursorcol%11 === 1) {
-			clivas.write(" Search:"+ searchStr)
+			if(searchStr==="") {
+				clivas.write(" Type a title to search and hit enter:")
+			} else {
+				clivas.write(" Search:"+ searchStr)
+			}
 		} else {
 			clivas.write(" Input:"+ searchStr)
 		}
@@ -407,7 +411,7 @@ function draw() {
 		if(searchArr[searchrow%4]==="BTDIGG") {
 			md = 10
 		}
-		var tempmag = mgSrch.getattr().mag[watchrow%md]
+		var tempmag = result.mag[watchrow%md]
 		if(tempmag !== undefined) {
 			clivas.write(tempmag)
 		}
