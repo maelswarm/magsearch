@@ -327,7 +327,7 @@ exports.kat = function(params, callback) {
 				attr.seeders.push(" "+data.list[i].seeds)
 				attr.leechers.push(" "+data.list[i].leechs)
 				attr.peers.push(" "+data.list[i].peers)
-				attr.size.push((data.list[i].size/1000000000)+" GiB")
+				attr.size.push((data.list[i].size/1000000000).toFixed(2)+" GiB")
 			}
 		}
 		attr.url = options.url
