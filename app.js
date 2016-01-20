@@ -71,7 +71,7 @@ if(argv.t) {
 }
 
 function getSubs(md, callback) {
-	var title = mgSrch.getattr().title[watchrow%md]
+	var title = mgSrch.attr.title[watchrow%md]
 	opensubtitles.api.login()
 	.then(function(token){
 		opensubtitles.api.search(token, settings.subtitles, {
@@ -142,7 +142,7 @@ function launchPF(callback) {
 	var blist = settings.blocklist
 	var list = [];
 	
-	list.push(mgSrch.getattr().mag[watchrow%md])
+	list.push(mgSrch.attr.mag[watchrow%md])
 	if(settings.remove != false && settings.path === "tmp") {
 		list.push("--remove")
 	}
@@ -274,7 +274,7 @@ function search() {
 
 
 function draw() {
-	var result = mgSrch.getattr()
+	var result = mgSrch.attr
 	var searchEngine = searchArr[searchrow%4]
 	process.stdout.clearLine();
 	process.stdout.cursorTo(0);
