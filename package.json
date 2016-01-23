@@ -23,6 +23,7 @@
 		"request": "*",
 		"clivas": "*",
 		"tap": "*",
+		"torrent-health": "*",
 		"socks5-http-client": "*",
 		"keypress": "*",
 		"q": "*",
