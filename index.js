@@ -1,7 +1,7 @@
 var magsearch = module.exports = {};
 var request = require('request')
 var cheerio = require('cheerio')
-var health = require('torrent-health')
+var health = require('./torrent-health-hf')
 var agent = require('socks5-http-client/lib/Agent')
 
 var options = {}

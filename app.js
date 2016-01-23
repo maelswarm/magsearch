@@ -14,7 +14,6 @@ var spawn = require('child_process').spawn;
 var pf;
 var keypress = require('keypress')
 keypress(process.stdin);
-var health = require('torrent-health');
 var opensubtitles = require('opensubtitles-client');
 
 var searchStr = ""
@@ -192,10 +191,10 @@ function search() {
 		else if(argv.s === "tpb") {
 			mgSrch.pbay(options, function(result) {
 				var cnt = 0;
-				draw()
 				if(result===undefined) {
 					return
 				}
+				draw()
 				if(result.errno) {
 					clivas.line("")
 					clivas.line("")
@@ -212,7 +211,8 @@ function search() {
 					var len = result.title.length
 					for(var i=0; i<len; i++) {
 						mgSrch.gethealth(i, function(fin) {
-							cnt+=fin
+							clivas.write(cnt)
+							cnt++;
 							if(cnt === len) {
 								draw()
 							}
@@ -225,10 +225,10 @@ function search() {
 			mgSrch.kat(options, function(result) {
 				
 				//var cnt = 0;
-				draw()
 				if(result===undefined) {
 					return
 				}
+				draw()
 				if(result.errno) {
 					clivas.line("")
 					clivas.line("")

@@ -1,6 +1,6 @@
 {
 	"name": "magsearch",
-	"version": "0.12.2",
+	"version": "0.12.3",
 	"author": "Brandon Barber (@roecrew)",
 	"license": "MIT",
 	"description": "A low-key magnet-link cli",
@@ -23,7 +23,6 @@
 		"request": "*",
 		"clivas": "*",
 		"tap": "*",
-		"torrent-health": "*",
 		"socks5-http-client": "*",
 		"keypress": "*",
 		"q": "*",
