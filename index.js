@@ -247,62 +247,62 @@ magsearch.demon = function(params, callback) {
 }
 
 magsearch.kat = function(params, callback) {
-	
+
 	var qq=parsequery(params.query)
 	var kk=""
 
-	switch(params.keyword) {
-	case "all":
-		kk=""
-		break
-	case "video":
-		kk="%20category%3Amovies"
-		break
-	case "audio":
-		kk="%20category%3Amusic"
-		break
-	case "adult":
-		kk="%20category%3Axxx"
-		break
-	case "applications":
-		kk="%20category%3Aapplications"
-		break
-	}
+		switch(params.keyword) {
+		case "all":
+			kk=""
+				break
+		case "video":
+			kk="%20category%3Amovies"
+				break
+		case "audio":
+			kk="%20category%3Amusic"
+				break
+		case "adult":
+			kk="%20category%3Axxx"
+				break
+		case "applications":
+			kk="%20category%3Aapplications"
+				break
+		}
 
 //	http://www.katproxyabq6ezj6.onion/usearch/blade%20runner/2/
 //	http://www.katproxyabq6ezj6.onion/usearch/blade%20runner%20category%3Amovies/1/
 //	http://www.katproxyabq6ezj6.onion/usearch/blade%20runner%20category%3Amovies/1/
-	
+
 //	'http://www.kat.cr/usearch/'+qq+kk+'/'+(params.page+1)+'/'
-	
+
 //	if(Boolean(params.socks.enabled)) {
-//		if(parseInt(params.socks.port) === 9150 || parseInt(params.socks.port) === 9050) {
-//			options = {
-//					url: 'http://www.katproxyabq6ezj6.onion/json.php?q='+qq,
-//					agentClass: agent,
-//					agentOptions: {
-//						socksHost: params.socks.host, // Defaults to 'localhost'.
-//						socksPort: parseInt(params.socks.port), // Defaults to 1080.
-//						rejectUnauthorized: false
-//					}
-//			}
-//		}
-//		else {
-//			options = {
-//					url: 'http://www.kat.cr/json.php?q='+qq,
-//					agentClass: agent,
-//					agentOptions: {
-//						socksHost: params.socks.host, // Defaults to 'localhost'.
-//						socksPort: parseInt(params.socks.port), // Defaults to 1080.
-//						rejectUnauthorized: false
-//					}
-//			}
-//		}
+//	if(parseInt(params.socks.port) === 9150 || parseInt(params.socks.port) === 9050) {
+//	options = {
+//	url: 'http://www.katproxyabq6ezj6.onion/json.php?q='+qq,
+//	agentClass: agent,
+//	agentOptions: {
+//	socksHost: params.socks.host, // Defaults to 'localhost'.
+//	socksPort: parseInt(params.socks.port), // Defaults to 1080.
+//	rejectUnauthorized: false
+//	}
+//	}
 //	}
 //	else {
-		options = {url: 'http://www.kat.cr/json.php?q='+qq}
+//	options = {
+//	url: 'http://www.kat.cr/json.php?q='+qq,
+//	agentClass: agent,
+//	agentOptions: {
+//	socksHost: params.socks.host, // Defaults to 'localhost'.
+//	socksPort: parseInt(params.socks.port), // Defaults to 1080.
+//	rejectUnauthorized: false
 //	}
-	
+//	}
+//	}
+//	}
+//	else {
+	options = {url: 'http://www.kat.cr/json.php?q='+qq}
+//	}
+
 	request(options, function(error, response, html) {
 		var i = 0
 		if(error) {
@@ -312,14 +312,16 @@ magsearch.kat = function(params, callback) {
 		if(!error){
 			var data = JSON.parse(html)
 			//console.log(data.list[0]);
-			
+
 			for(var i=params.page*15; i<(params.page+1)*15; i++) {
-				magsearch.attr.title.push(data.list[i].title.trim())
-				magsearch.attr.mag.push(data.list[i].torrentLink)
-				magsearch.attr.seeders.push(" "+data.list[i].seeds)
-				magsearch.attr.leechers.push(" "+data.list[i].leechs)
-				magsearch.attr.peers.push(" "+data.list[i].peers)
-				magsearch.attr.size.push((data.list[i].size/1000000000).toFixed(2)+" GiB")
+				if(data.list[i] !== undefined) {
+					magsearch.attr.title.push(data.list[i].title.trim())
+					magsearch.attr.mag.push(data.list[i].torrentLink)
+					magsearch.attr.seeders.push(" "+data.list[i].seeds)
+					magsearch.attr.leechers.push(" "+data.list[i].leechs)
+					magsearch.attr.peers.push(" "+data.list[i].peers)
+					magsearch.attr.size.push((data.list[i].size/1000000000).toFixed(2)+" GiB")
+				}
 			}
 		}
 		magsearch.attr.url = options.url
