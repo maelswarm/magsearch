@@ -34,6 +34,11 @@ Added the ability to not use a player.
 Auto-blocklist now configured. Blocklist is bt_level1 from www.iblocklist.com <br>
 I will add updated blocklist in each update.
 
+
+## Issues ##
+
+Demonoid's non-onion search is currently unavailable until further notice.
+
 ## Usage ##
  
  Empty launch
