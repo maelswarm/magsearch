@@ -38,6 +38,7 @@ I will add updated blocklist in each update.
 ## Issues ##
 
 Demonoid's non-onion search is currently unavailable until further notice.
+Kickass is down until further notice.
 
 ## Usage ##
  
