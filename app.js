@@ -210,13 +210,13 @@ function search() {
 				if(settings.health === true) {
 					var len = result.title.length
 					for(var i=0; i<len; i++) {
-						mgSrch.gethealth(i, function(fin) {
-							clivas.write(cnt)
-							cnt++;
-							if(cnt === len) {
-								draw()
-							}
-						})
+//						mgSrch.gethealth(i, function(fin) { // temp disabled
+//							clivas.write(cnt)
+//							cnt++;
+//							if(cnt === len) {
+//								draw()
+//							}
+//						})
 					}
 				}
 			})

@@ -102,7 +102,7 @@ magsearch.pbay = function(params, callback) {
 		}
 		else {
 			options = {
-					url: 'http://thepiratebay.se/search/'+qq+'/'+Math.floor(params.page/2)+'/7/'+kk,
+					url: 'https://thepiratebay.org/search/'+qq+'/'+Math.floor(params.page/2)+'/7/'+kk,
 					agentClass: agent,
 					agentOptions: {
 						socksHost: params.socks.host, // Defaults to 'localhost'.
@@ -113,7 +113,7 @@ magsearch.pbay = function(params, callback) {
 		}
 	}
 	else {
-		options = {url: 'http://thepiratebay.se/search/'+qq+'/'+Math.floor(params.page/2)+'/7/'+kk}
+		options = {url: 'https://thepiratebay.org/search/'+qq+'/'+Math.floor(params.page/2)+'/7/'+kk}
 	}
 	
 	request(options, function(error, response, html) {
@@ -121,7 +121,7 @@ magsearch.pbay = function(params, callback) {
 		if(error) {
 			return callback(error)
 		}
-		
+
 		if(!error){
 			var $ = cheerio.load(html)
 			$('#searchResult').filter(function() {
@@ -196,8 +196,8 @@ magsearch.demon = function(params, callback) {
 		}
 		else {
 			options = {
-					host: 'http://www.demonoid.pw',
-					url: 'http://www.demonoid.pw/files/?query='+qq+'&subcategory=All&quality=All&seeded=2&external=2&sort=S&category='+kk+'&page='+Math.floor((params.page/4)+1),
+					host: 'http://www.demonoid.cc',
+					url: 'http://www.demonoid.cc/files/?query='+qq+'&subcategory=All&quality=All&seeded=2&external=2&sort=S&category='+kk+'&page='+Math.floor((params.page/4)+1),
 					agentClass: agent,
 					agentOptions: {
 						socksHost: params.socks.host, // Defaults to 'localhost'.
@@ -209,8 +209,8 @@ magsearch.demon = function(params, callback) {
 	}
 	else {
 		options = {
-				host: 'http://www.demonoid.pw',
-				url: 'http://www.demonoid.pw/files/?query='+qq+'&subcategory=All&quality=All&seeded=2&external=2&sort=S&category='+kk+'&page='+Math.floor((params.page/4)+1)}
+				host: 'http://www.demonoid.cc',
+				url: 'http://www.demonoid.cc/files/?query='+qq+'&subcategory=All&quality=All&seeded=2&external=2&sort=S&category='+kk+'&page='+Math.floor((params.page/4)+1)}
 	}
 	
 	request(options, function(error, response, html) {
