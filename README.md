@@ -22,22 +22,11 @@ npm install peerflix -g
 
 ## What's New ##
 
-Demonoid and it's .onion site are now supported!
-
-Kickass is now supported!
-
-SOCKS functionality is currently unavailable for all proxies except TOR.<br>
-
-Download path may now be specified. <br>
-Added the ability to not use a player.
-
-Auto-blocklist now configured. Blocklist is bt_level1 from www.iblocklist.com <br>
-I will add updated blocklist in each update.
+Extratorrent is now supported!
 
 
 ## Issues ##
 
-Demonoid's non-onion search is currently unavailable until further notice.
 Kickass is down until further notice.
 
 ## Usage ##
@@ -60,7 +49,7 @@ Kickass is down until further notice.
   
   Green is seed count. Red is leech count. Magenta is peer count. Both TPB and BTDigg fetch live peer count. <br>
   Navigate with the arrow keys. <br>
-  Search with either ThePirateBay, BTDigg, Kickass, or Demonoid. <br>
+  Search with either ThePirateBay, BTDigg, Extratorrent, or Demonoid. <br>
   Use Ctrl-B & Ctrl-N to flip search page.
   
   ![ScreenShot1](http://s23.postimg.org/l4zi60cuj/Screen_Shot_2015_04_03_at_19_02_29.png)

@@ -122,7 +122,7 @@ magsearch.pbay = function(params, callback) {
 			return callback(error)
 		}
 
-		if(!error){
+		if(!error) {
 			var $ = cheerio.load(html)
 			$('#searchResult').filter(function() {
 				var tr = $(this).children('tr')
@@ -148,6 +148,92 @@ magsearch.pbay = function(params, callback) {
 					//leekers
 					if(a%4===3 && a<uplim && a>lowlim) {
 						magsearch.attr.leechers.push(" "+$(b).text())
+					}
+				})
+			})
+		}
+		magsearch.attr.url = options.url
+		return callback(magsearch.attr)
+	})
+}
+
+magsearch.extra = function(params, callback) {
+	
+	var qq=parsequery(params.query)
+	var kk=""
+
+	switch(params.keyword) {
+	case "all":
+		kk=0
+		break
+	case "video":
+		kk=4
+		break
+	case "audio":
+		kk=5
+		break
+	case "adult":
+		kk=533
+		break
+	case "applications":
+		kk=7
+		break
+	}
+
+	
+	if(Boolean(params.socks.enabled)) {
+		if(parseInt(params.socks.port) === 9150 || parseInt(params.socks.port) === 9050) {
+			options = {
+					host: 'http://demonhkzoijsvvui.onion',
+					url: 'http://demonhkzoijsvvui.onion/files/?query='+qq+'&subcategory=All&quality=All&seeded=2&external=2&sort=S&category='+kk+'&page='+Math.floor((params.page/4)+1),
+					agentClass: agent,
+					agentOptions: {
+						socksHost: params.socks.host, // Defaults to 'localhost'.
+						socksPort: parseInt(params.socks.port), // Defaults to 1080.
+						rejectUnauthorized: false
+					}
+			}
+		}
+		else {
+			options = {
+					host: 'http://extratorrent.cc',
+					url: 'http://extratorrent.cc/search/?search='+qq+'&s_cat='+kk+'&pp=&srt=seeds&order=desc&page='+Math.floor((params.page/5)+1),
+					agentClass: agent,
+					agentOptions: {
+						socksHost: params.socks.host, // Defaults to 'localhost'.
+						socksPort: parseInt(params.socks.port), // Defaults to 1080.
+						rejectUnauthorized: false
+					}
+			}
+		}
+	}
+	else {
+		options = {
+				host: 'http://extratorrent.cc',
+				url: 'http://extratorrent.cc/search/?search='+qq+'&s_cat='+kk+'&pp=&srt=seeds&order=desc&page='+Math.floor((params.page/5)+1)
+		}
+	}
+
+	request(options, function(error, response, html) {
+		var i = 0
+		if(error) {
+			return callback(error)
+		}
+
+		if(!error) {
+			//console.log(options.url)
+			var $ = cheerio.load(html)
+			var upperlim = 10+(Math.floor(params.page%5)*10)
+			var lowerlim = -1 + (Math.floor(params.page%5)*10)
+			$('.tl').filter(function() {
+				var tmp = $(this).children('tr')
+				$(tmp).each(function(a, b) {
+					if((a<upperlim) && (a>lowerlim)) {
+						magsearch.attr.leechers.push(" "+$(b).children().eq(6).text())
+						magsearch.attr.seeders.push(" "+$(b).children().eq(5).text())
+						magsearch.attr.size.push(" "+$(b).children().eq(4).text())
+						magsearch.attr.title.push($(b).children().eq(2).find('a').text().trim())
+						magsearch.attr.mag.push($(b).children().eq(0).children().eq(1).filter("[href]").attr('href'))
 					}
 				})
 			})
@@ -219,7 +305,7 @@ magsearch.demon = function(params, callback) {
 			return callback(error)
 		}
 		
-		if(!error){
+		if(!error) {
 			//console.log(options.url)
 			var $ = cheerio.load(html)
 			var upperlim = 4+(Math.floor((params.page%4)+1)*45)
@@ -269,39 +355,7 @@ magsearch.kat = function(params, callback) {
 				break
 		}
 
-//	http://www.katproxyabq6ezj6.onion/usearch/blade%20runner/2/
-//	http://www.katproxyabq6ezj6.onion/usearch/blade%20runner%20category%3Amovies/1/
-//	http://www.katproxyabq6ezj6.onion/usearch/blade%20runner%20category%3Amovies/1/
-
-//	'http://www.kat.cr/usearch/'+qq+kk+'/'+(params.page+1)+'/'
-
-//	if(Boolean(params.socks.enabled)) {
-//	if(parseInt(params.socks.port) === 9150 || parseInt(params.socks.port) === 9050) {
-//	options = {
-//	url: 'http://www.katproxyabq6ezj6.onion/json.php?q='+qq,
-//	agentClass: agent,
-//	agentOptions: {
-//	socksHost: params.socks.host, // Defaults to 'localhost'.
-//	socksPort: parseInt(params.socks.port), // Defaults to 1080.
-//	rejectUnauthorized: false
-//	}
-//	}
-//	}
-//	else {
-//	options = {
-//	url: 'http://www.kat.cr/json.php?q='+qq,
-//	agentClass: agent,
-//	agentOptions: {
-//	socksHost: params.socks.host, // Defaults to 'localhost'.
-//	socksPort: parseInt(params.socks.port), // Defaults to 1080.
-//	rejectUnauthorized: false
-//	}
-//	}
-//	}
-//	}
-//	else {
-	options = {url: 'http://www.kat.cr/json.php?q='+qq}
-//	}
+	options = {url: 'http://kickasstorrents.to/json.php?q='+qq}
 
 	request(options, function(error, response, html) {
 		var i = 0
@@ -309,9 +363,9 @@ magsearch.kat = function(params, callback) {
 			return callback(error)
 		}
 
-		if(!error){
+		if(!error) {
 			var data = JSON.parse(html)
-			//console.log(data.list[0]);
+			console.log(data.list[0]);
 
 			for(var i=params.page*15; i<(params.page+1)*15; i++) {
 				if(data.list[i] !== undefined) {
