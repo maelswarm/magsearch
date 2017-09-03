@@ -22,12 +22,11 @@ npm install peerflix -g
 
 ## What's New ##
 
-Extratorrent is now supported!
-
+TPB and its onion site are now the only supported sites.
 
 ## Issues ##
 
-Kickass is down until further notice.
+Torrent Health is still broken due to dead links
 
 ## Usage ##
  
