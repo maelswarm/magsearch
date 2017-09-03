@@ -24,7 +24,7 @@ var watchrow = 1500
 var cursorcol = 6006
 var searchrow = 1500
 var keywordrow = 5000
-var searchArr = ["PIRATEBAY", "EXTRATORRENT", "KICKASS", "BTDIGG", "DEMONOID"]
+var searchArr = ["PIRATEBAY", "KICKASS"]
 var keywordArr = ["all", "video", "audio", "applications", "adult"]
 var playerArr = ["none", "--vlc", "--airplay", "--mplayer", "--smplayer", "--mpchc", "--potplayer", "--mpv", "--omx", "--webplay", "--jack"]
 var subArr = ["none", "eng", "chi", "ger", "ita", "jpn", "kor", "pol", "por", "rus", "spa", "swe"]
@@ -135,7 +135,7 @@ function launchPF(callback) {
 	clivas.line("Preparing...")
 
 	var md = 15
-	if(searchArr[searchrow%5]==="BTDIGG") {
+	if(searchArr[searchrow%1]==="BTDIGG") {
 		md = 10
 	}
 	var blist = settings.blocklist
@@ -298,7 +298,7 @@ function search() {
 
 function draw() {
 	var result = mgSrch.attr
-	var searchEngine = searchArr[searchrow%5]
+	var searchEngine = searchArr[searchrow%1]
 	process.stdout.clearLine();
 	process.stdout.cursorTo(0);
 	clivas.clear()
@@ -438,7 +438,7 @@ function draw() {
 	}
 	if(settings.printmag === true) {
 		var md = 15
-		if(searchArr[searchrow%5]==="BTDIGG" || searchArr[searchrow%5]==="EXTRATORRENT") {
+		if(searchArr[searchrow%1]==="BTDIGG" || searchArr[searchrow%1]==="EXTRATORRENT") {
 			md = 10
 		}
 		var tempmag = result.mag[watchrow%md]
@@ -541,16 +541,13 @@ stdin.on('keypress', function (chunk, key) {
 			options.keyword = keywordArr[keywordrow%5]
 			mgSrch.clearattr()
 			lastSearched = searchStr
-			if(searchArr[searchrow%5]==="PIRATEBAY") {
+			if(searchArr[searchrow%1]==="PIRATEBAY") {
 				argv.s = "tpb"
-			} else if(searchArr[searchrow%5]==="KICKASS") {
+			} else if(searchArr[searchrow%1]==="KICKASS") {
 				argv.s = "kat"
-			} else if(searchArr[searchrow%5]==="DEMONOID") {
+			} else if(searchArr[searchrow%1]==="DEMONOID") {
 				argv.s = "demon"
-			} else if(searchArr[searchrow%5]==="EXTRATORRENT") {
-				argv.s = "extra"
-			}
-			else {
+			} else {
 				argv.s = "btd"
 			}
 			watchrow = 1500
