@@ -323,7 +323,7 @@ async function search() {
       });
     }
   } else {
-    draw();
+    await draw();
   }
 }
 search();
