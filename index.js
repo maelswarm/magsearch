@@ -116,13 +116,9 @@ magsearch.pbay = function(params, callback) {
     }
   } else {
     options = {
-      url:
-        'https://thepiratebay.org/search/' +
-        qq +
-        '/' +
-        Math.floor(params.page / 2) +
-        '/7/' +
-        kk
+      url: `https://thepiratebay.org/search/${qq}/${Math.floor(
+        params.page / 2
+      )}/7/${kk}`
     };
   }
 
