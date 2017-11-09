@@ -100,8 +100,8 @@ if (argv.t) {
   options.socks.enabled = true;
 }
 
-async function getSubs(md, callback) {
-  const title = await mgSrch.attr.title[watchrow % md];
+function getSubs(md, callback) {
+  const title = mgSrch.attr.title[watchrow % md];
   opensubtitles.api.login().then(function(token) {
     opensubtitles.api
       .search(token, settings.subtitles, {
