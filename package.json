@@ -6,16 +6,16 @@
 	"description": "A low-key magnet-link cli",
 	"main": "index.js",
 	"repository": {
-	"type": "git",
-	"url": "git://github.com/roecrew/magsearch.git"
+		"type": "git",
+		"url": "git://github.com/roecrew/magsearch.git"
 	},
 	"bin": {
-	    "magsearch": "./app.js"
+		"magsearch": "./app.js"
 	},
 	"keywords": [
-	    "magnet",
-	    "torrent",
-	    "search"
+		"magnet",
+		"torrent",
+		"search"
 	],
 	"dependencies": {
 		"minimist": "*",
