@@ -1,7 +1,6 @@
-# magsearch #
+<h1 align="center">magsearch</h1>
 
-A low-key magnet-link cli
-
+<p align="center"><strong>A low-key magnet-link cli</strong></p>
 
 ## Install ##
 ![build alt](https://travis-ci.org/roecrew/magsearch.svg?branch=master)
