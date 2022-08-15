@@ -164,10 +164,7 @@ function launchPF(callback) {
 
   clivas.line('Preparing...');
 
-  let md = 15;
-  if (searchArr[searchrow % 1] === 'BTDIGG') {
-    md = 10;
-  }
+  let md = mgSrch.attr.mag.length;
   const blist = settings.blocklist;
   let list = [];
 
@@ -493,7 +490,7 @@ function draw() {
   );
   for (let i = result.title.length - 1; i >= 0; i--) {
     if (argv.s === 'tpb' || argv.s === 'kat') {
-      if (watchrow % 15 == i && cursorcol % 11 === 2) {
+      if (watchrow % mgSrch.attr.mag.length == i && cursorcol % 11 === 2) {
         clivas.line(
           '{bold+cyan+blink:>}' +
             '{bold+cyan: ' +
@@ -598,7 +595,7 @@ function draw() {
         );
       }
     } else {
-      if (watchrow % 10 == i && cursorcol % 11 === 2) {
+      if (watchrow % mgSrch.attr.mag.length == i && cursorcol % 11 === 2) {
         clivas.line(
           '{bold+cyan+blink:>}' +
             '{bold+cyan: ' +

@@ -1,13 +1,13 @@
 {
 	"name": "magsearch",
-	"version": "0.13.2",
-	"author": "Brandon Barber (@roecrew)",
+	"version": "0.14.0",
+	"author": "Brandon Barber (@maelswarm)",
 	"license": "MIT",
 	"description": "A low-key magnet-link cli",
 	"main": "index.js",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/roecrew/magsearch.git"
+		"url": "git://github.com/maelswarm/magsearch.git"
 	},
 	"bin": {
 		"magsearch": "./app.js"
@@ -28,5 +28,9 @@
 		"keypress": "*",
 		"q": "*",
 		"opensubtitles-client": "*"
+	},
+	"overrides": {
+		"mustache": "4.2.0",
+		"lodash": "4.17.21"
 	}
 }
