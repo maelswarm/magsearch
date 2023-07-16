@@ -49,15 +49,13 @@ Torrent Health is still broken due to dead links
   Navigate with the arrow keys. <br>
   Search with either ThePirateBay, BTDigg, Extratorrent, or Demonoid. <br>
   Use Ctrl-B & Ctrl-N to flip search page.
-  
-  ![ScreenShot1](http://s23.postimg.org/l4zi60cuj/Screen_Shot_2015_04_03_at_19_02_29.png)
-  
+ 
+  <img width="622" alt="Screenshot 2023-07-16 at 3 54 26 PM" src="https://github.com/maelswarm/magsearch/assets/6314185/364a9114-0363-4d45-a2cb-5bce04738dec">
+
   ---
   
   Socks compatible. <br>
   Searching on TOR uses .onions. <br>
-  
-  ![ScreenShot2](http://s1.postimg.org/dwdjiwlrz/Screen_Shot_2015_04_03_at_18_57_15.png)
   
   ___
   
