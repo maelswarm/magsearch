@@ -1,0 +1,44 @@
+{
+	"name": "magsearch",
+	"version": "0.16.0",
+	"author": "Brandon Barber (@maelswarm)",
+	"license": "MIT",
+	"description": "Search The Pirate Bay from your terminal and stream magnet links with peerflix",
+	"type": "module",
+	"main": "index.js",
+	"exports": {
+		".": "./index.js"
+	},
+	"bin": {
+		"magsearch": "bin/magsearch.js"
+	},
+	"files": [
+		"bin",
+		"lib",
+		"index.js",
+		"btlev1"
+	],
+	"scripts": {
+		"start": "node bin/magsearch.js",
+		"test": "node --test"
+	},
+	"engines": {
+		"node": ">=20"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/maelswarm/magsearch.git"
+	},
+	"keywords": [
+		"magnet",
+		"torrent",
+		"search",
+		"piratebay",
+		"peerflix",
+		"cli",
+		"tui"
+	],
+	"dependencies": {
+		"socks-proxy-agent": "^10.1.0"
+	}
+}
