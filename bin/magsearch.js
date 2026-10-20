@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import { parseArgs } from 'node:util';
-import { CATEGORIES, categoryLabel, resolveCategory, search } from '../index.js';
+import { CATEGORIES, categoryLabel, resolveCategory } from '../index.js';
+import { TOR_HOST, findTorrents } from '../lib/connection.js';
 import { createStyle, formatAge, formatSize, padEnd, padStart, sanitize, shouldUseColor, truncate } from '../lib/format.js';
-import { searchOnion } from '../lib/onion.js';
 import { DEFAULTS, configPath, loadSettings, saveSettings } from '../lib/settings.js';
 import { App } from '../lib/ui.js';
 import { VERSION } from '../lib/version.js';
@@ -15,13 +15,16 @@ Usage
 
 Options
   -c, --category <name>   ${Object.keys(CATEGORIES).join(', ')} (default: all)
-  -t, --tor               send requests through a SOCKS5 proxy such as Tor
-  -p, --port <port>       proxy port (default: ${DEFAULTS.proxyPort}; Tor Browser uses 9150)
-      --host <host>       proxy host (default: ${DEFAULTS.proxyHost})
+  -t, --tor               connect through Tor on ${TOR_HOST}:${DEFAULTS.torPort}
+      --tor-port <port>   connect through Tor on this port (Tor Browser uses 9150)
+      --socks             connect through a SOCKS5 proxy on ${DEFAULTS.socksHost}:${DEFAULTS.socksPort}
+      --socks-host <host> SOCKS proxy host (default: ${DEFAULTS.socksHost})
+      --socks-port <port> SOCKS proxy port (default: ${DEFAULTS.socksPort})
       --api <url>         Pirate Bay API (default: ${DEFAULTS.api})
   -l, --list              print results as a table and exit
       --json              print results as JSON and exit
-  -n, --limit <n>         how many results --list prints (default: 20)
+  -n, --limit <n>         how many results to print (default: 20 for --list,
+                          all for --json)
       --subtitles-key <key>
                           save your OpenSubtitles.com API key
       --config            print where settings are saved
@@ -31,11 +34,16 @@ Options
 Examples
   magsearch
   magsearch blade runner -c video
-  magsearch "blade runner" -t -p 9150
+  magsearch "blade runner" --tor
+  magsearch "blade runner" --tor-port 9150
+  magsearch "blade runner" --socks --socks-host 10.0.0.2
   magsearch ubuntu --json | jq -r '.[0].magnet'
 
-In the app, press ? for keys and , for settings (player, subtitles, proxy,
-the .onion site…).
+Tor and SOCKS flags apply to this run only. The ports and host default to
+your settings. Use one or the other, not both.
+
+In the app, press ? for keys and , for settings (player, subtitles, Tor,
+SOCKS proxy, the .onion site…).
 Stream with peerflix (npm install -g peerflix), or press o to send a magnet
 to your own torrent client.`;
 
@@ -52,8 +60,10 @@ try {
       category: { type: 'string', short: 'c' },
       keyword: { type: 'string', short: 'k' }, // old name for --category
       tor: { type: 'boolean', short: 't' },
-      port: { type: 'string', short: 'p' },
-      host: { type: 'string' },
+      'tor-port': { type: 'string' },
+      socks: { type: 'boolean' },
+      'socks-host': { type: 'string' },
+      'socks-port': { type: 'string' },
       api: { type: 'string' },
       list: { type: 'boolean', short: 'l' },
       json: { type: 'boolean' },
@@ -110,14 +120,24 @@ try {
 
 // Flags apply to this session only; they're never written to the settings file.
 const overrides = {};
-if (flags.tor) overrides.proxy = true;
-if (flags.host) overrides.proxyHost = flags.host;
 if (flags.api) overrides.api = flags.api;
-if (flags.port !== undefined) {
-  const port = Number(flags.port);
-  if (!Number.isInteger(port) || port < 1 || port > 65535) fail(`"${flags.port}" isn't a valid port.`);
-  overrides.proxyPort = port;
+
+function parsePort(flag) {
+  const value = flags[flag];
+  const port = Number(value);
+  if (!Number.isInteger(port) || port < 1 || port > 65535) fail(`--${flag}: "${value}" isn't a valid port.`);
+  return port;
 }
+
+// --tor-port implies --tor, and --socks-host / --socks-port imply --socks.
+const useTor = flags.tor || flags['tor-port'] !== undefined;
+const useSocks = flags.socks || flags['socks-host'] !== undefined || flags['socks-port'] !== undefined;
+if (useTor && useSocks) fail('use either Tor (--tor, --tor-port) or a SOCKS proxy (--socks, --socks-host, --socks-port), not both.');
+if (useTor) overrides.connection = 'tor';
+if (useSocks) overrides.connection = 'socks';
+if (flags['tor-port'] !== undefined) overrides.torPort = parsePort('tor-port');
+if (flags['socks-host'] !== undefined) overrides.socksHost = flags['socks-host'];
+if (flags['socks-port'] !== undefined) overrides.socksPort = parsePort('socks-port');
 
 const query = positionals.join(' ').trim();
 const config = { ...settings, ...overrides };
@@ -137,13 +157,9 @@ if (flags.json || flags.list || !interactive) {
 }
 
 async function printResults() {
-  // The .onion site is only reachable through Tor, so it always uses the proxy.
-  const proxy = config.proxy || config.onion ? { host: config.proxyHost, port: config.proxyPort } : undefined;
   let results;
   try {
-    results = config.onion
-      ? await searchOnion(query, { category, proxy })
-      : await search(query, { category, api: config.api, proxy });
+    results = await findTorrents(query, { category, config });
   } catch (err) {
     fail(err.message);
   }

@@ -1,6 +1,6 @@
 {
 	"name": "magsearch",
-	"version": "0.16.0",
+	"version": "0.16.1",
 	"author": "Brandon Barber (@maelswarm)",
 	"license": "MIT",
 	"description": "Search The Pirate Bay from your terminal and stream magnet links with peerflix",

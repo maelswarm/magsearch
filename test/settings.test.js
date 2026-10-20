@@ -20,9 +20,13 @@ test('settings round-trip, creating the folder', () => {
 
 test('unknown keys, wrong types and unknown players are ignored', () => {
   const file = path.join(tempDir(), 'settings.json');
-  fs.writeFileSync(file, JSON.stringify({ proxyPort: '9150', health: false, player: 'winamp', bogus: 1 }));
+  fs.writeFileSync(
+    file,
+    JSON.stringify({ socksPort: '1081', health: false, player: 'winamp', connection: 'vpn', bogus: 1 })
+  );
   const loaded = loadSettings(file);
-  assert.equal(loaded.proxyPort, DEFAULTS.proxyPort);
+  assert.equal(loaded.socksPort, DEFAULTS.socksPort);
+  assert.equal(loaded.connection, 'direct');
   assert.equal(loaded.health, false);
   assert.equal(loaded.player, DEFAULTS.player);
   assert.equal('bogus' in loaded, false);
