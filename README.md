@@ -30,7 +30,8 @@ magsearch ubuntu --json          # print results and exit
 | `--tor-port <port>` | connect through Tor on another port (Tor Browser uses `9150`) |
 | `--socks` | connect through a SOCKS5 proxy on `127.0.0.1:1080` |
 | `--socks-host <host>`, `--socks-port <port>` | set the SOCKS proxy address |
-| `--api <url>` | API base URL (default `https://apibay.org`) |
+| `--site <url>` | search a Pirate Bay site with the classic layout instead of the API |
+| `--onion` | search The Pirate Bay's .onion site (needs `--tor`) |
 | `-l, --list`, `--json` | print results as a table or as JSON, then exit |
 | `-n, --limit <n>` | number of results to print |
 | `--subtitles-key <key>` | save your OpenSubtitles API key |
@@ -79,8 +80,17 @@ Press `,` in the app. Settings are saved to `%APPDATA%\magsearch\settings.json` 
 - **Live seeders/leechers** and **Show magnet link**
 - **Subtitles** and your **OpenSubtitles API key, username and password**
 - **Connect through:** direct, Tor or SOCKS proxy, plus the **Tor port** and **SOCKS proxy host and port**
-- **Use the .onion site:** search The Pirate Bay's .onion site instead of apibay.org. This needs Tor.
-- **Pirate Bay API:** the API base URL
+- **Pirate Bay site:** a site to search instead of the API. Leave empty to use the API.
+- **Use the .onion site:** search The Pirate Bay's .onion site instead. This needs Tor.
+
+## Where results come from
+
+By default, magsearch searches `apibay.org`, the API behind thepiratebay.org.
+
+- **Another site:** `--site <url>`, or the **Pirate Bay site** setting, searches a mirror that serves the classic Pirate Bay page layout, for example `--site thepiratebay0.org`.
+- **The .onion site:** `--onion`, or **Use the .onion site**, searches the .onion site over Tor.
+
+Pick one source at a time. If it can't be reached or read, magsearch shows an error and doesn't switch to another source.
 
 ## Tor and SOCKS
 
@@ -114,12 +124,12 @@ To send these requests through Tor's local port or a SOCKS5 proxy, pass `proxy: 
 
 ## Notes
 
-- Results come from `apibay.org`, the API behind thepiratebay.org. The adult section is left out.
-- If magsearch can't find peerflix, set `MAGSEARCH_PEERFLIX` to the path of peerflix's `app.js`.
+If magsearch can't find peerflix, set `MAGSEARCH_PEERFLIX` to the path of peerflix's `app.js`.
 
-## Upgrading from 0.16
+## Upgrading
 
-`-p` and `--host` are replaced by `--tor-port`, `--socks-host` and `--socks-port`. The old single proxy setting is now **Connect through**. If you used it, set it again.
+- **From 0.16.1:** `--api` and the **Pirate Bay API** setting are replaced by `--site` and the **Pirate Bay site** setting.
+- **From 0.16.0:** `-p` and `--host` are replaced by `--tor-port`, `--socks-host` and `--socks-port`. The old single proxy setting is now **Connect through**. If you used it, set it again.
 
 ## Development
 

@@ -62,7 +62,8 @@ async function mockApi() {
 
 function startApp(term, server, { settings = {}, ...options } = {}) {
   const app = new App({
-    settings: { ...DEFAULTS, health: false, api: server.url, ...settings },
+    settings: { ...DEFAULTS, health: false, ...settings },
+    api: server.url,
     input: term.input,
     output: term.output,
     ...options
@@ -133,7 +134,7 @@ test('settings are edited in the app and saved', async (t) => {
   const saved = loadSettings();
   assert.equal(saved.opensubtitlesApiKey, 'MY-SECRET-KEY');
   assert.equal(saved.subtitles, 'en');
-  assert.equal(saved.api, server.url);
+  assert.equal(saved.site, '');
 
   term.press(',q');
   await done;

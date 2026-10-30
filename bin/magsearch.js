@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { parseArgs } from 'node:util';
 import { CATEGORIES, categoryLabel, resolveCategory } from '../index.js';
-import { TOR_HOST, findTorrents } from '../lib/connection.js';
+import { TOR_HOST, findTorrents, siteUrl } from '../lib/connection.js';
 import { createStyle, formatAge, formatSize, padEnd, padStart, sanitize, shouldUseColor, truncate } from '../lib/format.js';
 import { DEFAULTS, configPath, loadSettings, saveSettings } from '../lib/settings.js';
 import { App } from '../lib/ui.js';
@@ -20,7 +20,9 @@ Options
       --socks             connect through a SOCKS5 proxy on ${DEFAULTS.socksHost}:${DEFAULTS.socksPort}
       --socks-host <host> SOCKS proxy host (default: ${DEFAULTS.socksHost})
       --socks-port <port> SOCKS proxy port (default: ${DEFAULTS.socksPort})
-      --api <url>         Pirate Bay API (default: ${DEFAULTS.api})
+      --site <url>        search a Pirate Bay site with the classic layout
+                          (default: the apibay.org API)
+      --onion             search the .onion site (needs --tor)
   -l, --list              print results as a table and exit
       --json              print results as JSON and exit
   -n, --limit <n>         how many results to print (default: 20 for --list,
@@ -37,10 +39,12 @@ Examples
   magsearch "blade runner" --tor
   magsearch "blade runner" --tor-port 9150
   magsearch "blade runner" --socks --socks-host 10.0.0.2
+  magsearch "blade runner" --site thepiratebay0.org
+  magsearch "blade runner" --tor --onion
   magsearch ubuntu --json | jq -r '.[0].magnet'
 
-Tor and SOCKS flags apply to this run only. The ports and host default to
-your settings. Use one or the other, not both.
+Flags apply to this run only and default to your settings. Use Tor or a
+SOCKS proxy, not both, and --site or --onion, not both.
 
 In the app, press ? for keys and , for settings (player, subtitles, Tor,
 SOCKS proxy, the .onion site…).
@@ -64,7 +68,8 @@ try {
       socks: { type: 'boolean' },
       'socks-host': { type: 'string' },
       'socks-port': { type: 'string' },
-      api: { type: 'string' },
+      site: { type: 'string' },
+      onion: { type: 'boolean' },
       list: { type: 'boolean', short: 'l' },
       json: { type: 'boolean' },
       limit: { type: 'string', short: 'n' },
@@ -120,7 +125,18 @@ try {
 
 // Flags apply to this session only; they're never written to the settings file.
 const overrides = {};
-if (flags.api) overrides.api = flags.api;
+if (flags.site !== undefined) {
+  // An empty --site means the apibay.org API for this run.
+  if (flags.site.trim()) {
+    try {
+      siteUrl(flags.site);
+    } catch (err) {
+      fail(`--site: ${err.message}`);
+    }
+  }
+  overrides.site = flags.site.trim();
+}
+if (flags.onion) overrides.onion = true;
 
 function parsePort(flag) {
   const value = flags[flag];

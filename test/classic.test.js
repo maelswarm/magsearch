@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { parseClassicPage, searchOnion } from '../lib/onion.js';
+import { classicSearchUrl, parseClassicPage, searchSite } from '../lib/classic.js';
 import { startServer } from './helpers.js';
 
 const fixture = fs.readFileSync(new URL('./fixtures/classic-search.html', import.meta.url), 'utf8');
@@ -34,19 +34,25 @@ test('recognizes "no hits" pages and unknown layouts', () => {
   assert.equal(parseClassicPage('<html><script src="/static/main.js"></script></html>'), null);
 });
 
-test('searchOnion builds the old search and top 100 URLs', async (t) => {
+test('classicSearchUrl builds search and top 100 links', () => {
+  assert.equal(classicSearchUrl('https://site.example', 'blade runner', 'video'), 'https://site.example/search/blade%20runner/0/99/200');
+  assert.equal(classicSearchUrl('https://site.example', ''), 'https://site.example/top/all');
+});
+
+test('searchSite requests the classic search and top 100 pages', async (t) => {
   const server = await startServer((req) =>
     req.url.includes('broken') ? { text: '<html>new layout</html>' } : { text: fixture }
   );
   t.after(server.close);
 
-  const results = await searchOnion('blade runner', { category: 'video', base: server.url });
+  const results = await searchSite('blade runner', { category: 'video', base: server.url });
   assert.equal(results.length, 3);
-  await searchOnion('', { base: server.url });
-  await searchOnion('', { category: 'audio', base: server.url });
+  assert.equal(results[0].url, `${server.url}/torrent/${results[0].id}`);
+  await searchSite('', { base: server.url });
+  await searchSite('', { category: 'audio', base: server.url });
   assert.deepEqual(
     server.requests.map((r) => r.url),
     ['/search/blade%20runner/0/99/200', '/top/all', '/top/100']
   );
-  await assert.rejects(searchOnion('x', { base: `${server.url}/broken` }), /layout wasn't recognized/);
+  await assert.rejects(searchSite('x', { base: `${server.url}/broken` }), /doesn't serve the classic Pirate Bay layout/);
 });
